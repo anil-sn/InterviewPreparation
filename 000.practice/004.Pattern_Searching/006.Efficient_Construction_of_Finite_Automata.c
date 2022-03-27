@@ -1,0 +1,67 @@
+#include "stdio.h"
+#include "stdbool.h"
+#include "limits.h"
+#include "math.h"
+#include "string.h"
+#include "ctype.h"
+#include "stdlib.h"
+#include "sys/types.h"
+#include "assert.h"
+
+#define NO_OF_CHARS 256
+
+/* This function builds the TF table which represents Finite Automata for a
+   given pattern  */
+void computeTransFun(char* pat, int M, int TF[][NO_OF_CHARS])
+{
+    int i, lps = 0, x;
+
+    // Fill entries in first row
+    for (x = 0; x < NO_OF_CHARS; x++)
+        TF[0][x] = 0;
+    TF[0][pat[0]] = 1;
+
+    // Fill entries in other rows
+    for (i = 1; i <= M; i++) {
+        // Copy values from row at index lps
+        for (x = 0; x < NO_OF_CHARS; x++)
+            TF[i][x] = TF[lps][x];
+
+        // Update the entry corresponding to this character
+        TF[i][pat[i]] = i + 1;
+
+        // Update lps for next row to be filled
+        if (i < M)
+            lps = TF[lps][pat[i]];
+    }
+}
+
+/* Prints all occurrences of pat in txt */
+void search(char* pat, char* txt)
+{
+    int M = strlen(pat);
+    int N = strlen(txt);
+
+    int TF[M + 1][NO_OF_CHARS];
+
+    computeTransFun(pat, M, TF);
+
+    // process text over FA.
+    int i, j = 0;
+    for (i = 0; i < N; i++) {
+        j = TF[j][txt[i]];
+        if (j == M) {
+            printf("\n pattern found at index %d \r\n", i - M + 1);
+        }
+    }
+}
+
+/* Driver program to test above function */
+int main()
+{
+    char* txt = "ACACACACAGAAGA ACACAGAACACAGA GEEKS";
+    char* pat = "ACACAGA";
+    search(pat, txt);
+
+    return 0;
+}
