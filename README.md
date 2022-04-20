@@ -124,3 +124,11 @@ This is denoted as "f(n) = Θ(g(n))"
 - Allocations
 
 Credit: Andrei Neagoie's Master The Coding Interview: Data Structures + Algorithms
+
+- Striver's Greedy Series [Striver's Greedy Series](https://youtu.be/II6ziNnub1Q)
+- Striver's Trees Series  [Striver's Trees Series](https://youtu.be/OYqYEM1bMK8)
+- Striver's Graph Series [Striver's Graph Series](https://youtu.be/YTtpfjGlH2M)
+- Striver's TRIE Series [Striver's TRIE Series](https://youtu.be/dBGUmUQhjaM)
+- Striver's Recursion Series [Striver's Recursion Series](https://youtu.be/yVdKa8dnKiE)
+- Striver's Dynamic Programming Series [Striver's Dynamic Programming Series](https://youtu.be/FfXoiwwnxFw)
+- Strivers SDE Sheet [Strivers SDE Sheet](https://takeuforward.org/interviews/strivers-sde-sheet-top-coding-interview-problems/)
