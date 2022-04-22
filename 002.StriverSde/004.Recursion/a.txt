@@ -1,0 +1,179 @@
+0x00007fa3bbb19c6a in __GI___wait4 (pid=45058, stat_loc=0x0, options=0, usage=0x0) at ../sysdeps/unix/sysv/linux/wait4.c:27
+[Current thread is 1 (process 45057)]
+#0  0x00007fa3bbb19c6a in __GI___wait4 (pid=45058, stat_loc=0x0, options=0, usage=0x0) at ../sysdeps/unix/sysv/linux/wait4.c:27
+#1  0x0000565159c343ef in print_trace () at 001.subset_sums.c:27
+#2  0x0000565159c3446c in solve (idx=0, arr=0x7fff49f7b7ec, n=3, sum=0) at 001.subset_sums.c:67
+#3  0x0000565159c345a9 in printSubSetSum (arr=0x7fff49f7b7ec, len=3) at 001.subset_sums.c:90
+#4  0x0000565159c345f4 in main () at 001.subset_sums.c:98
+[Inferior 1 (process 45057) detached]
+0x00007fa3bbb19c6a in __GI___wait4 (pid=45063, stat_loc=0x0, options=0, usage=0x0) at ../sysdeps/unix/sysv/linux/wait4.c:27
+[Current thread is 1 (process 45057)]
+#0  0x00007fa3bbb19c6a in __GI___wait4 (pid=45063, stat_loc=0x0, options=0, usage=0x0) at ../sysdeps/unix/sysv/linux/wait4.c:27
+#1  0x0000565159c343ef in print_trace () at 001.subset_sums.c:27
+#2  0x0000565159c3446c in solve (idx=1, arr=0x7fff49f7b7ec, n=3, sum=0) at 001.subset_sums.c:67
+#3  0x0000565159c344d0 in solve (idx=0, arr=0x7fff49f7b7ec, n=3, sum=0) at 001.subset_sums.c:74
+#4  0x0000565159c345a9 in printSubSetSum (arr=0x7fff49f7b7ec, len=3) at 001.subset_sums.c:90
+#5  0x0000565159c345f4 in main () at 001.subset_sums.c:98
+[Inferior 1 (process 45057) detached]
+0x00007fa3bbb19c6a in __GI___wait4 (pid=45069, stat_loc=0x0, options=0, usage=0x0) at ../sysdeps/unix/sysv/linux/wait4.c:27
+[Current thread is 1 (process 45057)]
+#0  0x00007fa3bbb19c6a in __GI___wait4 (pid=45069, stat_loc=0x0, options=0, usage=0x0) at ../sysdeps/unix/sysv/linux/wait4.c:27
+#1  0x0000565159c343ef in print_trace () at 001.subset_sums.c:27
+#2  0x0000565159c3446c in solve (idx=2, arr=0x7fff49f7b7ec, n=3, sum=0) at 001.subset_sums.c:67
+#3  0x0000565159c344d0 in solve (idx=1, arr=0x7fff49f7b7ec, n=3, sum=0) at 001.subset_sums.c:74
+#4  0x0000565159c344d0 in solve (idx=0, arr=0x7fff49f7b7ec, n=3, sum=0) at 001.subset_sums.c:74
+#5  0x0000565159c345a9 in printSubSetSum (arr=0x7fff49f7b7ec, len=3) at 001.subset_sums.c:90
+#6  0x0000565159c345f4 in main () at 001.subset_sums.c:98
+[Inferior 1 (process 45057) detached]
+0x00007fa3bbb19c6a in __GI___wait4 (pid=45074, stat_loc=0x0, options=0, usage=0x0) at ../sysdeps/unix/sysv/linux/wait4.c:27
+[Current thread is 1 (process 45057)]
+#0  0x00007fa3bbb19c6a in __GI___wait4 (pid=45074, stat_loc=0x0, options=0, usage=0x0) at ../sysdeps/unix/sysv/linux/wait4.c:27
+#1  0x0000565159c343ef in print_trace () at 001.subset_sums.c:27
+#2  0x0000565159c3446c in solve (idx=3, arr=0x7fff49f7b7ec, n=3, sum=0) at 001.subset_sums.c:67
+#3  0x0000565159c344d0 in solve (idx=2, arr=0x7fff49f7b7ec, n=3, sum=0) at 001.subset_sums.c:74
+#4  0x0000565159c344d0 in solve (idx=1, arr=0x7fff49f7b7ec, n=3, sum=0) at 001.subset_sums.c:74
+#5  0x0000565159c344d0 in solve (idx=0, arr=0x7fff49f7b7ec, n=3, sum=0) at 001.subset_sums.c:74
+#6  0x0000565159c345a9 in printSubSetSum (arr=0x7fff49f7b7ec, len=3) at 001.subset_sums.c:90
+#7  0x0000565159c345f4 in main () at 001.subset_sums.c:98
+[Inferior 1 (process 45057) detached]
+0x00007fa3bbb19c6a in __GI___wait4 (pid=45079, stat_loc=0x0, options=0, usage=0x0) at ../sysdeps/unix/sysv/linux/wait4.c:27
+[Current thread is 1 (process 45057)]
+#0  0x00007fa3bbb19c6a in __GI___wait4 (pid=45079, stat_loc=0x0, options=0, usage=0x0) at ../sysdeps/unix/sysv/linux/wait4.c:27
+#1  0x0000565159c343ef in print_trace () at 001.subset_sums.c:27
+#2  0x0000565159c3446c in solve (idx=3, arr=0x7fff49f7b7ec, n=3, sum=1) at 001.subset_sums.c:67
+#3  0x0000565159c34501 in solve (idx=2, arr=0x7fff49f7b7ec, n=3, sum=0) at 001.subset_sums.c:75
+#4  0x0000565159c344d0 in solve (idx=1, arr=0x7fff49f7b7ec, n=3, sum=0) at 001.subset_sums.c:74
+#5  0x0000565159c344d0 in solve (idx=0, arr=0x7fff49f7b7ec, n=3, sum=0) at 001.subset_sums.c:74
+#6  0x0000565159c345a9 in printSubSetSum (arr=0x7fff49f7b7ec, len=3) at 001.subset_sums.c:90
+#7  0x0000565159c345f4 in main () at 001.subset_sums.c:98
+[Inferior 1 (process 45057) detached]
+0x00007fa3bbb19c6a in __GI___wait4 (pid=45084, stat_loc=0x0, options=0, usage=0x0) at ../sysdeps/unix/sysv/linux/wait4.c:27
+[Current thread is 1 (process 45057)]
+#0  0x00007fa3bbb19c6a in __GI___wait4 (pid=45084, stat_loc=0x0, options=0, usage=0x0) at ../sysdeps/unix/sysv/linux/wait4.c:27
+#1  0x0000565159c343ef in print_trace () at 001.subset_sums.c:27
+#2  0x0000565159c3446c in solve (idx=2, arr=0x7fff49f7b7ec, n=3, sum=2) at 001.subset_sums.c:67
+#3  0x0000565159c34501 in solve (idx=1, arr=0x7fff49f7b7ec, n=3, sum=0) at 001.subset_sums.c:75
+#4  0x0000565159c344d0 in solve (idx=0, arr=0x7fff49f7b7ec, n=3, sum=0) at 001.subset_sums.c:74
+#5  0x0000565159c345a9 in printSubSetSum (arr=0x7fff49f7b7ec, len=3) at 001.subset_sums.c:90
+#6  0x0000565159c345f4 in main () at 001.subset_sums.c:98
+[Inferior 1 (process 45057) detached]
+0x00007fa3bbb19c6a in __GI___wait4 (pid=45089, stat_loc=0x0, options=0, usage=0x0) at ../sysdeps/unix/sysv/linux/wait4.c:27
+[Current thread is 1 (process 45057)]
+#0  0x00007fa3bbb19c6a in __GI___wait4 (pid=45089, stat_loc=0x0, options=0, usage=0x0) at ../sysdeps/unix/sysv/linux/wait4.c:27
+#1  0x0000565159c343ef in print_trace () at 001.subset_sums.c:27
+#2  0x0000565159c3446c in solve (idx=3, arr=0x7fff49f7b7ec, n=3, sum=2) at 001.subset_sums.c:67
+#3  0x0000565159c344d0 in solve (idx=2, arr=0x7fff49f7b7ec, n=3, sum=2) at 001.subset_sums.c:74
+#4  0x0000565159c34501 in solve (idx=1, arr=0x7fff49f7b7ec, n=3, sum=0) at 001.subset_sums.c:75
+#5  0x0000565159c344d0 in solve (idx=0, arr=0x7fff49f7b7ec, n=3, sum=0) at 001.subset_sums.c:74
+#6  0x0000565159c345a9 in printSubSetSum (arr=0x7fff49f7b7ec, len=3) at 001.subset_sums.c:90
+#7  0x0000565159c345f4 in main () at 001.subset_sums.c:98
+[Inferior 1 (process 45057) detached]
+0x00007fa3bbb19c6a in __GI___wait4 (pid=45094, stat_loc=0x0, options=0, usage=0x0) at ../sysdeps/unix/sysv/linux/wait4.c:27
+[Current thread is 1 (process 45057)]
+#0  0x00007fa3bbb19c6a in __GI___wait4 (pid=45094, stat_loc=0x0, options=0, usage=0x0) at ../sysdeps/unix/sysv/linux/wait4.c:27
+#1  0x0000565159c343ef in print_trace () at 001.subset_sums.c:27
+#2  0x0000565159c3446c in solve (idx=3, arr=0x7fff49f7b7ec, n=3, sum=3) at 001.subset_sums.c:67
+#3  0x0000565159c34501 in solve (idx=2, arr=0x7fff49f7b7ec, n=3, sum=2) at 001.subset_sums.c:75
+#4  0x0000565159c34501 in solve (idx=1, arr=0x7fff49f7b7ec, n=3, sum=0) at 001.subset_sums.c:75
+#5  0x0000565159c344d0 in solve (idx=0, arr=0x7fff49f7b7ec, n=3, sum=0) at 001.subset_sums.c:74
+#6  0x0000565159c345a9 in printSubSetSum (arr=0x7fff49f7b7ec, len=3) at 001.subset_sums.c:90
+#7  0x0000565159c345f4 in main () at 001.subset_sums.c:98
+[Inferior 1 (process 45057) detached]
+0x00007fa3bbb19c6a in __GI___wait4 (pid=45099, stat_loc=0x0, options=0, usage=0x0) at ../sysdeps/unix/sysv/linux/wait4.c:27
+[Current thread is 1 (process 45057)]
+#0  0x00007fa3bbb19c6a in __GI___wait4 (pid=45099, stat_loc=0x0, options=0, usage=0x0) at ../sysdeps/unix/sysv/linux/wait4.c:27
+#1  0x0000565159c343ef in print_trace () at 001.subset_sums.c:27
+#2  0x0000565159c3446c in solve (idx=1, arr=0x7fff49f7b7ec, n=3, sum=5) at 001.subset_sums.c:67
+#3  0x0000565159c34501 in solve (idx=0, arr=0x7fff49f7b7ec, n=3, sum=0) at 001.subset_sums.c:75
+#4  0x0000565159c345a9 in printSubSetSum (arr=0x7fff49f7b7ec, len=3) at 001.subset_sums.c:90
+#5  0x0000565159c345f4 in main () at 001.subset_sums.c:98
+[Inferior 1 (process 45057) detached]
+0x00007fa3bbb19c6a in __GI___wait4 (pid=45104, stat_loc=0x0, options=0, usage=0x0) at ../sysdeps/unix/sysv/linux/wait4.c:27
+[Current thread is 1 (process 45057)]
+#0  0x00007fa3bbb19c6a in __GI___wait4 (pid=45104, stat_loc=0x0, options=0, usage=0x0) at ../sysdeps/unix/sysv/linux/wait4.c:27
+#1  0x0000565159c343ef in print_trace () at 001.subset_sums.c:27
+#2  0x0000565159c3446c in solve (idx=2, arr=0x7fff49f7b7ec, n=3, sum=5) at 001.subset_sums.c:67
+#3  0x0000565159c344d0 in solve (idx=1, arr=0x7fff49f7b7ec, n=3, sum=5) at 001.subset_sums.c:74
+#4  0x0000565159c34501 in solve (idx=0, arr=0x7fff49f7b7ec, n=3, sum=0) at 001.subset_sums.c:75
+#5  0x0000565159c345a9 in printSubSetSum (arr=0x7fff49f7b7ec, len=3) at 001.subset_sums.c:90
+#6  0x0000565159c345f4 in main () at 001.subset_sums.c:98
+[Inferior 1 (process 45057) detached]
+0x00007fa3bbb19c6a in __GI___wait4 (pid=45109, stat_loc=0x0, options=0, usage=0x0) at ../sysdeps/unix/sysv/linux/wait4.c:27
+[Current thread is 1 (process 45057)]
+#0  0x00007fa3bbb19c6a in __GI___wait4 (pid=45109, stat_loc=0x0, options=0, usage=0x0) at ../sysdeps/unix/sysv/linux/wait4.c:27
+#1  0x0000565159c343ef in print_trace () at 001.subset_sums.c:27
+#2  0x0000565159c3446c in solve (idx=3, arr=0x7fff49f7b7ec, n=3, sum=5) at 001.subset_sums.c:67
+#3  0x0000565159c344d0 in solve (idx=2, arr=0x7fff49f7b7ec, n=3, sum=5) at 001.subset_sums.c:74
+#4  0x0000565159c344d0 in solve (idx=1, arr=0x7fff49f7b7ec, n=3, sum=5) at 001.subset_sums.c:74
+#5  0x0000565159c34501 in solve (idx=0, arr=0x7fff49f7b7ec, n=3, sum=0) at 001.subset_sums.c:75
+#6  0x0000565159c345a9 in printSubSetSum (arr=0x7fff49f7b7ec, len=3) at 001.subset_sums.c:90
+#7  0x0000565159c345f4 in main () at 001.subset_sums.c:98
+[Inferior 1 (process 45057) detached]
+0x00007fa3bbb19c6a in __GI___wait4 (pid=45114, stat_loc=0x0, options=0, usage=0x0) at ../sysdeps/unix/sysv/linux/wait4.c:27
+[Current thread is 1 (process 45057)]
+#0  0x00007fa3bbb19c6a in __GI___wait4 (pid=45114, stat_loc=0x0, options=0, usage=0x0) at ../sysdeps/unix/sysv/linux/wait4.c:27
+#1  0x0000565159c343ef in print_trace () at 001.subset_sums.c:27
+#2  0x0000565159c3446c in solve (idx=3, arr=0x7fff49f7b7ec, n=3, sum=6) at 001.subset_sums.c:67
+#3  0x0000565159c34501 in solve (idx=2, arr=0x7fff49f7b7ec, n=3, sum=5) at 001.subset_sums.c:75
+#4  0x0000565159c344d0 in solve (idx=1, arr=0x7fff49f7b7ec, n=3, sum=5) at 001.subset_sums.c:74
+#5  0x0000565159c34501 in solve (idx=0, arr=0x7fff49f7b7ec, n=3, sum=0) at 001.subset_sums.c:75
+#6  0x0000565159c345a9 in printSubSetSum (arr=0x7fff49f7b7ec, len=3) at 001.subset_sums.c:90
+#7  0x0000565159c345f4 in main () at 001.subset_sums.c:98
+[Inferior 1 (process 45057) detached]
+0x00007fa3bbb19c6a in __GI___wait4 (pid=45119, stat_loc=0x0, options=0, usage=0x0) at ../sysdeps/unix/sysv/linux/wait4.c:27
+[Current thread is 1 (process 45057)]
+#0  0x00007fa3bbb19c6a in __GI___wait4 (pid=45119, stat_loc=0x0, options=0, usage=0x0) at ../sysdeps/unix/sysv/linux/wait4.c:27
+#1  0x0000565159c343ef in print_trace () at 001.subset_sums.c:27
+#2  0x0000565159c3446c in solve (idx=2, arr=0x7fff49f7b7ec, n=3, sum=7) at 001.subset_sums.c:67
+#3  0x0000565159c34501 in solve (idx=1, arr=0x7fff49f7b7ec, n=3, sum=5) at 001.subset_sums.c:75
+#4  0x0000565159c34501 in solve (idx=0, arr=0x7fff49f7b7ec, n=3, sum=0) at 001.subset_sums.c:75
+#5  0x0000565159c345a9 in printSubSetSum (arr=0x7fff49f7b7ec, len=3) at 001.subset_sums.c:90
+#6  0x0000565159c345f4 in main () at 001.subset_sums.c:98
+[Inferior 1 (process 45057) detached]
+0x00007fa3bbb19c6a in __GI___wait4 (pid=45124, stat_loc=0x0, options=0, usage=0x0) at ../sysdeps/unix/sysv/linux/wait4.c:27
+[Current thread is 1 (process 45057)]
+#0  0x00007fa3bbb19c6a in __GI___wait4 (pid=45124, stat_loc=0x0, options=0, usage=0x0) at ../sysdeps/unix/sysv/linux/wait4.c:27
+#1  0x0000565159c343ef in print_trace () at 001.subset_sums.c:27
+#2  0x0000565159c3446c in solve (idx=3, arr=0x7fff49f7b7ec, n=3, sum=7) at 001.subset_sums.c:67
+#3  0x0000565159c344d0 in solve (idx=2, arr=0x7fff49f7b7ec, n=3, sum=7) at 001.subset_sums.c:74
+#4  0x0000565159c34501 in solve (idx=1, arr=0x7fff49f7b7ec, n=3, sum=5) at 001.subset_sums.c:75
+#5  0x0000565159c34501 in solve (idx=0, arr=0x7fff49f7b7ec, n=3, sum=0) at 001.subset_sums.c:75
+#6  0x0000565159c345a9 in printSubSetSum (arr=0x7fff49f7b7ec, len=3) at 001.subset_sums.c:90
+#7  0x0000565159c345f4 in main () at 001.subset_sums.c:98
+[Inferior 1 (process 45057) detached]
+0x00007fa3bbb19c6a in __GI___wait4 (pid=45129, stat_loc=0x0, options=0, usage=0x0) at ../sysdeps/unix/sysv/linux/wait4.c:27
+[Current thread is 1 (process 45057)]
+#0  0x00007fa3bbb19c6a in __GI___wait4 (pid=45129, stat_loc=0x0, options=0, usage=0x0) at ../sysdeps/unix/sysv/linux/wait4.c:27
+#1  0x0000565159c343ef in print_trace () at 001.subset_sums.c:27
+#2  0x0000565159c3446c in solve (idx=3, arr=0x7fff49f7b7ec, n=3, sum=8) at 001.subset_sums.c:67
+#3  0x0000565159c34501 in solve (idx=2, arr=0x7fff49f7b7ec, n=3, sum=7) at 001.subset_sums.c:75
+#4  0x0000565159c34501 in solve (idx=1, arr=0x7fff49f7b7ec, n=3, sum=5) at 001.subset_sums.c:75
+#5  0x0000565159c34501 in solve (idx=0, arr=0x7fff49f7b7ec, n=3, sum=0) at 001.subset_sums.c:75
+#6  0x0000565159c345a9 in printSubSetSum (arr=0x7fff49f7b7ec, len=3) at 001.subset_sums.c:90
+#7  0x0000565159c345f4 in main () at 001.subset_sums.c:98
+[Inferior 1 (process 45057) detached]
+The Input : 5 2 1 
+Trace: idx : 0, sum: 0 
+Trace: idx : 1, sum: 0 
+Trace: idx : 2, sum: 0 
+Trace: idx : 3, sum: 0 
+		 Trace: Result Sum : 0, sum: 0 
+Trace: idx : 3, sum: 1 
+		 Trace: Result Sum : 1, sum: 1 
+Trace: idx : 2, sum: 2 
+Trace: idx : 3, sum: 2 
+		 Trace: Result Sum : 2, sum: 2 
+Trace: idx : 3, sum: 3 
+		 Trace: Result Sum : 3, sum: 3 
+Trace: idx : 1, sum: 5 
+Trace: idx : 2, sum: 5 
+Trace: idx : 3, sum: 5 
+		 Trace: Result Sum : 4, sum: 5 
+Trace: idx : 3, sum: 6 
+		 Trace: Result Sum : 5, sum: 6 
+Trace: idx : 2, sum: 7 
+Trace: idx : 3, sum: 7 
+		 Trace: Result Sum : 6, sum: 7 
+Trace: idx : 3, sum: 8 
+		 Trace: Result Sum : 7, sum: 8 
+0 1 2 3 5 6 7 8 

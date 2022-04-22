@@ -132,3 +132,7 @@ Credit: Andrei Neagoie's Master The Coding Interview: Data Structures + Algorith
 - Striver's Recursion Series [Striver's Recursion Series](https://youtu.be/yVdKa8dnKiE)
 - Striver's Dynamic Programming Series [Striver's Dynamic Programming Series](https://youtu.be/FfXoiwwnxFw)
 - Strivers SDE Sheet [Strivers SDE Sheet](https://takeuforward.org/interviews/strivers-sde-sheet-top-coding-interview-problems/)
+
+
+- William Fiset Problems [Problems List](https://open.kattis.com/problems?order=problem_difficulty&dir=desc)
+- William Fiset Tutorials [Tutorials](https://www.youtube.com/c/WilliamFiset-videos/playlists)

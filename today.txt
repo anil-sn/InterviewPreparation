@@ -1,0 +1,409 @@
+Topological sort
+DFS/BFS
+2-D Matrix Prefix Sum
+Binary Search over functions
+Quick sort/Quick select
+Merge sort
+Dijkstra/Bellman Ford/ Floyd Warshall/ Kruskals Minimum Spanning Tree
+UnionFind
+Trie
+Min-max Games
+Cycle Detection
+Intervals
+Segment Tree
+KMP
+Bridges/Articulation point/Tarjan SCC
+Euler's Path/Circuit/Hierholzer's Algorithm
+
+https://leetcode.com/discuss/interview-question/753236/list-of-graph-algorithms-for-coding-interview
+
+
+Revise:
+https://www.youtube.com/c/MichaelSambol/playlists
+
+Graph Theory:
+https://www.youtube.com/playlist?list=PLDV1Zeh2NRsDGO4--qE8yH72HFL1Km93P
+
+Data Structures Easy to Advanced Course:
+https://www.youtube.com/playlist?list=PLDV1Zeh2NRsB6SWUrDFW2RmDotAfPbeHu
+
+Algorithms Course - Graph Theory Tutorial from a Google Engineer
+https://www.youtube.com/watch?v=09_LlHjoEiY&ab_channel=freeCodeCamp.org
+
+Tree:
+https://www.youtube.com/playlist?list=PLDV1Zeh2NRsDfGc8rbQ0_58oEZQVtvoIc
+
+Network Flow:
+https://www.youtube.com/playlist?list=PLDV1Zeh2NRsDj3NzHbbFIC58etjZhiGcG
+
+Suffix Array:
+https://www.youtube.com/playlist?list=PLDV1Zeh2NRsCQ_Educ7GCNs3mvzpXhHW5
+
+
+DFS: Efficient , O(V+E)
+Use Cases :
+    reachability b/w Nodes
+    minimum spanning tree
+    detect cycle
+    bipartite
+    connected components
+    topological sort
+    bridges
+    artiulation points
+    agumenting paths in flow network
+    generate mazes
+
+Topological Sort
+Use Cases:
+    School class prerequisite
+    Program Dependency
+    Event Scheduling
+    Assembly Instructions
+    etc...
+
+Breadth-First Search - Computes the shortest path in a given graph using a Queue data structure.
+Depth-First Search - Uses a Stack data structure to find the shortest path in a given graph.
+Dijkstra Algorithm - Uses a Minimum priority queue data structure to find the shortest path between the source node and other given nodes in a graph.
+Bellman-Ford Algorithm - Single source shortest path algorithm like Dijkstra’s algorithm.
+Floyd Warshall Algorithm - Solves the All Pairs shortest path problem.
+Prim’s Algorithm - It finds the minimum spanning tree for an undirected weighted graph.
+Kruskal’s Algorithm - It finds the minimum spanning tree for a connected weighted graph.
+Topological Sort Algorithm - Represents a linear ordering of vertices in a directed acyclic graph.
+Johnson’s Algorithm - Finds the shortest path between every pair of vertices where weights can also be negative.
+Kosaraju’s Algorithm - Finds the strongly connected components in a graph.
+
+Comparing Prim’s and Dijkstra’s Algorithms
+In the computation aspect, Prim’s and Dijkstra’s algorithms have three main differences:
+
+    1) Dijkstra’s algorithm finds the shortest path, but Prim’s algorithm finds the MST
+    2) Dijkstra’s algorithm can work on both directed and undirected graphs,
+        but Prim’s algorithm only works on undirected graphs
+    3) Prim’s algorithm can handle negative edge weights, but Dijkstra’s algorithm may
+        fail to accurately compute distances if at least one negative edge weight exists
+    4) In practice, Dijkstra’s algorithm is used when we want to save time and fuel traveling
+        from one point to another. Prim’s algorithm, on the other hand, is used when we want to
+        minimize material costs in constructing roads that connect multiple points to each other.
+
+1. Breadth First Search (BFS)
+def bfs(graph, s):
+    # set is used to mark visited vertices
+    visited = set()
+
+    # create a queue for BFS
+    queue = deque()
+
+    # Mark the start vertex as visited and enqueue it
+    visited.add(s)
+    queue.appendleft(s)
+
+    while queue:
+        current_vertex = queue.pop()
+        print(current_vertex)
+
+        # Get all adjacent vertices of current_vertex
+        # If a adjacent has not been visited, then mark it
+        # visited and enqueue it
+        for v in graph[current_vertex]:
+            if v not in visited:
+                visited.add(v)
+                queue.appendleft(v)
+
+2. Depth First Search (DFS) [Recursive]
+def dfs(graph, s):
+    # set is used to mark visited vertices
+    visited = set()
+
+    def recur(current_vertex):
+        print(current_vertex)
+
+        # mark it visited
+        visited.add(current_vertex)
+
+        # Recur for all the vertices adjacent to current_vertex
+        for v in graph[current_vertex]:
+            if v not in visited:
+                recur(v)
+
+    recur(s)
+
+2. Depth First Search (DFS) [Iterative]
+def dfs_iterating(graph, s):
+    # set is used to mark visited vertices
+    visited = set()
+
+    # create a stack for DFS
+    stack = []
+
+    # Push vertex s to the stack
+    stack.append(s)
+
+    while stack:
+        current_vertex = stack.pop()
+
+        # Stack may contain same vertex twice. So
+        # we need to print the popped item only
+        # if it is not visited.
+        if current_vertex not in visited:
+            print(current_vertex)
+            visited.add(current_vertex)
+
+        # Get all adjacent vertices of current_vertex
+        # If an adjacent has not been visited, then push it to stack
+        for v in graph[current_vertex]:
+            if v not in visited:
+                stack.append(v)
+
+
+
+3. Detect cycle in directed graph
+# graph is represented by adjacency list: List[List[int]]
+# DFS to detect cyclic
+def is_cyclic_directed_graph(graph):
+    # set is used to mark visited vertices
+    visited = set()
+    # set is used to keep track the ancestor vertices in recursive stack.
+    ancestors = set()
+
+    def is_cyclic_recur(current_vertex):
+        # mark it visited
+        visited.add(current_vertex)
+        # add it to ancestor vertices
+        ancestors.add(current_vertex)
+
+        # Recur for all the vertices adjacent to current_vertex
+        for v in graph[current_vertex]:
+            # If the vertex is not visited then recurse on it
+            if v not in visited:
+                if is_cyclic_recur(v):
+                    return True
+            elif v in ancestors:
+                # found a back edge, so there is a cycle
+                return True
+
+        # remove from the ancestor vertices
+        ancestors.remove(current_vertex)
+        return False
+
+    # call recur for all vertices
+    for u in range(len(graph)):
+        # Don't recur for u if it is already visited
+        if u not in visited:
+            if is_cyclic_recur(u):
+                return True
+    return False
+
+4. Detect cycle in undirected graph
+# graph is represented by adjacency list: List[List[int]]
+# DFS to detect cyclic
+def is_cyclic_undirected_graph(graph):
+    # set is used to mark visited vertices
+    visited = set()
+
+    def is_cyclic_recur(current_vertex, parent):
+        # mark it visited
+        visited.add(current_vertex)
+
+        # Recur for all the vertices adjacent to current_vertex
+        for v in graph[current_vertex]:
+            # If the vertex is not visited then recurse on it
+            if v not in visited:
+                if is_cyclic_recur(v, current_vertex):
+                    return True
+            elif v != parent:
+                # found a cycle
+                return True
+
+        return False
+
+    # call recur for all vertices
+    for u in range(len(graph)):
+        # Don't recur for u if it is already visited
+        if u not in visited:
+            if is_cyclic_recur(u, -1):
+                return True
+    return False
+
+5. BFS with multiple sources
+def orangesRotting(self, grid):
+    """
+    :type grid: List[List[int]]
+    :rtype: int
+    """
+
+    # corner cases
+    if not grid or not grid[0]:
+        return 0
+
+    n = len(grid)
+    m = len(grid[0])
+
+    queue = deque()
+    visited = set()
+
+    # init multiple starting vertices
+    for i in range(n):
+        for j in range(m):
+            if grid[i][j] == 2:
+                # start with depth = 0
+                queue.appendleft((i, j, 0))
+                visited.add((i, j))
+
+    # BFS
+    d = 0
+    while queue:
+        r, c, d = queue.pop()
+        for i, j in [[r + 1, c], [r, c + 1], [r - 1, c], [r, c - 1]]:
+            # valid neighbours
+            if 0 <= i < n and 0 <= j < m:
+                if grid[i][j] == 1 and (i, j) not in visited:
+                    queue.appendleft((i, j, d + 1))
+                    visited.add((i, j))
+
+    # check if there are still fresh oranges
+    for i in range(n):
+        for j in range(m):
+            if grid[i][j] == 1 and (i, j) not in visited:
+                return -1
+
+    return d
+
+6. Topological sort
+# graph is represented by adjacency list: List[List[int]]
+# using DFS to find the topological sorting
+def topological_sort(graph):
+    # using a stack to keep topological sorting
+    stack = []
+
+    # set is used to mark visited vertices
+    visited = set()
+
+    def recur(current_vertex):
+        # mark it visited
+        visited.add(current_vertex)
+
+        # Recur for all the vertices adjacent to current_vertex
+        for v in graph[current_vertex]:
+            if v not in visited:
+                recur(v)
+
+        # Push current vertex to stack after travelling to all neighbours
+        stack.append(current_vertex)
+
+    # call recur for all vertices
+    for u in range(len(graph)):
+        # Don't recur for u if it is already visited
+        if u not in visited:
+            recur(u)
+
+    # print content of the stack
+    print(stack[::-1])
+
+7. Shortest path in an unweighted graph
+# graph is represented by adjacency list: List[List[int]]
+# s: start vertex
+# d: destination vertex
+# based on BFS
+def find_shortest_path(graph, s, d):
+    # pred[i] stores predecessor of i in the path
+    pred = [-1] * len(graph)
+    # set is used to mark visited vertices
+    visited = set()
+    # create a queue for BFS
+    queue = deque()
+    # Mark the start vertex as visited and enqueue it
+    visited.add(s)
+    queue.appendleft(s)
+
+    while queue:
+        current_vertex = queue.pop()
+        # Get all adjacent vertices of current_vertex
+        # If a adjacent has not been visited, then mark it
+        # visited and enqueue it
+        for v in graph[current_vertex]:
+            if v not in visited:
+                visited.add(v)
+                queue.appendleft(v)
+                # record the predecessor
+                pred[v] = current_vertex
+                # reach to the destination
+                if v == d:
+                    break
+
+    # no path to d
+    if pred[d] == -1:
+        return []
+    # retrieve the path
+    path = [d]
+    current = d
+    while pred[current] != -1:
+        current = pred[current]
+        path.append(current)
+
+    return path[::-1]
+
+7. Shortest path in a weighted graph
+#Dijkstra’s algorithm
+# graph is represented by adjacency list: List[List[pair]]
+# s is the source vertex
+def dijkstra(graph, s):
+    # set is used to mark finalized vertices
+    visited = set()
+    # an array to keep the distance from s to this vertex.
+    # initialize all distances as infinite, except s
+    dist = [float('inf')] * len(graph)
+    dist[s] = 0
+    # priority queue containing (distance, vertex)
+    min_heap = [(0, s)]
+
+    while min_heap:
+        # pop the vertex with the minimum distance
+        _, u = heapq.heappop(min_heap)
+        # skip if the vertex has already been visited
+        if u in visited:
+            continue
+        visited.add(u)
+
+        for v, weight in graph[u]:
+            if v not in visited:
+                # If there is shorted path from s to v through u.
+                # s -> u -> v
+                if dist[v] > (dist[u] + weight):
+                    # Updating distance of v
+                    dist[v] = dist[u] + weight
+                    # insert to the queue
+                    heapq.heappush(min_heap, (dist[v], v))
+
+    return dist
+
+https://medium.com/@nhudinhtuan/15-days-cheat-sheet-for-hacking-technical-interviews-at-big-tech-companies-d780717dcec1
+
+Is Graph Bipartite?
+https://leetcode.com/problems/is-graph-bipartite/
+
+Clone Graph
+https://leetcode.com/problems/clone-graph/
+
+Course Schedule
+https://leetcode.com/problems/course-schedule/
+
+Course Schedule II
+https://leetcode.com/problems/course-schedule-ii/
+
+Number of Islands
+https://leetcode.com/problems/number-of-islands/
+
+Number of Connected Components in an Undirected Graph
+https://leetcode.com/problems/number-of-connected-components-in-an-undirected-graph/
+
+Graph Valid Tree
+https://leetcode.com/problems/graph-valid-tree/
+
+Reconstruct Itinerary
+https://leetcode.com/problems/reconstruct-itinerary/
+
+Cheapest Flights Within K Stops (hint: Dijkstra’s algorithm)
+https://leetcode.com/problems/cheapest-flights-within-k-stops/
+
+Alien Dictionary (hints: topology sorting)
+https://leetcode.com/problems/alien-dictionary/solution/
+

@@ -1,0 +1,119 @@
+The Input : 5 2 1
+
+
+Trace: solve(0, arr, len, 0);
+	Trace: idx : 0, sum: 0
+solve (idx=0, arr=0x7fff658f700c, n=3, sum=0) at 001.subset_sums.c:74
+
+
+Trace: solve(idx(0)+1, arr, n, sum(0) + 0);
+	Trace: idx : 1, sum: 0
+solve (idx=1, arr=0x7fff658f700c, n=3, sum=0) at 001.subset_sums.c:74
+solve (idx=0, arr=0x7fff658f700c, n=3, sum=0) at 001.subset_sums.c:82
+
+
+Trace: solve(idx(1)+1, arr, n, sum(0) + 0);
+	Trace: idx : 2, sum: 0
+solve (idx=2, arr=0x7fff658f700c, n=3, sum=0) at 001.subset_sums.c:74
+solve (idx=1, arr=0x7fff658f700c, n=3, sum=0) at 001.subset_sums.c:82
+solve (idx=0, arr=0x7fff658f700c, n=3, sum=0) at 001.subset_sums.c:82
+
+
+Trace: solve(idx(2)+1, arr, n, sum(0) + 0);
+	Trace: idx : 3, sum: 0
+solve (idx=3, arr=0x7fff658f700c, n=3, sum=0) at 001.subset_sums.c:74
+solve (idx=2, arr=0x7fff658f700c, n=3, sum=0) at 001.subset_sums.c:82
+solve (idx=1, arr=0x7fff658f700c, n=3, sum=0) at 001.subset_sums.c:82
+solve (idx=0, arr=0x7fff658f700c, n=3, sum=0) at 001.subset_sums.c:82
+		 Trace: Result Sum : 0, sum: 0
+
+
+Trace: solve(idx(2)+1, arr, n, sum(0) + arr[idx](1));
+	Trace: idx : 3, sum: 1
+solve (idx=3, arr=0x7fff658f700c, n=3, sum=1) at 001.subset_sums.c:74
+solve (idx=2, arr=0x7fff658f700c, n=3, sum=0) at 001.subset_sums.c:84
+solve (idx=1, arr=0x7fff658f700c, n=3, sum=0) at 001.subset_sums.c:82
+solve (idx=0, arr=0x7fff658f700c, n=3, sum=0) at 001.subset_sums.c:82
+		 Trace: Result Sum : 1, sum: 1
+
+
+Trace: solve(idx(1)+1, arr, n, sum(0) + arr[idx](2));
+	Trace: idx : 2, sum: 2
+solve (idx=2, arr=0x7fff658f700c, n=3, sum=2) at 001.subset_sums.c:74
+solve (idx=1, arr=0x7fff658f700c, n=3, sum=0) at 001.subset_sums.c:84
+solve (idx=0, arr=0x7fff658f700c, n=3, sum=0) at 001.subset_sums.c:82
+
+
+Trace: solve(idx(2)+1, arr, n, sum(2) + 0);
+	Trace: idx : 3, sum: 2
+solve (idx=3, arr=0x7fff658f700c, n=3, sum=2) at 001.subset_sums.c:74
+solve (idx=2, arr=0x7fff658f700c, n=3, sum=2) at 001.subset_sums.c:82
+solve (idx=1, arr=0x7fff658f700c, n=3, sum=0) at 001.subset_sums.c:84
+solve (idx=0, arr=0x7fff658f700c, n=3, sum=0) at 001.subset_sums.c:82
+		 Trace: Result Sum : 2, sum: 2
+
+
+Trace: solve(idx(2)+1, arr, n, sum(2) + arr[idx](1));
+	Trace: idx : 3, sum: 3
+solve (idx=3, arr=0x7fff658f700c, n=3, sum=3) at 001.subset_sums.c:74
+solve (idx=2, arr=0x7fff658f700c, n=3, sum=2) at 001.subset_sums.c:84
+solve (idx=1, arr=0x7fff658f700c, n=3, sum=0) at 001.subset_sums.c:84
+solve (idx=0, arr=0x7fff658f700c, n=3, sum=0) at 001.subset_sums.c:82
+		 Trace: Result Sum : 3, sum: 3
+
+
+Trace: solve(idx(0)+1, arr, n, sum(0) + arr[idx](5));
+	Trace: idx : 1, sum: 5
+solve (idx=1, arr=0x7fff658f700c, n=3, sum=5) at 001.subset_sums.c:74
+solve (idx=0, arr=0x7fff658f700c, n=3, sum=0) at 001.subset_sums.c:84
+
+
+Trace: solve(idx(1)+1, arr, n, sum(5) + 0);
+	Trace: idx : 2, sum: 5
+solve (idx=2, arr=0x7fff658f700c, n=3, sum=5) at 001.subset_sums.c:74
+solve (idx=1, arr=0x7fff658f700c, n=3, sum=5) at 001.subset_sums.c:82
+solve (idx=0, arr=0x7fff658f700c, n=3, sum=0) at 001.subset_sums.c:84
+
+
+Trace: solve(idx(2)+1, arr, n, sum(5) + 0);
+	Trace: idx : 3, sum: 5
+solve (idx=3, arr=0x7fff658f700c, n=3, sum=5) at 001.subset_sums.c:74
+solve (idx=2, arr=0x7fff658f700c, n=3, sum=5) at 001.subset_sums.c:82
+solve (idx=1, arr=0x7fff658f700c, n=3, sum=5) at 001.subset_sums.c:82
+solve (idx=0, arr=0x7fff658f700c, n=3, sum=0) at 001.subset_sums.c:84
+		 Trace: Result Sum : 4, sum: 5
+
+
+Trace: solve(idx(2)+1, arr, n, sum(5) + arr[idx](1));
+	Trace: idx : 3, sum: 6
+solve (idx=3, arr=0x7fff658f700c, n=3, sum=6) at 001.subset_sums.c:74
+solve (idx=2, arr=0x7fff658f700c, n=3, sum=5) at 001.subset_sums.c:84
+solve (idx=1, arr=0x7fff658f700c, n=3, sum=5) at 001.subset_sums.c:82
+solve (idx=0, arr=0x7fff658f700c, n=3, sum=0) at 001.subset_sums.c:84
+		 Trace: Result Sum : 5, sum: 6
+
+
+Trace: solve(idx(1)+1, arr, n, sum(5) + arr[idx](2));
+	Trace: idx : 2, sum: 7
+solve (idx=2, arr=0x7fff658f700c, n=3, sum=7) at 001.subset_sums.c:74
+solve (idx=1, arr=0x7fff658f700c, n=3, sum=5) at 001.subset_sums.c:84
+solve (idx=0, arr=0x7fff658f700c, n=3, sum=0) at 001.subset_sums.c:84
+
+
+Trace: solve(idx(2)+1, arr, n, sum(7) + 0);
+	Trace: idx : 3, sum: 7
+solve (idx=3, arr=0x7fff658f700c, n=3, sum=7) at 001.subset_sums.c:74
+solve (idx=2, arr=0x7fff658f700c, n=3, sum=7) at 001.subset_sums.c:82
+solve (idx=1, arr=0x7fff658f700c, n=3, sum=5) at 001.subset_sums.c:84
+solve (idx=0, arr=0x7fff658f700c, n=3, sum=0) at 001.subset_sums.c:84
+		 Trace: Result Sum : 6, sum: 7
+
+
+Trace: solve(idx(2)+1, arr, n, sum(7) + arr[idx](1));
+	Trace: idx : 3, sum: 8
+solve (idx=3, arr=0x7fff658f700c, n=3, sum=8) at 001.subset_sums.c:74
+solve (idx=2, arr=0x7fff658f700c, n=3, sum=7) at 001.subset_sums.c:84
+solve (idx=1, arr=0x7fff658f700c, n=3, sum=5) at 001.subset_sums.c:84
+solve (idx=0, arr=0x7fff658f700c, n=3, sum=0) at 001.subset_sums.c:84
+		 Trace: Result Sum : 7, sum: 8
+0 1 2 3 5 6 7 8
