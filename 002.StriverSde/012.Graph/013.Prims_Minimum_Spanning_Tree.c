@@ -29,25 +29,17 @@ int G[V][V] = {
 int main() {
     int no_edge;  // number of edge
 
-    // create a array to track selected vertex
-    // selected will become true otherwise false
+    // Array to track selected vertex selected will become true otherwise false
     int selected[V];
-
-    // set selected false initially
     memset(selected, false, sizeof(selected));
-
-    // set number of edge to 0
-    no_edge = 0;
-
-    // the number of egde in minimum spanning tree will be
-    // always less than (V -1), where V is number of vertices in
-    //graph
 
     // choose 0th vertex and make it true
     selected[0] = true;
 
-    int x;  //  row number
-    int y;  //  col number
+    no_edge = 0;
+
+    int x;
+    int y;
 
     // print for edge and weight
     printf("Edge : Weight\n");

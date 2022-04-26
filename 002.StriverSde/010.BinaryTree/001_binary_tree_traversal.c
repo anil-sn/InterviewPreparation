@@ -117,7 +117,6 @@ NODE * lookupMAP(MAP *m, int key)
 
 void printMap(MAP *m)
 {
-    MAP * head = m;
     pos = 0;
     while (NULL != m) {
 
@@ -1051,7 +1050,6 @@ int main() {
     pos = 0;
     inOrderTraversal(root);
     printf("\r\n");
-    printf("Traversal Output :\r\n");
     for (int i = 0; i < pos; i++) {
         printf("%5d ", traversal[i]);
     }
@@ -1062,7 +1060,6 @@ int main() {
     pos = 0;
     inOrderTrav(root);
     printf("\r\n");
-    printf("Traversal Output :\r\n");
     for (int i = 0; i < pos; i++) {
         printf("%5d ", traversal[i]);
     }
@@ -1073,7 +1070,6 @@ int main() {
     pos = 0;
     inOrderTraversalMorris(root);
     printf("\r\n");
-    printf("Traversal Output :\r\n");
     for (int i = 0; i < pos; i++) {
         printf("%5d ", traversal[i]);
     }
@@ -1084,7 +1080,6 @@ int main() {
     pos = 0;
     preOrderTraversal(root);
     printf("\r\n");
-    printf("Traversal Output :\r\n");
     for (int i = 0; i < pos; i++) {
         printf("%5d ", traversal[i]);
     }
@@ -1095,7 +1090,6 @@ int main() {
     pos = 0;
     preOrderTrav(root);
     printf("\r\n");
-    printf("Traversal Output :\r\n");
     for (int i = 0; i < pos; i++) {
         printf("%5d ", traversal[i]);
     }
@@ -1106,7 +1100,6 @@ int main() {
     pos = 0;
     preOrderTraversalMorris(root);
     printf("\r\n");
-    printf("Traversal Output :\r\n");
     for (int i = 0; i < pos; i++) {
         printf("%5d ", traversal[i]);
     }
@@ -1117,7 +1110,6 @@ int main() {
     pos = 0;
     postOrderTraversal(root);
     printf("\r\n");
-    printf("Traversal Output :\r\n");
     for (int i = 0; i < pos; i++) {
         printf("%5d ", traversal[i]);
     }
@@ -1128,7 +1120,6 @@ int main() {
     pos = 0;
     postOrderTrav(root);
     printf("\r\n");
-    printf("Traversal Output :\r\n");
     for (int i = 0; i < pos; i++) {
         printf("%5d ", traversal[i]);
     }
@@ -1140,7 +1131,6 @@ int main() {
     pos = 0;
     levelOrderTraversal(root);
     printf("\r\n");
-    printf("Traversal Output :\r\n");
     for (int i = 0; i < pos; i++) {
         printf("%5d ", traversal[i]);
     }
@@ -1151,7 +1141,6 @@ int main() {
     pos = 0;
     leftSideView(root);
     printf("\r\n");
-    printf("Traversal Output :\r\n");
     for (int i = 0; i < pos; i++) {
         printf("%5d ", traversal[i]);
     }
@@ -1162,7 +1151,6 @@ int main() {
     pos = 0;
     rightSideView(root);
     printf("\r\n");
-    printf("Traversal Output :\r\n");
     for (int i = 0; i < pos; i++) {
         printf("%5d ", traversal[i]);
     }
@@ -1173,7 +1161,6 @@ int main() {
     pos = 0;
     bottomView(root);
     printf("\r\n");
-    printf("Traversal Output :\r\n");
     for (int i = 0; i < pos; i++) {
         printf("%5d ", traversal[i]);
     }
@@ -1185,7 +1172,6 @@ int main() {
     pos = 0;
     topView(root);
     printf("\r\n");
-    printf("Traversal Output :\r\n");
     for (int i = 0; i < pos; i++) {
         printf("%5d ", traversal[i]);
     }
@@ -1197,7 +1183,6 @@ int main() {
     pos = 0;
     levelOrder(root);
     printf("\r\n");
-    printf("Traversal Output :\r\n");
     for (int i = 0; i < pos; i++) {
         printf("%5d ", traversal[i]);
     }
@@ -1208,7 +1193,6 @@ int main() {
     pos = 0;
     verticalTraversal(root);
     printf("\r\n");
-    printf("Traversal Output :\r\n");
     for (int i = 0; i < pos; i++) {
         printf("%5d ", traversal[i]);
     }
@@ -1219,7 +1203,6 @@ int main() {
     pos = 0;
     SpiralLevelOrder(root);
     printf("\r\n");
-    printf("Traversal Output :\r\n");
     for (int i = 0; i < pos; i++) {
         printf("%5d ", traversal[i]);
     }
@@ -1230,7 +1213,6 @@ int main() {
     pos = 0;
     zigzagLevelOrder(root);
     printf("\r\n");
-    printf("Traversal Output :\r\n");
     for (int i = 0; i < pos; i++) {
         printf("%5d ", traversal[i]);
     }
@@ -1267,7 +1249,6 @@ int main() {
     memset(traversal, 0, sizeof(traversal));
     pos = 0;
     if(getPath(root, 8)) {
-        printf("Traversal Output :\r\n");
         for (int i = 0; i < pos; i++) {
             printf("%5d ", traversal[i]);
         }

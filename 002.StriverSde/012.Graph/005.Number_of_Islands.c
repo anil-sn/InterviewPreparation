@@ -56,7 +56,7 @@ int numberOfIslands(char grid[4][5], int row, int col)
     return count;
 }
 
-void main ()
+int main (void)
 {
     char grid1[4][5] = {{'1','1','1','1','0'},
                         {'1','1','0','1','0'},
@@ -80,5 +80,5 @@ void main ()
     count = numberOfIslands(grid2, 4, 5);
     printf("Number of islands : %d \r\n", count);
 
-    return;
+    return 0;
 }

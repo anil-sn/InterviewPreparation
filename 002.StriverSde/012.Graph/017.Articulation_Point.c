@@ -25,6 +25,8 @@ GRAPH * initGraph(int noOfNodes)
 {
     GRAPH *g = calloc(1, sizeof(GRAPH));
     g->noOfNodes = noOfNodes;
+
+    return g;
 }
 
 void dfsHelper(int node, int parent, int *timer, GRAPH *g)
@@ -91,7 +93,7 @@ void addEdge(GRAPH *g, int u, int v)
     g->adj[v][u] = true;
 }
 
-void main ()
+int main (void)
 {
     GRAPH *g = initGraph(13);
 
@@ -114,5 +116,5 @@ void main ()
 
     dfs(g);
 
-    return;
+    return 0;
 }
