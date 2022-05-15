@@ -80,7 +80,7 @@ int maxSumBST(NODE *root) {
     return ret->sum;
 }
 
-void main ()
+int main ()
 {
     NODE *root = newNode(20);
 

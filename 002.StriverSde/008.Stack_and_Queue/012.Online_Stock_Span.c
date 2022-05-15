@@ -140,7 +140,7 @@ void updateStockSpan(int stock[], int n, int span[])
     return;
 }
 
-void main ()
+int main ()
 {
     int stock[] = {100, 80, 60, 70, 60, 75, 85};
     int n = sizeof(stock)/sizeof(stock[0]);

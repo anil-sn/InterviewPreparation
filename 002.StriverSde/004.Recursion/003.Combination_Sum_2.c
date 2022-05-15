@@ -66,7 +66,7 @@ void combinationSum(int candidates[], int len, int target) {
     return;
 }
 
-void main() {
+int main() {
     int arr[] = {10,1,2,7,6,1,5};
     int len = sizeof(arr)/sizeof(arr[0]);
     int target = 8;

@@ -74,7 +74,7 @@ void queensCombinations (bool board[4][4], int totalQueens,
     }
 }
 
-void main ()
+int main ()
 {
     int n = N;
     bool board[N][N]  = {{false}};
@@ -84,4 +84,6 @@ void main ()
 
     memset(array, '\0', sizeof(array));
     queensCombinations(board, n, 0, cols, ndiag, rdiag);
+
+    return 0;
 }

@@ -8,15 +8,6 @@
 #include "sys/types.h"
 #include "assert.h"
 
-/*
-    {1, 2, 3, 3, 6}
-    1,2,3
-    1,2,3
-    3,3
-    6
-*/
-// Recursive function to return the count
-// of subsets with sum equal to the given value
 int subsetSumCount(int array[], int n, int sum)
 {
     int MEM[n+1][sum+1];
@@ -56,12 +47,34 @@ int subsetSumCount(int array[], int n, int sum)
     return MEM[n][sum];
 }
 
-void main (){
-    int array[] = {1, 2, 3, 3, 6};
-    int sum = 6;
+int numOfSubsetWithDiff(int array[], int n, int diff) {
+
+    // Compute total sum of elements
+    int sumTotal = 0;
+    for (int i = 0; i < n; i++)
+        sumTotal += array[i];
+
+    /* S1 - S2 = diff                Ex: [1,1,2,3]
+     + S1 + S2 = totalSum            [1,3] , [1,2]
+       ------------------            [1,3] , [1,2]
+       2S1 = diff  +  totalSum       [1,1,2], [3]
+        S1 = diff  +  totalSum
+             ---------------         formula Validated:
+                    2                4 = (7 + 1)
+                                         -------
+                                            2
+    */
+
+    int count = subsetSumCount(array, n, (diff + sumTotal)/2);
+    return count;
+}
+
+int main (){
+    int array[] = {1, 1, 2, 3};
+    int diff = 1;
     int len = sizeof(array)/sizeof(array[0]);
 
-    printf("Is subset present in array [1, 2, 3, 3] with sum %d : %d\r\n",
-            sum,
-            subsetSumCount(array,len,sum));
+    printf("Number of subsets in array [1, 1, 2, 3] with their sum differenace %d is %d\r\n",
+            diff,
+            numOfSubsetWithDiff(array,len,diff));
 }

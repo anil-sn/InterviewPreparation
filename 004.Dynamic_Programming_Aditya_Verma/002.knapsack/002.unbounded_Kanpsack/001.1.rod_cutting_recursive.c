@@ -84,7 +84,7 @@ int main()
     // rod length
     int n = 4;
 
-    printf("Loop: Maximum Obtainable Value is %d\n", cutRod_loop(arr, size));
-    printf("With Out Loop: Maximum Obtainable Value is %d\n", cutRod_without_loop(arr, size, 0));
+    printf("Loop: Maximum Obtainable Value is %d\n", cutRod_loop(price, n));
+    printf("With Out Loop: Maximum Obtainable Value is %d\n", cutRod_without_loop(price, n, 0));
     return 0;
 }

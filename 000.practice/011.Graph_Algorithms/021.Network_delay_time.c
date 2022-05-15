@@ -151,7 +151,7 @@ void addDirectedWightEdge(GRAPH *g, int u,int v, int w)
     g->M[u][v] = w;
 }
 
-void main () {
+int main () {
     GRAPH g;
     memset(&g, 0, sizeof(g));
     int n = 6;

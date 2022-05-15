@@ -137,7 +137,7 @@ bool isListPalindrome(ListNode * head) {
     return true;
 }
 
-void main ()
+int main ()
 {
     ListNode *head1 = num2LinkedList(1234321);
     printLinkedList(head1);

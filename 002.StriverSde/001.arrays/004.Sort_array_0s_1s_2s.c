@@ -38,7 +38,7 @@ void sortColors(int nums[], int n)
     }
 }
 
-void main ()
+int main ()
 {
     int array[] = {1,2,1,2,0,0,1,2,0,1};
     int n = sizeof(array)/sizeof(array[0]);

@@ -257,7 +257,7 @@ void topoSortBFS(GRAPH *g)
     return;
 }
 
-void main ()
+int main ()
 {
     GRAPH *g = initGrapth(10);
     addEdge(g, 0,1);

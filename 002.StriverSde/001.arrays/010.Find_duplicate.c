@@ -43,7 +43,7 @@ int findDuplicate(int nums[])
     return slow;
 }
 
-void main( ) {
+int main( ) {
     int arr[] = {1,3,4,2,3};
     printf("The duplicate element is %d \r\n", findDuplicate(arr));
 }

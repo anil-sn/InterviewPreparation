@@ -51,7 +51,7 @@ editDistance(char *str1, char *str2) {
     return (min(deleteCount, updateCount, insertCount) + 1);
 }
 
-void main()
+int main()
 {
     char str1[] = "sunday";
     char str2[] = "saturday";

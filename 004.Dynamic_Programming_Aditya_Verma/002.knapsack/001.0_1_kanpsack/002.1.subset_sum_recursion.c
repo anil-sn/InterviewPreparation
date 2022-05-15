@@ -22,17 +22,17 @@ isSubSetSum(int array[], int len, int sum) {
         return false;
     }
 
-    if (array[len -1] > sum) {
-        return (isSubSetSum(array, len-1, sum));
+    if (array[len - 1] > sum) {
+        return (isSubSetSum(array, len - 1, sum));
     } else {
-        return ((isSubSetSum(array, len-1, sum)) ||
-                (isSubSetSum(array, len-1, sum - array[len-1])));
+        return ((isSubSetSum(array, len - 1, sum)) ||
+                (isSubSetSum(array, len - 1, sum - array[len - 1])));
     }
 
     return false;
 }
 
-void main (){
+int main (){
     int array[] = {2,3,7,8,10};
     int sum = 11;
     int len = sizeof(array)/sizeof(array[0]);

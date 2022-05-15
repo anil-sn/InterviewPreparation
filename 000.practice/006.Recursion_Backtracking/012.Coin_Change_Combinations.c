@@ -33,7 +33,7 @@ void coinsChange(int coins[], int count, int amount, int combination[100]) {
 }
 
 
-void main()
+int main()
 {
     int coins[] = [2, 3, 5, 6, 7];
     int amount = 12;
@@ -53,7 +53,7 @@ public static void coinChange(int i, int[] coins, int amtsf, int tamt, String as
     coinChange(i + 1, coins, amtsf + coins[i], tamt, asf + coins[i] + "-");
     coinChange(i + 1, coins, amtsf + 0, tamt, asf + "");
 }
-public static void main(String[] args) throws Exception {
+public static int main(String[] args) throws Exception {
     BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
     int n = Integer.parseInt(br.readLine());
     int[] coins = new int[n];

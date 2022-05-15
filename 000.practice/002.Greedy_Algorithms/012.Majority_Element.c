@@ -62,8 +62,10 @@ int majorityElement(int a[], int size)
     return -1;
 }
 
-void main (){
+int main (){
     int N = 5;
     int A[] = {3,1,3,3,2};
     printf ("The majority element count is : %d\r\n", majorityElement(A, N));
+
+    return 0;
 }

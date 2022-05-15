@@ -47,11 +47,13 @@ void combinations(int boxes[], int totalBoxes, int currentItem, int totalItem, i
     }
 }
 
-void main ()
+int main ()
 {
     int nboxes[3] = {0};
     int totalBoxes = 3;
     int ritems = 2;
 
     combinations(nboxes, totalBoxes, 1, ritems, -1);
+
+    return 0;
 }

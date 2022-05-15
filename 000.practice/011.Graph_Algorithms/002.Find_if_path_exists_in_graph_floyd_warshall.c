@@ -85,7 +85,7 @@ bool isReachable(int s, int d)
         return false;
 }
 
-void main () {
+int main () {
     int n = 4;
     int source = 4;
     int destination = 3;

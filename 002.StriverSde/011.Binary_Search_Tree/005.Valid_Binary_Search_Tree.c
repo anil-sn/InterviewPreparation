@@ -94,7 +94,7 @@ bool isValidBST(NODE *root)
     return isValid(root, INT_MIN, INT_MAX);
 }
 
-void main ()
+int main ()
 {
     int preOrder[] = {8,5,1,7,10,12};
     int len = sizeof(preOrder)/sizeof(preOrder[0]);

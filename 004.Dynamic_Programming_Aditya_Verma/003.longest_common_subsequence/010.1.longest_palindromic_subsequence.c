@@ -84,7 +84,7 @@ print_longest_palindromic_subsequence(char X[], int m, char Y[], int n) {
     return(dp[m][n]);
 }
 
-void main () {
+int main () {
     char X[] = "ahbcdbah";
     int m = strlen(X);
     char Y[9] = {'\0'};
@@ -97,7 +97,5 @@ void main () {
     }
     int n = strlen(Y);
 
-    int lps = print_longest_palindromic_subsequence(X, m, Y, n);
-    printf ("Longest palindromic subsequence %d\r\n", lps);
-    printf ("Minimum number of deletion to get Longest palindromic subsequence %d\r\n", m-lps);
+    printf ("Longest palindromic subsequence %d\r\n", print_longest_palindromic_subsequence(X, m, Y, n));
 }

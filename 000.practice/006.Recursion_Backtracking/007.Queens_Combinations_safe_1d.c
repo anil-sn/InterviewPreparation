@@ -101,10 +101,12 @@ void queensCombinations (int queens, int totalQueens, int chess[4][4], int lastC
     }
 }
 
-void main ()
+int main ()
 {
     int n = 4;
     int chess[4][4]  = {{0}};
 
     queensCombinations(0, n, chess, -1);
+
+    return 0;
 }

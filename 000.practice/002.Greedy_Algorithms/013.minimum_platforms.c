@@ -90,11 +90,13 @@ int findPlatform(int arr[], int dep[], int n)
     return result;
 }
 
-void main (){
+int main () {
     int n = 6;
     int arr[6] = { 900,  940,  950, 1100, 1500, 1800};
     int dep[6] = { 910, 1200, 1120, 1130, 1900, 2000};
 
     int result = findPlatform(arr, dep, n);
     printf ("Minimuim number of trains required is %d\r\n", result);
+
+    return 0;
 }

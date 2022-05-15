@@ -97,7 +97,7 @@ void getTwoElements(int arr[], int n, int *missing, int *repeated)
     return;
 }
 
-void main () {
+int main () {
     int list[] = {1,2,3,3,4};
     int missing;
     int repeated;

@@ -228,7 +228,7 @@ int getActiveCacheCount(LRU *lru)
 }
 
 
-void main ()
+int main ()
 {
     LRU *lru = initLru(CACHE_LIMIT);
 

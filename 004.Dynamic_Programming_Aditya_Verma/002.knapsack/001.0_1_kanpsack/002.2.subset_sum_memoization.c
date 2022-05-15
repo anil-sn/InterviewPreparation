@@ -18,7 +18,8 @@ int MEM[100][100];
 #define UNKNOWN -1
 
 bool
-isSubSetSum(int array[], int len, int sum) {
+isSubSetSum(int array[], int len, int sum) 
+{
 
     if((0 == sum) && (0 == len)) {
         return true;
@@ -37,22 +38,23 @@ isSubSetSum(int array[], int len, int sum) {
     }
 
     if (array[len-1] > sum) {
-        MEM[len][sum] = (isSubSetSum(array, len-1, sum));
+        MEM[len][sum] = (isSubSetSum(array, len - 1, sum));
     } else {
-        MEM[len][sum] = ((isSubSetSum(array, len-1, sum)) ||
-                (isSubSetSum(array, len-1, sum - array[len-1])));
+        MEM[len][sum] = ((isSubSetSum(array, len - 1, sum)) ||
+                         (isSubSetSum(array, len - 1, sum - array[len - 1])));
     }
 
     return MEM[len][sum];
 }
 
-void main (){
+int main ()
+{
     int array[] = {2,3,7,8,10};
     int sum = 11;
     int len = sizeof(array)/sizeof(array[0]);
 
-    for (int i = 0; i < len+1; i++) {
-        for (int j = 0; j < sum+1; j++) {
+    for (int i = 0; i < len + 1; i++) {
+        for (int j = 0; j < sum + 1; j++) {
             if ((0 == i) && (0 == j)) {
                 MEM[i][j] = TRUE;
             } else if (i == 0) {
@@ -65,6 +67,5 @@ void main (){
         }
     }
 
-    printf("Is subset present in array [2,3,7,8,10] with sum 11 : %s\r\n",
-            (isSubSetSum(array,len,sum) ? "TRUE" : "FALSE"));
+    printf("Is subset present in array [2,3,7,8,10] with sum 11 : %s\r\n", (isSubSetSum(array,len,sum) ? "TRUE" : "FALSE"));
 }

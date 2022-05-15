@@ -112,7 +112,7 @@ void insert(int vi,int vj) {
     }
 }
 
-void main() {
+int main() {
     int i;
 
     read_graph();

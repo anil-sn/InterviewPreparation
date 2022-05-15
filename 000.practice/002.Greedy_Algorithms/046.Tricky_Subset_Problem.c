@@ -108,7 +108,7 @@ int isPossible(long long S, long long N, long long X, long long A[])
     return (isSubsetSum(paper, N+1, X));
 }
 
-void main ()
+int main ()
 {
     long long S = 1;
     long long N = 4;
@@ -119,4 +119,6 @@ void main ()
     printf("\r\n\r\n");
     printf ("Can Teacher make sum %lld : %s\r\n", X, result ? "TRUE" : "FALSE");
     printf("\r\n\r\n");
+
+    return 0;
 }

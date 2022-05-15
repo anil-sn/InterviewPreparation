@@ -96,7 +96,7 @@ ListNode * middleNode(ListNode *head)
     return Tortoise;
 }
 
-void main () {
+int main () {
 
     ListNode *head = addNodeToLinkedList(NULL, 0);
     addNodeToLinkedList(head, 9);

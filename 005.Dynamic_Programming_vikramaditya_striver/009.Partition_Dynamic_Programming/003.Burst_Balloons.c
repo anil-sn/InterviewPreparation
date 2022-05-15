@@ -21,7 +21,7 @@ int burst_ballons(int n, int conins[]){
 
 }
 
-void main ()
+int main ()
 {
     int coins[] = {1,5,3,8};
     int n = SIZEOF(coins);

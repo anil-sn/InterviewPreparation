@@ -127,7 +127,7 @@ int trapTwoPointer(int height[], int n)
     return res;
 }
 
-void main()
+int main()
 {
     int arr1[] = {0,1,0,2,1,0,1,3,2,1,2,1};
     int len1 = sizeof(arr1)/sizeof(arr1[0]);

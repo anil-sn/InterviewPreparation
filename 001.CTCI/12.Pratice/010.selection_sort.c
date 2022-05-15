@@ -72,7 +72,7 @@ void selection_sort(int array[10]) {
     display_array(array);
 }
 
-void main (){
+int main (){
     int array[10] = {10, 9, 8, 7, 6, 5, 4, 3, 2, 1};
     selection_sort(array);
 }

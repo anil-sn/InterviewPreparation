@@ -67,9 +67,9 @@ longest_repeating_subsequence(char X[], int m) {
         }
 
         printf ("\r\nInput String: %s \r\n", X);
-        for (int i = 0; i <= m; i++){
-            for (int j = 0; j <= m; j++) {
-                printf("%2d", dp[i][j]);
+        for (int x = 0; x <= m; x++){
+            for (int y = 0; y <= m; y++) {
+                printf("%2d", dp[x][y]);
             }
             printf("\r\n");
         }
@@ -78,9 +78,10 @@ longest_repeating_subsequence(char X[], int m) {
     return(dp[m][m]);
 }
 
-void main () {
+int main () {
     char X[] = "abbcddghh";
     int lrs = longest_repeating_subsequence(X, strlen(X));
 
     printf ("Longest Repeating subsequence : %d\r\n", lrs);
+    return 0;
 }

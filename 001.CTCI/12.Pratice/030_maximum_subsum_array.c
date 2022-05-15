@@ -54,7 +54,7 @@ KadaneMaxSum(int array[], int length) {
     return maxSumSoFar;
 }
 /* main Function */
-void main ()
+int main ()
 {
     int array[] = {-1,2,-3,4,-5,6,-5,2,3,4,-2};
 

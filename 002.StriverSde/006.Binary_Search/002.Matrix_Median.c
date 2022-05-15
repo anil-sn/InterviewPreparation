@@ -96,7 +96,7 @@ int findMedian(int matrix[3][3], int row, int col)
     return low;
 }
 
-void main ()
+int main ()
 {
     int array[3][3] = { {1, 3,  5},
                         {2, 6,  9},

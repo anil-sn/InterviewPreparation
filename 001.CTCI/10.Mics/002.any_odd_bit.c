@@ -26,7 +26,7 @@ int any_odd(unsigned int x) {
   return 0;
 }
 
-void main ()
+int main ()
 {
   unsigned int input = 0b01010101;
 

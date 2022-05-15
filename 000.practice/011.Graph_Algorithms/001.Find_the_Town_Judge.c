@@ -66,7 +66,7 @@ int findJudge(int totalPeople, int trust[][2], int trustSize) {
     return -1;
 }
 
-void main ()
+int main ()
 {
     int trust[][2] = {{1,3}, {1,4}, {2,3}, {2,4}, {4,3}};
     int trustSize = sizeof(trust)/sizeof(trust[0]);

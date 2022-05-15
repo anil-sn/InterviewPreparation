@@ -190,7 +190,7 @@ void printCoursesOrder (int numCourses) {
     return;
 }
 
-void main ()
+int main ()
 {
     int numCourses = 4;
     int prerequisites[][2] = {{ 1, 0 },

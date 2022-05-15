@@ -112,7 +112,7 @@ int getMinDiff(int arr[], int n, int k)
     return ans;
 }
 
-void main ()
+int main ()
 {
     int k = 5;
     int n = 10;
@@ -124,4 +124,6 @@ void main ()
 
     printf("\r\n");
     printf("%d\r\n", getMinDiff(arr, n, k));
+
+    return 0;
 }

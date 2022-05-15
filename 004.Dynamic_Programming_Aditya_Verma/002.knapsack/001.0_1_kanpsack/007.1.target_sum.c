@@ -91,7 +91,7 @@ int numOfSubsetWithDiff(int array[], int n, int diff) {
     Input: nums = [1], target = 1
     Output: 1
 */
-void main (){
+int main (){
     int array[] = {1, 1, 2, 3};
     int eval = 1;
     int len = sizeof(array)/sizeof(array[0]);

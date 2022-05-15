@@ -103,7 +103,7 @@ void printMatrix(GRAPH *g)
     printf("\r\n");
 }
 
-void main () {
+int main () {
     GRAPH g;
     memset(&g, 0, sizeof(g));
     int edges[][2] = {{  0,  1 },

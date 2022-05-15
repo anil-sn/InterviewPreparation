@@ -56,7 +56,7 @@ int fib(int n) {
     return f[n];
 }
 
-void main () {
+int main () {
     printf ("Fibonacci value of %d is %d\r\n", 2, fib(2));
     printf ("Fibonacci value of %d is %d\r\n", 9, fib(9));
 }

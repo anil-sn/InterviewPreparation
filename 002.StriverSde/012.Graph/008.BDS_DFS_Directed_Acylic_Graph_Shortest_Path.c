@@ -236,7 +236,7 @@ void shortestPath(int src, GRAPH *g)
     }
 }
 
-void main ()
+int main ()
 {
     GRAPH *g = initGrapth(9);
     addEdge(g, 0, 1, 1);

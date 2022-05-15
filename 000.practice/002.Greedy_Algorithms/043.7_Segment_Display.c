@@ -128,9 +128,10 @@ void sevenSegments(char S[], int N) {
     }
     printf("\r\n");
 }
-void main () {
+int main () {
     int N = 6;
     char S[] = "234567";
     sevenSegments(S, N);
-    return;
+
+    return 0;
 }

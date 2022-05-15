@@ -280,7 +280,7 @@ ListNode *flatten(ListNode *root)
     return result;
 }
 
-void main ()
+int main ()
 {
     ListNode *main = uint64num2LinkedList(50403010);
     ListNode *sub1 = uint64num2LinkedList(5958575655);

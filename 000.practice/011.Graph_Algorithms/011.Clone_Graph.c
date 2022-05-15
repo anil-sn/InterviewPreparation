@@ -158,7 +158,7 @@ struct Node* createAdjList(int numberOfNodes) {
     }
 }
 
-void main () {
+int main () {
     int numberOfNodes = 5;
     int input[][2] = {{ 2, 4 },
                       { 1, 3 },

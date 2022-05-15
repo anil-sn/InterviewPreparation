@@ -133,7 +133,7 @@ int count(char a[], char b[])
     return lookup[m][n];
 }
 
-void main () {
+int main () {
     char X[] = "GeeksforGeeks";
     char Y[] = "Gks";
     int m = strlen(X);

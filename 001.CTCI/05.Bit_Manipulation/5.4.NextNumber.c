@@ -129,7 +129,7 @@ printBinary(u_int32_t number) {
     return string;
 }
 
-void main () {
+int main () {
 
     u_int32_t temp = 0;
 

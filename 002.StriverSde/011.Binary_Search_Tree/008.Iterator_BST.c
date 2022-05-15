@@ -111,7 +111,7 @@ void BST_ItorInit(STACK *s, NODE *root) {
     BST_ItorPushAll(s, root);
 }
 
-void main ()
+int main ()
 {
     NODE * root = newNode(1);
     root->left = newNode(2);

@@ -106,7 +106,7 @@ int flipBitToWin(int input) {
     return maxTally;
 }
 
-void main () {
+int main () {
 
     pos = 0;
     memset(string, '\0', sizeof(string));

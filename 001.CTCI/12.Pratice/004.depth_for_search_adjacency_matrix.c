@@ -63,7 +63,7 @@ void DFS(int G[8][8], int visited[8], int i) {
 }
 
 //n is no of vertices and graph is sorted in array G[10][10]
-void main() {
+int main() {
     int i,j;
     int G[8][8] = {{0, 1, 1, 1, 1, 0, 0, 0},
                    {1, 0, 0, 0, 0, 1, 0, 0},

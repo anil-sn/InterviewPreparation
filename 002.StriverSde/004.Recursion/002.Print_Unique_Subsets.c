@@ -70,7 +70,7 @@ void printSubSetSum(int arr[], int len)
     return;
 }
 
-void main ()
+int main ()
 {
     setvbuf (stdout, NULL, _IONBF, BUFSIZ);
     int arr[] = {1,2,2};

@@ -15,7 +15,7 @@ int max(int a, int b) { return (a > b) ? a : b; }
 int min(int a, int b) { return (a < b) ? a : b; }
 
 int
-print_longest_palindromic_subsequence(char X[], int m, char Y[], int n) {
+print_largest_common_subsequence(char X[], int m, char Y[], int n) {
 
     if ((0 == n) || (0 == m)) {
         return 0;
@@ -80,24 +80,15 @@ print_longest_palindromic_subsequence(char X[], int m, char Y[], int n) {
         }
     }
 
-    printf("Longest palindromic subsequence : %s\r\n", lcs);
+    printf("Longest Common subsequence : %s\r\n", lcs);
     return(dp[m][n]);
 }
 
-void main () {
-    char X[] = "ahbcdbah";
+int main () {
+    char X[] = "abcdgh";
+    char Y[] = "abedfgh";
     int m = strlen(X);
-    char Y[9] = {'\0'};
-
-    int pos = 0;
-    for(int i = m-1; i >= 0; i--)
-    {
-        Y[pos] = X[i];
-        pos++;
-    }
     int n = strlen(Y);
 
-    int lps = print_longest_palindromic_subsequence(X, m, Y, n);
-    printf ("Longest palindromic subsequence %d\r\n", lps);
-    printf ("Minimum number of insertion to get Longest palindromic subsequence %d\r\n", m-lps);
+    printf ("Longest Common subsequence %d\r\n", print_largest_common_subsequence(X, m, Y, n));
 }

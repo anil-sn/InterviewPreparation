@@ -90,7 +90,7 @@ ListNode * findInterSection(ListNode *head1, ListNode *head2) {
     return l1;
 }
 
-void main ()
+int main ()
 {
     ListNode *head1 = num2LinkedList(3213457);
     ListNode *head2 = num2LinkedList(98234);

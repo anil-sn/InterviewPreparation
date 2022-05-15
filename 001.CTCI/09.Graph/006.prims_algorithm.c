@@ -105,7 +105,7 @@ void prim() {
     printf("\nMin cost : %d", minimumCost);
 }
 
-void main() {
+int main() {
     int i, j;
     clrscr();
 

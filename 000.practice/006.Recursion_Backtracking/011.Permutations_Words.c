@@ -37,7 +37,7 @@ void permutations(int currentPos, char boxes[], char input[], int n, int inputCo
     }
 }
 
-void main ()
+int main ()
 {
     char nboxes[4+1];
     memset(nboxes, '-', sizeof(nboxes));
@@ -48,4 +48,6 @@ void main ()
     int lastSpot = -1;
 
     permutations(0, nboxes, input, n, inputCount, lastSpot);
+
+    return 0;
 }

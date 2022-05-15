@@ -69,7 +69,7 @@ longest_common_substring(char X[], int m, char Y[], int n) {
     return;
 }
 
-void main () {
+int main () {
     char X[] = "azecdfgh";
     char Y[] = "abedfgh";
     int m = strlen(X);

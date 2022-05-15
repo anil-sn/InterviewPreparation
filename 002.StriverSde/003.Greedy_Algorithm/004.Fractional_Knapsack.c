@@ -65,7 +65,7 @@ float fractionalKnapsack(ITEM items[], int n, int capacity)
     return finalvalue;
 }
 
-void main ()
+int main ()
 {
     ITEM items[] = {{100, 20}, {60, 10}, {120, 30}};
     int n = sizeof(items)/sizeof(items[0]);

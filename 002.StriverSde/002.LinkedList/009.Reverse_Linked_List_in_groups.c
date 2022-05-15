@@ -109,7 +109,7 @@ ListNode * reverseLinkedListGroups(ListNode *head, int groupCount)
     return dummyHead->next;
 }
 
-void main ()
+int main ()
 {
     ListNode *head1 = num2LinkedList(123456789);
     printLinkedList(head1);

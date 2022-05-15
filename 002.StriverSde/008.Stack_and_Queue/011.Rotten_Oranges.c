@@ -187,7 +187,7 @@ int orangesRotting(int grid[3][3], int row, int col)
     return ((tot == cnt) ? days : -1);
 }
 
-void main ()
+int main ()
 {
     int grid[3][3] = { {2,1,1} , {1,1,0} , {0,1,1} };
 

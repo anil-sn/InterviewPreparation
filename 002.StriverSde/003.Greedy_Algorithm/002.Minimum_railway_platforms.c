@@ -72,7 +72,7 @@ int findPlatform(int arr[], int dep[], int totalTrains)
     return maxPlatUsed;
 }
 
- void main () {
+ int main () {
 
     int arr[] = {900,  945,  955, 1100, 1500, 1800};
     int dep[] = {920, 1200, 1130, 1150, 1900, 2000};

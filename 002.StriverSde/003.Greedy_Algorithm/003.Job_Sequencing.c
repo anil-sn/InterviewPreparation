@@ -81,7 +81,7 @@ void JobScheduling(JOB arr[], int n) {
     return;
 }
 
-void main ()
+int main ()
 {
     JOB arr[] = {{1,4,20},{2,1,10},{3,2,40},{4,2,30}};
     int n = sizeof(arr)/sizeof(arr[0]);

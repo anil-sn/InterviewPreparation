@@ -53,17 +53,16 @@ longest_common_subsequence(char X[], int m, char Y[], int n) {
     return(dp[m][n]);
 }
 
-void main () {
-    char X[] = "abc";
-    char Y[] = "abedcgh";
+int main () {
+    char X[] = "abcdgh";
+    char Y[] = "abedfgh";
     int m = strlen(X);
     int n = strlen(Y);
     int lcs = longest_common_subsequence(X, m, Y, n);
-
-    printf ("Longest Common substring %d\r\n", lcs);
-    if (m == lcs) {
-        printf("String %s is substring of %s\r\n", X, Y);
-    } else {
-        printf("String %s is not a substring of %s\r\n", X, Y);
-    }
+    int operation = 0;
+    operation += m - lcs;
+    operation += n - lcs;
+    printf ("Minimum Number of operation on %s, %s with lcs %d is %d \r\n",
+            X, Y, lcs,
+            operation);
 }

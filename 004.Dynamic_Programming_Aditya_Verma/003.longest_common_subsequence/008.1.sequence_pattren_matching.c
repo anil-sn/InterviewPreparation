@@ -15,7 +15,7 @@ int max(int a, int b) { return (a > b) ? a : b; }
 int min(int a, int b) { return (a < b) ? a : b; }
 
 int
-shortest_common_supersequence(char X[], int m, char Y[], int n) {
+longest_common_subsequence(char X[], int m, char Y[], int n) {
 
     if ((0 == n) || (0 == m)) {
         return 0;
@@ -50,13 +50,20 @@ shortest_common_supersequence(char X[], int m, char Y[], int n) {
         }
         printf("\r\n");
     }
-    return((m+n)-dp[m][n]));
+    return(dp[m][n]);
 }
 
-void main () {
-    char X[] = "AGGTAB";
-    char Y[] = "GXTXAYB";
+int main () {
+    char X[] = "abc";
+    char Y[] = "abedcgh";
     int m = strlen(X);
     int n = strlen(Y);
-    printf ("Shortest Common supersequence lenght is %d [AGGXTXAYB]\r\n",shortest_common_supersequence(X, m, Y, n));
+    int lcs = longest_common_subsequence(X, m, Y, n);
+
+    printf ("Longest Common substring %d\r\n", lcs);
+    if (m == lcs) {
+        printf("String %s is substring of %s\r\n", X, Y);
+    } else {
+        printf("String %s is not a substring of %s\r\n", X, Y);
+    }
 }

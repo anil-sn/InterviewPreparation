@@ -132,7 +132,7 @@ void findPath(int m[4][4], int n)
     return;
 }
 
-void main()
+int main()
 {
     int n = 4;
     int a[4][4] =   {{1,0,0,0},

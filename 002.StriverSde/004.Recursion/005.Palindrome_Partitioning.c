@@ -84,7 +84,7 @@ void partition(char s[], int n)
     return;
 }
 
-void main() {
+int main() {
     char s[] = "aabb";
     int n = strlen(s);
     partition(s, n);

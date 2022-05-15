@@ -65,7 +65,7 @@ void printListOfMeeting(MEETING schedule[], int slots)
 }
 
 
-void main ()
+int main ()
 {
     MEETING schedule[] =    {{ 1, 1, 2},
                              { 2, 3, 4},

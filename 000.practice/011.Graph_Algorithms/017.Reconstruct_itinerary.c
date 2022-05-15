@@ -198,7 +198,7 @@ printItinerary(TICKET tickets[], int n) {
     return;
 }
 
-void main () {
+int main () {
     TICKET tickets[8];
     int pos;
 

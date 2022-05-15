@@ -208,7 +208,7 @@ void maxMinWindow(int arr[], int n, int answer[])
     return;
 }
 
-void main ()
+int main ()
 {
     int arr[] = {3, 3, 4, 2, 4 };
     int len = sizeof(arr)/sizeof(arr[0]);

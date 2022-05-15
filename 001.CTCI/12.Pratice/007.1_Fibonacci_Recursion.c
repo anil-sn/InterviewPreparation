@@ -46,7 +46,7 @@ int Fibonacci(int F) {
     return (Fibonacci(F-1) + Fibonacci(F-2));
 }
 
-void main () {
+int main () {
     printf ("Fibonacci value of %d is %d\r\n", 2, Fibonacci(2));
     printf ("Fibonacci value of %d is %d\r\n", 9, Fibonacci(9));
 }

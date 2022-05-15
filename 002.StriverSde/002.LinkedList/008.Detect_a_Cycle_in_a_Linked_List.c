@@ -83,7 +83,7 @@ bool doseCycleExist(ListNode *head)
     return false;
 }
 
-void main ()
+int main ()
 {
     ListNode *head1 = num2LinkedList(123456789);
 

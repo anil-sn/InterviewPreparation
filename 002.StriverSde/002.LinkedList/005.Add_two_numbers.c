@@ -135,7 +135,7 @@ void printLinkedList(ListNode *head)
     printf("\r\n");
 }
 
-void main ()
+int main ()
 {
     int a = 342;
     int b = 564;

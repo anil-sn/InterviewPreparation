@@ -72,7 +72,7 @@ void majorityElement(int nums[], int len) {
     return;
 }
 
-void main ()
+int main ()
 {
     int list[] = {4,4,2,3,3,4,4,3,3,4};
     int count = 10;

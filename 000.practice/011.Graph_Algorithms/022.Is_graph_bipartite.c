@@ -214,7 +214,7 @@ bool isBipartite_BFS(GRAPH *g) {
     return true;
 }
 
-void main () {
+int main () {
 
     GRAPH g;
 

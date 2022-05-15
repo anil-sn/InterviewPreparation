@@ -140,7 +140,7 @@ ListNode * rotateLinkedList(ListNode *main, int pos)
 }
 
 
-void main ()
+int main ()
 {
     ListNode *main = uint64num2LinkedList(102030405060708090);
 

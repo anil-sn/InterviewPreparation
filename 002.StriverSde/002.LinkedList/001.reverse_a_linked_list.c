@@ -100,7 +100,7 @@ ListNode * reverseLinkedList(ListNode *head)
     return curr;
 }
 
-void main () {
+int main () {
 
     ListNode *head = addNodeToLinkedList(NULL, 0);
     addNodeToLinkedList(head, 9);

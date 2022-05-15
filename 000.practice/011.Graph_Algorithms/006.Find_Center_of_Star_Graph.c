@@ -94,7 +94,7 @@ int findCenter (int adj[][4], int n)
 }
 
 
-void main () {
+int main () {
     int n = 4;
     int adj[n][n];
     memset(adj, 0, sizeof(adj));

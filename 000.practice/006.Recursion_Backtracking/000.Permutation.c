@@ -43,11 +43,13 @@ void permutations(int boxes[], int n, int ci, int ritems){
     }
 }
 
-void main ()
+int main ()
 {
     int nboxes[3] = {0};
     int ritems = 2;
     int n = 3;
 
     permutations(nboxes, n, 1, ritems);
+
+    return 0;
 }

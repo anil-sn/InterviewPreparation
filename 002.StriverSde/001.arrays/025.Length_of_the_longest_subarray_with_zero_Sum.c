@@ -119,7 +119,7 @@ void maxLen(int A[], int n)
     return;
 }
 
-void main()
+int main()
 {
     int a[] = {9, -3, 3, -1, 6, -5};
     int len = sizeof(a)/sizeof(a[0]);

@@ -73,7 +73,7 @@ int findSmallestDifference(int A[], int B[], int m, int n) {
     return result;
 }
 
-void main () {
+int main () {
     // Input given array A
     int A[] = {1, 2, 11, 5};
 

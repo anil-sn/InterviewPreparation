@@ -209,7 +209,7 @@ bool isIdentical(NODE * p, NODE * q)
     return false;
 }
 
-void main ()
+int main ()
 {
     char serial[QUEUE_MAX] = {'\0'};
     int len = 0;

@@ -108,7 +108,7 @@ int maxBalls(int n, int m, int a[], int b[])
     return ans;
 }
 
-void main ()
+int main ()
 {
     int N = 5;
     int M = 5;
@@ -118,5 +118,6 @@ void main ()
     printf ("Road A: [1, 4, 5, 6, 8] \r\n");
     printf ("Road B: [2, 3, 4, 6, 9] \r\n");
     printf ("Maximum balls collected is : %d\r\n", maxBalls(N, M, a, b));
-    return;
+
+    return 0;
 }

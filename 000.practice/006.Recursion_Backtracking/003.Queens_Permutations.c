@@ -47,10 +47,12 @@ void queensPermutations (int queens, int totalQueens, int chess[4][4]) {
 
 }
 
-void main ()
+int main ()
 {
     int n = 2;
     int chess[4][4]  = {{0}};
 
     queensPermutations(0, n, chess);
+
+    return 0;
 }

@@ -95,7 +95,7 @@ ListNode * merge(ListNode * head1, ListNode * head2)
 }
 
 
-void main () {
+int main () {
 
     ListNode *head1 = addNodeToLinkedList(NULL, 10);
     addNodeToLinkedList(head1, 19);

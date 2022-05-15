@@ -276,7 +276,7 @@ bool isGraphBipartiteDFS(GRAPH *g)
     return true;
 }
 
-void main ()
+int main ()
 {
     GRAPH *g = initGrapth(8);
     addEdge(g, 0, 1);

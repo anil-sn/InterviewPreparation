@@ -77,7 +77,7 @@ void postOrderTrav(NODE * curr)
 }
 
 
-void main ()
+int main ()
 {
     int preOrder[] = {8,5,1,7,10,12};
     int len = sizeof(preOrder)/sizeof(preOrder[0]);

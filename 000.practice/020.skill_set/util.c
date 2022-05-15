@@ -49,7 +49,7 @@ int size (STACK *s) {
     return (s->top);
 }
 
-void main () {
+int main () {
     STACK s;
 
     initStack(&s);

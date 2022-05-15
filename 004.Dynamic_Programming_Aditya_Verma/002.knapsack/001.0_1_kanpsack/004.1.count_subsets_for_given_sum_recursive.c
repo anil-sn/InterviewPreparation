@@ -45,7 +45,7 @@ int subsetSumCount(int arr[], int n, int i, int sum, int count)
     return count;
 }
 
-void main (){
+int main (){
     int array[] = {1, 2, 3, 3, 6};
     int sum = 6;
     int len = sizeof(array)/sizeof(array[0]);

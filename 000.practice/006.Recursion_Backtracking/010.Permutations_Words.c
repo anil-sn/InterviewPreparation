@@ -36,11 +36,13 @@ void permutations(int currentPos, char boxes[], char input[], int n){
     }
 }
 
-void main ()
+int main ()
 {
     char nboxes[4+1] = {'\0'};
     char input[] = "abcb";
     int n = 4;
 
     permutations(0, nboxes, input, n);
+
+    return 0;
 }

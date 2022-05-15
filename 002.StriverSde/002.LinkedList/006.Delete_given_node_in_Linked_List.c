@@ -114,7 +114,7 @@ ListNode * searchAndDelete(ListNode *head, int key)
 }
 
 
-void main ()
+int main ()
 {
     int key = 7;
     ListNode *head = num2LinkedList(987654321);

@@ -103,11 +103,13 @@ int maxEvents(int start[], int end[], int n){
     return possible_events;
 }
 
-void main ()
+int main ()
 {
     int start[] = {1, 2, 3};
     int end[] = {2, 3, 4};
     int n = 3;
 
     printf("Maximum Number of events : %d", maxEvents(start, end, n));
+
+    return 0;
 }

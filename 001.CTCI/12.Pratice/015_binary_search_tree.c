@@ -126,7 +126,7 @@ NODE * delete(NODE *root, int key) {
     return root;
 }
 
-void main () {
+int main () {
     NODE *root = NULL;
     root = insert(root, 8);
     root = insert(root, 3);

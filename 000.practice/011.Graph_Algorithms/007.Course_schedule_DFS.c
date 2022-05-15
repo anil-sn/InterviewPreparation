@@ -214,7 +214,7 @@ bool canFinish (int numCourses) {
     return true;
 }
 
-void main ()
+int main ()
 {
     int numCourses = 5;
     int prerequisites[][2] = {{ 0, 1 },

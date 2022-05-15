@@ -50,10 +50,12 @@ void queensCombination (int queens, int totalQueens, int chess[4][4], int i, int
     }
 }
 
-void main ()
+int main ()
 {
     int n = 2;
     int chess[4][4]  = {{0}};
 
     queensCombination(0, n, chess, 0, -1);
+
+    return 0;
 }

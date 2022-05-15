@@ -163,7 +163,7 @@ shortest_common_supersequence(char X[], int m, char Y[], int n) {
     return((m+n)-dp[m][n]);
 }
 
-void main () {
+int main () {
     char X[] = "AGGTAB";
     char Y[] = "GXTXAYB";
     int m = strlen(X);

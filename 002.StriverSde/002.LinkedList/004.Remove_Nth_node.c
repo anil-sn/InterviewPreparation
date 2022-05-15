@@ -74,7 +74,7 @@ ListNode * removeNode(ListNode *head, int k)
     return head;
 }
 
-void main () {
+int main () {
 
     ListNode *head = addNodeToLinkedList(NULL, 10);
     addNodeToLinkedList(head, 19);

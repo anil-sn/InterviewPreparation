@@ -34,18 +34,17 @@ isSubSetSum(int array[], int len, int sum) {
     for (int i = 0; i <= len; i++)
         MEM[i][0] = true;
 
-    // If sum is not 0 and set is empty,
-    // then answer is false
+    // If sum is not 0 and set is empty, then answer is false
     for (int i = 1; i <= sum; i++)
         MEM[0][i] = false;
 
     for (int i = 1; i <= len; i++) {
         for (int j = 1; j <= sum; j++) {
-            if (j < array[i-1]) {
-                MEM[i][j] = MEM[i-1][j];
+            if (j < array[ i - 1]) {
+                MEM[i][j] = MEM[i - 1][j];
             }
-            if (j >= array[i-1]) {
-                MEM[i][j] = MEM[i-1][j] || MEM[i-1][j - array[i-1]];
+            if (j >= array[i - 1]) {
+                MEM[i][j] = MEM[i-1][j] || MEM[i - 1][j - array[i - 1]];
             }
         }
     }
@@ -61,7 +60,7 @@ isSubSetSum(int array[], int len, int sum) {
     return MEM[len][sum];
 }
 
-void main (){
+int main (){
     int array[] = {2,3,7,8,10};
     int sum = 8;
     int len = sizeof(array)/sizeof(array[0]);

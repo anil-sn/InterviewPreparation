@@ -73,11 +73,13 @@ void nknights(int currentNight, int nights, bool chess[N][N], int lastLocation) 
 
 
 
-void main ()
+int main ()
 {
     int n = N;
     bool board[N][N]  = {{false}};
 
     memset(array, '\0', sizeof(array));
     nknights(0, n, board, -1);
+
+    return 0;
 }

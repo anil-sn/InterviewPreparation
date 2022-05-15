@@ -81,7 +81,7 @@ void swap4(int *a, int *b)
     *a = *a + (~(*b)) + 1;
 }
 
-void main(void)
+int main(void)
 {
     uint32 a = 100;
     uint32 b = 200;

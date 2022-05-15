@@ -49,7 +49,7 @@ int lengthofLongestSubstring(char s[], int size)
     return len;
 }
 
-void main() {
+int main() {
     char str[] = "abcabcbb";
     int len = sizeof(str)/sizeof(str[0]);
     printf("The length of the longest substring without repeating characters is %d \r\n", lengthofLongestSubstring(str, len));
