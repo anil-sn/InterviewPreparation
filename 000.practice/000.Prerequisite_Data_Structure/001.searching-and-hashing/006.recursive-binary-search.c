@@ -4,7 +4,29 @@
 int Search(int a[], int n, int searchValue);
 int SearchR(int a[], int first, int last, int searchValue);
 
-main()
+int Search(int a[], int n, int searchValue)
+{
+	return SearchR(a, 0, n-1, searchValue);
+}
+
+int SearchR(int a[], int first, int last, int searchValue)
+{
+	int mid;
+
+	if( first > last)
+		return -1;
+
+	mid = (first)+ (last - first)/2;
+
+	if(searchValue > a[mid]) /*Search in right half*/
+		return SearchR(a, mid+1, last, searchValue);
+	else if( searchValue < a[mid] )/*Search in left half*/
+		return SearchR(a, first, mid-1, searchValue);
+	else
+		return mid;
+}
+
+int main(void)
 {
 	int i, n, searchValue, a[SIZE], index;
 
@@ -24,27 +46,6 @@ main()
 		printf("%d not found in array\n", searchValue);
 	else
 		printf("%d found at index %d\n", searchValue, index);
+
+	return 0;
 }
-
-int Search(int a[], int n, int searchValue)
-{
-	return SearchR(a, 0, n-1, searchValue);
-}
-
-int SearchR(int a[], int first, int last, int searchValue)
-{
-	int mid;
-
-	if( first > last)
-		return -1;
-
-	mid = (first+last)/2;
-
-	if(searchValue > a[mid]) /*Search in right half*/
-		return SearchR(a, mid+1, last, searchValue);
-	else if( searchValue < a[mid] )/*Search in left half*/
-		return SearchR(a, first, mid-1, searchValue);
-	else
-		return mid;
-}
-

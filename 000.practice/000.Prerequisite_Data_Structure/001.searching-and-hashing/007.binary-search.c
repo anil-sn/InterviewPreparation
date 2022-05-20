@@ -31,7 +31,7 @@ int Search(int a[], int n, int searchValue)
 
 	while(first<=last)
 	{
-		mid = (first+last)/2;
+		mid = (first) + (last - first) / 2;
 		if(searchValue > a[mid])
 			first = mid+1;	/*Search in right half */
 		else if(searchValue < a[mid])
