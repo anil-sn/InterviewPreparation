@@ -63,46 +63,59 @@ int main (void) {
 }
 
 
-int* searchRange(int* nums, int numsSize, int target, int* returnSize) {
-    int* start = NULL, *end = NULL;
+int *searchRange(int *nums, int numsSize, int target, int *returnSize) {
+    int *start = NULL, *end = NULL;
     *returnSize = 2;
     start = nums, end = nums + numsSize - 1;
-    int* result = (int *)malloc(sizeof(int)*(*returnSize));
+    int *result = (int *)malloc(sizeof(int) * (*returnSize));
     result[0] = -1, result[1] = -1;
+
     while (start <= end) {
-        if(*start != target)    start++;
-        else result[0] = start - nums;
-        if(*end != target) end--;
-        else result[1] = end - nums;        
-        if(result[0] != -1 && result[1] != -1) break;
+        if(*start != target) {
+            start++;
+        } else {
+            result[0] = start - nums;
+        }
+
+        if(*end != target) {
+            end--;
+        } else {
+            result[1] = end - nums;
+        }
+
+        if(result[0] != -1 && result[1] != -1) {
+            break;
+        }
     }
+
     return result;
 }
 
-int* searchRange(int* nums, int numsSize, int target, int* returnSize){
+int *searchRange(int *nums, int numsSize, int target, int *returnSize) {
 
     int start, mid, end;
     int front_gap = 0;
     int end_gap = 0;
     int found = 0;
     int *result;
-    
+
     start = 0;
     end = numsSize - 1;
     result = calloc(2, sizeof(int));
-    
+
     *returnSize = 2;
-    
+
     while (!found) {
         if (start > end) {
 
             result[0] = -1;
             result[1] = -1;
-            
+
             return result;
         }
+
         mid = (start + end) / 2;
-        
+
         if (nums[mid] == target) {
             found = 1;
             break;
@@ -112,26 +125,26 @@ int* searchRange(int* nums, int numsSize, int target, int* returnSize){
             start = mid + 1;
         }
     }
-    
+
     while (((mid + front_gap) >= 0) && nums[mid + front_gap] == target || ((mid + end_gap) <= numsSize - 1) &&  nums[mid + end_gap] == target) {
-        
+
         if ((mid + front_gap >= 0) && nums[mid + front_gap] == target) {
-            
+
             if ((mid + front_gap >= 0)) {
-                front_gap--;   
+                front_gap--;
             }
         }
-        
-        if ((mid + end_gap <= (numsSize-1)) && nums[mid + end_gap] == target) {
+
+        if ((mid + end_gap <= (numsSize - 1)) && nums[mid + end_gap] == target) {
             if (mid + end_gap <= (numsSize - 1)) {
                 end_gap++;
             }
         }
     }
-    
+
 
     result[0] = front_gap + 1 + mid;
     result[1] = end_gap - 1 + mid;
-    
+
     return result;
 }

@@ -72,8 +72,7 @@ int isEmpty() {
 }
 
 
-int numIslands(char **grid, int gridSize, int *gridColSize) 
-{
+int numIslands(char **grid, int gridSize, int *gridColSize) {
     if((gridSize == 0) || (!gridColSize)) {
         return 0;
     }
@@ -126,9 +125,12 @@ int numIslands(char **grid, int gridSize, int *gridColSize)
 /*************************************************/
 int numIslands(int row, int col, char A[row][col]) {
     int  res = 0;
+
     for (int i = 0; i < row; i++)
-        for (int j = 0; j < col; j++)
+        for (int j = 0; j < col; j++) {
             res += dfs(row, col, A, i, j);
+        }
+
     return res;
 }
 

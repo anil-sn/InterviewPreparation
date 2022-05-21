@@ -8,7 +8,7 @@
 #include "sys/types.h"
 #include "assert.h"
 
-int numDistinctIslands(int** grid, int gridSize, int* gridColSize){
+int numDistinctIslands(int **grid, int gridSize, int *gridColSize) {
 
 }
 

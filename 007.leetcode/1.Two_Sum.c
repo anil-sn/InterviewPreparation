@@ -8,6 +8,57 @@
 #include "sys/types.h"
 #include "assert.h"
 
+
+/*******************/
+typedef struct data_s {
+    int val;
+    int idx;
+} data_t;
+
+int
+cmp (const void *a, const void *b) {
+    return ((data_t *)a)->val - ((data_t *)b)->val;
+}
+
+int *twoSum(int *nums, int numsSize, int target, int *returnSize) {
+    int *indices;
+    int i, j, k;
+    data_t *array;
+    array = malloc ((numsSize + 1) * sizeof (data_t));
+    *returnSize = 2;
+
+    for (i = 0; i < numsSize; i ++) {
+        array[i].val = nums[i];
+        array[i].idx = i;
+    }
+
+    qsort (array, numsSize, sizeof (data_t), cmp);
+    i = 0;
+    j = numsSize - 1;
+
+    while (i < j) {
+        k = array[i].val + array[j].val;
+
+        if (k == target) {
+            indices = malloc (2 * sizeof (int));
+            //assert(indices);
+            indices[0] = array[i].idx;
+            indices[1] = array[j].idx;
+            free (array);
+            return indices;
+        } else if (k < target) {
+            i ++;
+        } else {
+            j --;
+        }
+    }
+
+    free (array);
+    return NULL;
+}
+/*******************/
+
+
 int *twoSum(int *nums, int numsSize, int target, int *returnSize) {
     *returnSize = 2;
     int *returna = (int *)malloc(2 * (sizeof(int)));

@@ -8,21 +8,19 @@
 #include "sys/types.h"
 #include "assert.h"
 
-double myPow(double x, int n) 
-{
+double myPow(double x, int n) {
     if(n == 0) {
         return 1;
     }
-    
+
     int originalN = n;
     n = abs(n);
-    if((n%2) == 0)
-    {
-        double temp = myPow(x, n/2);
-        return (originalN > 0) ? (temp*temp) : (1/(temp*temp));
-    }else
-    {
-        double temp = myPow(x, (n-1)/2);
-        return (originalN > 0) ? (x*temp*temp) : (1/(x*temp*temp));
+
+    if((n % 2) == 0) {
+        double temp = myPow(x, n / 2);
+        return (originalN > 0) ? (temp * temp) : (1 / (temp * temp));
+    } else {
+        double temp = myPow(x, (n - 1) / 2);
+        return (originalN > 0) ? (x * temp * temp) : (1 / (x * temp * temp));
     }
 }

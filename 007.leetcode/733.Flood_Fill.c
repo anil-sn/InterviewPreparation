@@ -9,16 +9,18 @@
 #include "assert.h"
 
 void
-fill (int **ret, int rowMax, int colMax, int row, int col, int oldC, int newC)
-{
-    if (row < 0 || row >= rowMax)
-    { return; }
+fill (int **ret, int rowMax, int colMax, int row, int col, int oldC, int newC) {
+    if (row < 0 || row >= rowMax) {
+        return;
+    }
 
-    if (col < 0 || col >= colMax)
-    { return; }
+    if (col < 0 || col >= colMax) {
+        return;
+    }
 
-    if (ret[row][col] != oldC)
-    { return; }
+    if (ret[row][col] != oldC) {
+        return;
+    }
 
     ret[row][col] = newC;
     fill (ret, rowMax, colMax, row + 1, col, oldC, newC);
@@ -29,10 +31,10 @@ fill (int **ret, int rowMax, int colMax, int row, int col, int oldC, int newC)
 }
 
 int **
-floodFill (int **image, int imageSize, int *imageColSize, int sr, int sc, int newColor, int *returnSize, int **returnColumnSizes)
-{
-    if (imageSize < 1 || *imageColSize < 1)
-    { return image; }
+floodFill (int **image, int imageSize, int *imageColSize, int sr, int sc, int newColor, int *returnSize, int **returnColumnSizes) {
+    if (imageSize < 1 || *imageColSize < 1) {
+        return image;
+    }
 
     int **ret = malloc (sizeof (int *) * imageSize);
 
@@ -50,8 +52,9 @@ floodFill (int **image, int imageSize, int *imageColSize, int sr, int sc, int ne
 
     *returnSize = imageSize;
 
-    if (image[sr][sc] != newColor)
-    { fill (ret, imageSize, *imageColSize, sr, sc, image[sr][sc], newColor); }
+    if (image[sr][sc] != newColor) {
+        fill (ret, imageSize, *imageColSize, sr, sc, image[sr][sc], newColor);
+    }
 
     return ret;
 }

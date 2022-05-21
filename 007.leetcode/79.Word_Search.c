@@ -10,8 +10,7 @@
 
 
 bool
-backtrack (char **board, int row_size, int col_size, char **curr_result, int row, int col, char *word)
-{
+backtrack (char **board, int row_size, int col_size, char **curr_result, int row, int col, char *word) {
     int new_row;
     int new_col;
     bool result;
@@ -93,8 +92,7 @@ backtrack (char **board, int row_size, int col_size, char **curr_result, int row
 }
 
 bool
-exist (char **board, int boardSize, int *boardColSize, char *word)
-{
+exist (char **board, int boardSize, int *boardColSize, char *word) {
     char **curr_result;
     int result;
     curr_result = calloc (boardSize, sizeof (char *));

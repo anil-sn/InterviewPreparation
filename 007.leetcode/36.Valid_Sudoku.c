@@ -9,17 +9,15 @@
 #include "assert.h"
 
 bool
-isValidSudoku (char **board, int boardSize, int *boardColSize)
-{
+isValidSudoku (char **board, int boardSize, int *boardColSize) {
     int *arr = (int *)calloc (10, sizeof (int));
     int i, j;
 
     //for each row
     for (i = 0; i < 9; i++) {
         for (j = 0; j < 9; j++) {
-            if (board[i][j] != 46)
-            { 
-                arr[ (board[i][j]) % 48]++; 
+            if (board[i][j] != 46) {
+                arr[ (board[i][j]) % 48]++;
             }
         }
 
@@ -37,8 +35,9 @@ isValidSudoku (char **board, int boardSize, int *boardColSize)
     // for each column
     for (i = 0; i < 9; i++) {
         for (j = 0; j < 9; j++) {
-            if (board[j][i] != 46)
-            { arr[ (board[j][i]) % 48]++; }
+            if (board[j][i] != 46) {
+                arr[ (board[j][i]) % 48]++;
+            }
         }
 
         for (int k = 0; k < 10; k++) {
@@ -68,8 +67,9 @@ isValidSudoku (char **board, int boardSize, int *boardColSize)
 
         for (i = t; i < 3 + t; i++) {
             for (j = p; j < p + 3; j++) {
-                if (board[i][j] != 46)
-                { arr[ (board[i][j]) % 48]++; }
+                if (board[i][j] != 46) {
+                    arr[ (board[i][j]) % 48]++;
+                }
             }
         }
 
@@ -90,7 +90,7 @@ isValidSudoku (char **board, int boardSize, int *boardColSize)
 }
 
 
-bool isValidSudoku(char** board, int boardSize, int* boardColSize){
+bool isValidSudoku(char **board, int boardSize, int *boardColSize) {
     int rowNumPosition[9][9];
     int colNumPosition[9][9];
 
@@ -100,12 +100,13 @@ bool isValidSudoku(char** board, int boardSize, int* boardColSize){
             colNumPosition[i][j] = -1;
         }
     }
-    
+
     for (int i = 0; i < 9; i++) {
         for (int j = 0; j < 9; j++) {
-            if (board[i][j] == '.')
+            if (board[i][j] == '.') {
                 continue;
-            
+            }
+
             int num = board[i][j] - '0' - 1;
 
             if (rowNumPosition[i][num] != -1 ||
@@ -125,13 +126,13 @@ bool isValidSudoku(char** board, int boardSize, int* boardColSize){
                     return false;
                 }
             }
-                        
+
             for (int n = colStart; n < j; n++) {
                 if (colNumPosition[n][num] >= rowStart &&
                         rowNumPosition[n][num] < rowStart + 3) {
                     return false;
                 }
-            }                        
+            }
         }
     }
 
