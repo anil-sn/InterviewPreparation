@@ -1,36 +1,82 @@
-#include "stdio.h"
-#include "stdbool.h"
-#include "limits.h"
-#include "math.h"
-#include "string.h"
-#include "ctype.h"
-#include "stdlib.h"
-#include "sys/types.h"
-#include "assert.h"
+/*
+33. Search in Rotated Sorted Array
+
+Suppose an array sorted in ascending order is rotated at some pivot unknown to you beforehand.
+
+(i.e., 0 1 2 4 5 6 7 might become 4 5 6 7 0 1 2).
+
+You are given a target value to search. If found in the array return its index, otherwise return -1.
+
+You may assume no duplicate exists in the array.
+*/
+
+int
+search (int *nums, int numsSize, int target)
+{
+    if (numsSize == 0) {
+        return -1;
+    }
+
+    int low = 0, high = numsSize - 1;
+
+    while (low < high) {
+        int mid = low + (high - low) / 2;
+
+        //found the target, return
+        if (nums[mid] == target) {
+            return mid;
+        }
+
+        //check if nums[mid] and the target are split into 2 different sides
+        bool split = (nums[mid] >= nums[0]) != (target >= nums[0]);
+
+        if (split) {
+            // if split, need to check the value nums[0] to decide next step
+            if (target >= nums[0]) {
+                high = mid;
+            } else {
+                low = mid + 1;
+            }
+        } else {
+            // if not split, just a normal binary search algorithm
+            if (target > nums[mid]) {
+                low = mid + 1;
+            } else {
+                high = mid;
+            }
+        }
+    }
+
+    return nums[low] == target ? low : -1;
+}
+
 
 
 int
-findMin (int nums[], int len, int key)
+search (int *nums, int numsSize, int target)
 {
-    int start = 0;
-    int end = len - 1;
+    int start, end, mid;
+    start = 0;
+    end = numsSize - 1;
 
-    while (start <= end)  {
-        int mid = start + (end - start) / 2;
+    while (start <= end) {
+        mid = start + (end - start) / 2;
 
-        if (nums[mid] == key) {
+        if (nums[mid] == target) {
             return mid;
-        } else if (nums[mid] >= nums[start]) {
-            if (key >= nums[start] && key < nums[mid]) {
-                end = mid - 1;
-            } else {
+        }
+
+        if (nums[start] <= nums[mid]) { // first half are sorted
+            if (target   >  nums[mid] || target < nums[start]) {
                 start = mid + 1;
+            } else {
+                end = mid - 1;
             }
-        } else {
-            if (key <= nums[end] && key > nums[mid]) {
-                start = mid + 1;
-            } else {
+        } else { // second half are sorted
+            if (target < nums[mid] || target > nums[end]) {
                 end = mid - 1;
+            } else {
+                start = mid + 1;
             }
         }
     }
@@ -38,18 +84,18 @@ findMin (int nums[], int len, int key)
     return -1;
 }
 
-int
-main (void)
-{
-    int data[] = {6, 7, 8, 9, 10, 1, 2, 3, 4, 5};
-    int len = sizeof (data) / sizeof (data[0]);
-    int key = 9;
-    int index = 0;
-    //int index = findMin(data, len, key);
-    //printf("The Minimum: %d is found at %d\r\n", key, index);
-    int data2[] = {5, 1, 3};
-    len = sizeof (data2) / sizeof (data2[0]);
-    key = 3;
-    index = findMin (data2, len, key);
-    printf ("The Minimum: %d is found at %d\r\n", key, index);
-}
+/*
+Difficulty:Medium
+Total Accepted:184.4K
+Total Submissions:574K
+
+
+Companies LinkedIn Bloomberg Uber Facebook Microsoft
+Related Topics Binary Search Array
+Similar Questions
+
+
+                    Search in Rotated Sorted Array II
+
+                    Find Minimum in Rotated Sorted Array
+*/
