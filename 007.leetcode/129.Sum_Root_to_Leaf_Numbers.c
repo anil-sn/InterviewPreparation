@@ -14,7 +14,9 @@ typedef struct TreeNode_ {
     struct TreeNode_ *right;
 } TreeNode;
 
-int sum(TreeNode *root, int s) {
+int
+sum (TreeNode *root, int s)
+{
     if (root == NULL) {
         return 0;
     }
@@ -23,9 +25,11 @@ int sum(TreeNode *root, int s) {
         return s * 10 + root->val;
     }
 
-    return sum(root->left, s * 10 + root->val) + sum(root->right, s * 10 + root->val);
+    return sum (root->left, s * 10 + root->val) + sum (root->right, s * 10 + root->val);
 }
 
-int sumNumbers(TreeNode *root) {
-    return sum(root, 0);
+int
+sumNumbers (TreeNode *root)
+{
+    return sum (root, 0);
 }

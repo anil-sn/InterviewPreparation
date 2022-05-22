@@ -42,33 +42,43 @@ typedef struct stack_ {
     int top;
 } STACK;
 
-void initializeStack(STACK *s) {
+void
+initializeStack (STACK *s)
+{
     s->top = -1;
 }
 
-int top(STACK *s) {
-    return(s->stack[s->top]);
+int
+top (STACK *s)
+{
+    return (s->stack[s->top]);
 }
 
-bool isStackEmpty(STACK *s) {
-    if(s->top == -1) {
+bool
+isStackEmpty (STACK *s)
+{
+    if (s->top == -1) {
         return true;
     } else {
         return false;
     }
 }
 
-bool isStackFull(STACK *s) {
-    if(s->top == MAX - 1) {
+bool
+isStackFull (STACK *s)
+{
+    if (s->top == MAX - 1) {
         return true;
     } else {
         return false;
     }
 }
 
-void push(STACK *s, int x) {
-    if(isStackFull(s)) {
-        printf("Stack Overflow\n");
+void
+push (STACK *s, int x)
+{
+    if (isStackFull (s)) {
+        printf ("Stack Overflow\n");
         return;
     }
 
@@ -76,11 +86,13 @@ void push(STACK *s, int x) {
     s->stack[s->top] = x;
 }
 
-int pop(STACK *s) {
+int
+pop (STACK *s)
+{
     int x;
 
-    if(isStackEmpty(s)) {
-        printf("Stack Underflow\n");
+    if (isStackEmpty (s)) {
+        printf ("Stack Underflow\n");
         return -1;
     }
 
@@ -88,7 +100,9 @@ int pop(STACK *s) {
     s->top = s->top - 1;
     return x;
 }
-void reverse(char *str, int l, int h) {
+void
+reverse (char *str, int l, int h)
+{
     int n = h - l;
     char temp;
 
@@ -100,19 +114,21 @@ void reverse(char *str, int l, int h) {
     }
 }
 
-char *reverseParentheses(char *s) {
+char *
+reverseParentheses (char *s)
+{
     STACK st;
-    initializeStack(&st);
-    int len = strlen(s);
-    char *res = malloc(len + 1);
+    initializeStack (&st);
+    int len = strlen (s);
+    char *res = malloc (len + 1);
     res[len] = '\0';
 
     for (int i = 0; i < len; i ++) {
         if (s[i] == '(') {
-            push(&st, i);
+            push (&st, i);
         } else if (s[i] == ')') {
-            int top = pop(&st);
-            reverse(s, top + 1, i);
+            int top = pop (&st);
+            reverse (s, top + 1, i);
         }
     }
 

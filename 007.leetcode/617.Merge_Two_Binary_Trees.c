@@ -14,24 +14,24 @@ typedef struct TreeNode_ {
     struct TreeNode_ *right;
 } TreeNode;
 
-TreeNode *getTreeNode(int val) {
-    TreeNode *t = calloc(1, sizeof(TreeNode));
+TreeNode *
+getTreeNode (int val)
+{
+    TreeNode *t = calloc (1, sizeof (TreeNode));
     t->val = val;
     return t;
 }
 
-TreeNode *mergeTrees(TreeNode *t1, TreeNode *t2) {
-
+TreeNode *
+mergeTrees (TreeNode *t1, TreeNode *t2)
+{
     if (t1 == NULL && t2 == NULL) {
         return NULL;
     }
 
     int val = (t1 == NULL ? 0 : t1->val) + (t2 == NULL ? 0 : t2->val);
-
-    TreeNode *newNode = getTreeNode(val);
-
-    newNode->left = mergeTrees(t1 == NULL ? NULL : t1->left, t2 == NULL ? NULL : t2->left);
-    newNode->right = mergeTrees(t1 == NULL ? NULL : t1->right, t2 == NULL ? NULL : t2->right);
-
+    TreeNode *newNode = getTreeNode (val);
+    newNode->left = mergeTrees (t1 == NULL ? NULL : t1->left, t2 == NULL ? NULL : t2->left);
+    newNode->right = mergeTrees (t1 == NULL ? NULL : t1->right, t2 == NULL ? NULL : t2->right);
     return newNode;
 }

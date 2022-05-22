@@ -9,7 +9,8 @@
 #include "assert.h"
 
 int
-cmpfunc (int **a, int **b) {
+cmpfunc (int **a, int **b)
+{
     return (*a)[0] - (*b)[0];
 }
 
@@ -19,7 +20,8 @@ cmpfunc (int **a, int **b) {
  * Note: Both returned array and *columnSizes array must be malloced, assume caller calls free().
  */
 int **
-merge (int **intervals, int intervalsSize, int *intervalsColSize, int *returnSize, int **returnColumnSizes) {
+merge (int **intervals, int intervalsSize, int *intervalsColSize, int *returnSize, int **returnColumnSizes)
+{
     int *temp = NULL;
     int i;
     int count = 0;

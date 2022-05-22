@@ -154,12 +154,13 @@ typedef struct tuple_ {
     int cost; // cost of path explore by this node
 } tuple;
 
-tuple *getTuple(int node, int mask, int cost) {
-    tuple *t = calloc(1, sizeof(tuple));
+tuple *
+getTuple (int node, int mask, int cost)
+{
+    tuple *t = calloc (1, sizeof (tuple));
     t->node = node;
     t->mask = mask;
     t->cost = cost;
-
     return t;
 }
 
@@ -170,34 +171,42 @@ typedef struct queue_ {
 } QUEUE;
 
 
-void initializeQueue(QUEUE *q) {
+void
+initializeQueue (QUEUE *q)
+{
     q->rear = -1;
     q->front = -1;
 }
 
-bool isQueueEmpty(QUEUE *q) {
-    if(q->front == -1 || q->front == q->rear + 1) {
+bool
+isQueueEmpty (QUEUE *q)
+{
+    if (q->front == -1 || q->front == q->rear + 1) {
         return true;
     } else {
         return false;
     }
 }
 
-bool isQueueFull(QUEUE *q) {
-    if(q->rear == MAX - 1) {
+bool
+isQueueFull (QUEUE *q)
+{
+    if (q->rear == MAX - 1) {
         return true;
     } else {
         return false;
     }
 }
 
-void enqueue(QUEUE *q, tuple *x) {
-    if(isQueueFull(q)) {
-        printf("Queue Overflow\n");
+void
+enqueue (QUEUE *q, tuple *x)
+{
+    if (isQueueFull (q)) {
+        printf ("Queue Overflow\n");
         return;
     }
 
-    if(q->front == -1) {
+    if (q->front == -1) {
         q->front = 0;
     }
 
@@ -205,11 +214,13 @@ void enqueue(QUEUE *q, tuple *x) {
     q->queue[q->rear] = x;
 }
 
-tuple *dequeue(QUEUE *q) {
+tuple *
+dequeue (QUEUE *q)
+{
     int x;
 
-    if(isQueueEmpty(q)) {
-        printf("Queue Underflow\n");
+    if (isQueueEmpty (q)) {
+        printf ("Queue Underflow\n");
         return -1;
     }
 
@@ -224,40 +235,35 @@ typedef struct pair_ {
 } pair;
 
 
-int shortestPathLength(int **graph, int graphSize, int *graphColSize) {
-
+int
+shortestPathLength (int **graph, int graphSize, int *graphColSize)
+{
     // total number of nodes present
     int n = graphSize; // extracting size of graph
-
     QUEUE q;
-    initializeQueue(&q);
-
+    initializeQueue (&q);
     // set to take care which path we have already visited
     int pos = 0;
     pair vis[1000];
-    memset(vis, 0, sizeof(vis));
-
+    memset (vis, 0, sizeof (vis));
     int all = (1 << n) - 1; // if all nodes visited then
 
     // we don't know which node will give us shortest path so intially for all nodes we will store in our queue
-    for(int i = 0; i < n; i++) {
+    for (int i = 0; i < n; i++) {
         int maskValue = (1 << i); // 2 ^ i
-
         // make a tuple for every nod & push tuple into our queue
-        enqueue(&q, getTuple(i, maskValue, 1));
-
+        enqueue (&q, getTuple (i, maskValue, 1));
         vis[pos].src = i;
         vis[pos].mask = maskValue;
         pos++;
     }
 
     // Implementing BFS
-    while(isQueueEmpty(&q) == false) { // until queue is not empty
-        tuple *curr = dequeue(&q); // extracting front tuple
+    while (isQueueEmpty (&q) == false) { // until queue is not empty
+        tuple *curr = dequeue (&q); // extracting front tuple
 
         // if mask value becomes all, that means we have visited all of our nodes, so from here return cost - 1
-        if(curr->mask == all) {
-
+        if (curr->mask == all) {
             return curr->cost - 1;
         }
 
@@ -269,10 +275,8 @@ int shortestPathLength(int **graph, int graphSize, int *graphColSize) {
                 }
 
                 int bothVisitedMask = curr->mask; // current mask
-
                 // we are moving from one node o anthor node
                 bothVisitedMask = bothVisitedMask | (1 << j);
-
                 // if this path is not explored i.e
                 // if it is not present in our set then,
                 bool found = false;
@@ -283,12 +287,11 @@ int shortestPathLength(int **graph, int graphSize, int *graphColSize) {
                     }
                 }
 
-                if(false == found) {
+                if (false == found) {
                     vis[pos].src = j;
                     vis[pos].mask = bothVisitedMask;
                     pos++;
-
-                    enqueue(&q, getTuple(j, bothVisitedMask, curr->cost + 1)); // also insert into queue
+                    enqueue (&q, getTuple (j, bothVisitedMask, curr->cost + 1)); // also insert into queue
                 }
             }
         }

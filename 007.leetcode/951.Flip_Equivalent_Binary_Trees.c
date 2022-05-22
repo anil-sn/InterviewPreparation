@@ -27,8 +27,9 @@ typedef struct TreeNode_ {
       flipequivalent with the right subtree of tree2 (flip case)
 */
 
-bool flipEquiv(TreeNode *root1, TreeNode *root2) {
-
+bool
+flipEquiv (TreeNode *root1, TreeNode *root2)
+{
     if (NULL == root1 && NULL == root2) {
         return true;
     }
@@ -39,8 +40,7 @@ bool flipEquiv(TreeNode *root1, TreeNode *root2) {
         return false;
     }
 
-    bool a = flipEquiv(root1->left, root2->left) && flipEquiv(root1->right, root2->right);
-    bool b = flipEquiv(root1->right, root2->left) && flipEquiv( root1->left, root2->right);
-
+    bool a = flipEquiv (root1->left, root2->left) && flipEquiv (root1->right, root2->right);
+    bool b = flipEquiv (root1->right, root2->left) && flipEquiv ( root1->left, root2->right);
     return  (a || b);
 }

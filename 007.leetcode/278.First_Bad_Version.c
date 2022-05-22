@@ -25,7 +25,9 @@ left    mid    right
 
 */
 
-bool isBadVersion(int index) {
+bool
+isBadVersion (int index)
+{
     if (index >= 7) {
         return true;
     }
@@ -33,14 +35,16 @@ bool isBadVersion(int index) {
     return false;
 }
 
-int firstBadVersion(int n) {
+int
+firstBadVersion (int n)
+{
     int left = 1;
     int right = n;
 
     while (left < right) {
         int mid = left + (right - left) / 2;
 
-        if (isBadVersion(mid)) {
+        if (isBadVersion (mid)) {
             right = mid;
         } else {
             left = mid + 1;
@@ -50,8 +54,10 @@ int firstBadVersion(int n) {
     return left;
 }
 
-int main (void) {
+int
+main (void)
+{
     int n = 9;
-    printf("The first bad version is : %d \r\n", firstBadVersion(n));
+    printf ("The first bad version is : %d \r\n", firstBadVersion (n));
     return 0;
 }

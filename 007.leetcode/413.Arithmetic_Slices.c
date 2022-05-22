@@ -21,25 +21,26 @@
     Return the Count.
 */
 
-int numberOfArithmeticSlices(int *nums, int numsSize) {
-
+int
+numberOfArithmeticSlices (int *nums, int numsSize)
+{
     // if nums size is less than 3 return false
-    if(numsSize < 3) {
+    if (numsSize < 3) {
         return 0;
     }
 
     int cnt = 0, diff;
 
-    for(int i = 0; i < numsSize - 2; ++i) {
+    for (int i = 0; i < numsSize - 2; ++i) {
         // storing diff of first 2 elements
         diff = nums[i + 1] - nums[i];
 
         // checking for consecutive elements with same difference.
-        for(int j = i + 2; j < numsSize; ++j) {
+        for (int j = i + 2; j < numsSize; ++j) {
             // if we find the same diff of next 2 elements
             // this means we  find consecutive elements
             // increase the Count
-            if(nums[j] - nums[j - 1] == diff) {
+            if (nums[j] - nums[j - 1] == diff) {
                 ++cnt;
             } else
                 // break as we need to cnt for consecutive diff elements

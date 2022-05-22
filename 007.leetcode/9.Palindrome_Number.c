@@ -38,6 +38,7 @@ isPalindrome (int x)
     }
 
     n = x;
+
     while (n) {
         d = n % 10;
 

@@ -35,47 +35,50 @@
 int res[100][4];
 int pos = 0;
 
-void ok(int x, int y, int row, int col, int land[row][col]) {
+void
+ok (int x, int y, int row, int col, int land[row][col])
+{
     bool up   = (x - 1 < 0 || land[x - 1][y] == 0);
     bool left = (y - 1 < 0 || land[x][y - 1] == 0);
-
     bool right = (y + 1 >= col || land[x][y + 1] == 0);
     bool down  = (x + 1 >= row || land[x + 1][y] == 0);
 
-    if(up && left) {
+    if (up && left) {
         res[pos][0] = x;
     }
 
     res[pos][1] = y;
 
-    if(right && down) {
+    if (right && down) {
         res[pos][2] = x;
         res[pos][3] = y;
         pos++;
     }
 }
 
-void dfs(int x, int y, int row, int col, int land[row][col]) {
-    if(x < 0 || y < 0 || x == row || y == col || land[x][y] == -1 || land[x][y] == 0) {
+void
+dfs (int x, int y, int row, int col, int land[row][col])
+{
+    if (x < 0 || y < 0 || x == row || y == col || land[x][y] == -1 || land[x][y] == 0) {
         return;
     }
 
-    ok(x, y, row, col, land);
-
+    ok (x, y, row, col, land);
     // -1 : means visited
     land[x][y] = -1; // marking visited
-
-    dfs(x - 1, y, row, col, land);   // UP
-    dfs(x + 1, y, row, col, land);   // DOWN
-    dfs(x, y - 1, row, col, land);   // LEFT
-    dfs(x, y + 1, row, col, land);   // RIGHT
+    dfs (x - 1, y, row, col, land);  // UP
+    dfs (x + 1, y, row, col, land);  // DOWN
+    dfs (x, y - 1, row, col, land);  // LEFT
+    dfs (x, y + 1, row, col, land);  // RIGHT
 }
 
-int **findFarmland(int row, int col, int land[row][col] ) {
-    for(int i = 0 ; i < row ; ++i)
-        for(int j = 0 ; j < col ; ++j)
-            if(land[i][j] == 1) {
-                dfs(i, j, row, col, land);
+int **
+findFarmland (int row, int col, int land[row][col] )
+{
+    for (int i = 0 ; i < row ; ++i)
+        for (int j = 0 ; j < col ; ++j)
+            if (land[i][j] == 1) {
+                dfs (i, j, row, col, land);
             }
 
     return res;

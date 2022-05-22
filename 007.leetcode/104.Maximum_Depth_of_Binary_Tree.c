@@ -40,13 +40,14 @@ typedef struct TreeNode_ {
     SC - O(1) without taking the implicit recursive stack into consideration
 */
 
-int maxDepth(TreeNode *root) {
-    if(NULL == root) {
+int
+maxDepth (TreeNode *root)
+{
+    if (NULL == root) {
         return 0;
     }
 
-    int maxLeft = maxDepth(root->left);
-    int maxRight = maxDepth(root->right);
-
-    return max(maxLeft, maxRight) + 1;
+    int maxLeft = maxDepth (root->left);
+    int maxRight = maxDepth (root->right);
+    return max (maxLeft, maxRight) + 1;
 }

@@ -31,8 +31,9 @@ typedef struct TreeNode_ {
 } TreeNode;
 
 
-int rob(TreeNode *root) {
-
+int
+rob (TreeNode *root)
+{
     if (root == NULL) {
         return 0;
     }
@@ -40,14 +41,14 @@ int rob(TreeNode *root) {
     int val = 0;
 
     if (root->left != NULL) {
-        val += rob(root->left->left) + rob(root->left->right);
+        val += rob (root->left->left) + rob (root->left->right);
     }
 
     if (root->right != NULL) {
-        val += rob(root->right->left) + rob(root->right->right);
+        val += rob (root->right->left) + rob (root->right->right);
     }
 
-    return MAX(val + root->val, rob(root->left) + rob(root->right));
+    return MAX (val + root->val, rob (root->left) + rob (root->right));
 }
 
 /*
@@ -58,34 +59,36 @@ int rob(TreeNode *root) {
     And here is the improved solution:
 */
 
-int robSub1(TreeNode *root, Map<TreeNode, Integer> map) {
+int
+robSub1 (TreeNode *root, Map<TreeNode, Integer> map)
+{
     if (root == NULL) {
         return 0;
     }
 
-    if (map.containsKey(root)) {
-        return map.get(root);
+    if (map.containsKey (root)) {
+        return map.get (root);
     }
 
     int val = 0;
 
     if (root->left != NULL) {
-        val += robSub1(root->left->left, map) + robSub1(root->left->right, map);
+        val += robSub1 (root->left->left, map) + robSub1 (root->left->right, map);
     }
 
     if (root->right != NULL) {
-        val += robSub1(root->right->left, map) + robSub1(root->right->right, map);
+        val += robSub1 (root->right->left, map) + robSub1 (root->right->right, map);
     }
 
-    val = MAX(val + root.val, robSub1(root->left, map) + robSub1(root->right, map));
-
-    map.put(root, val);
-
+    val = MAX (val + root.val, robSub1 (root->left, map) + robSub1 (root->right, map));
+    map.put (root, val);
     return val;
 }
 
-int rob(TreeNode *root) {
-    return robSub1(root, new HashMap<>());
+int
+rob (TreeNode *root)
+{
+    return robSub1 (root, new HashMap<>());
 }
 
 /*
@@ -101,7 +104,9 @@ int rob(TreeNode *root) {
 
     As you can see, by keeping track of the information of both scenarios, we decoupled the subproblems and the solution essentially boiled down to a greedy one. Here is the program:
 */
-void robSub(TreeNode *root, int *withOutRoot, int *withRoot) {
+void
+robSub (TreeNode *root, int *withOutRoot, int *withRoot)
+{
     if (root == NULL) {
         *withOutRoot = 0;
         *withRoot = 0;
@@ -110,21 +115,20 @@ void robSub(TreeNode *root, int *withOutRoot, int *withRoot) {
 
     int leftWithOutRoot = 0;
     int leftWithRoot = 0;
-    robSub(root->left, &leftWithOutRoot, &leftWithRoot);
-
+    robSub (root->left, &leftWithOutRoot, &leftWithRoot);
     int rightWithOutRoot = 0;
     int rightWithRoot = 0;
-    robSub(root->right, &rightWithOutRoot, &rightWithRoot);
-
-    *withOutRoot = MAX(leftWithRoot, leftWithOutRoot) + MAX(rightWithRoot, leftWithOutRoot);
+    robSub (root->right, &rightWithOutRoot, &rightWithRoot);
+    *withOutRoot = MAX (leftWithRoot, leftWithOutRoot) + MAX (rightWithRoot, leftWithOutRoot);
     *withRoot = root->val + leftWithOutRoot + rightWithOutRoot;
-
     return;
 }
 
-void rob(TreeNode *root) {
+void
+rob (TreeNode *root)
+{
     int withRoot;
     int withOutRoot;
-    robSub(root, &withOutRoot, &withRoot);
-    return MAX(withOutRoot, withRoot);
+    robSub (root, &withOutRoot, &withRoot);
+    return MAX (withOutRoot, withRoot);
 }

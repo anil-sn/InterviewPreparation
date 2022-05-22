@@ -14,14 +14,18 @@ typedef struct TreeNode_ {
     struct TreeNode_ *right;
 } TreeNode;
 
-TreeNode *getTreeNode(int val) {
-    TreeNode *t = calloc(1, sizeof(TreeNode));
+TreeNode *
+getTreeNode (int val)
+{
+    TreeNode *t = calloc (1, sizeof (TreeNode));
     t->val = val;
     return t;
 }
 
-bool isValidBST(TreeNode *root, TreeNode *minNode, TreeNode *maxNode) {
-    if(NULL == root) {
+bool
+isValidBST (TreeNode *root, TreeNode *minNode, TreeNode *maxNode)
+{
+    if (NULL == root) {
         return true;
     }
 
@@ -33,9 +37,11 @@ bool isValidBST(TreeNode *root, TreeNode *minNode, TreeNode *maxNode) {
         return false;
     }
 
-    return (isValidBST(root->left, minNode, root) && isValidBST(root->right, root, maxNode));
+    return (isValidBST (root->left, minNode, root) && isValidBST (root->right, root, maxNode));
 }
 
-bool isValidBST(TreeNode *root) {
-    return isValidBST(root, NULL, NULL);
+bool
+isValidBST (TreeNode *root)
+{
+    return isValidBST (root, NULL, NULL);
 }

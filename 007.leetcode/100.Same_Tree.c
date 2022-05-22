@@ -14,7 +14,9 @@ typedef struct TreeNode_ {
     struct TreeNode_ *right;
 } TreeNode;
 
-bool isSameTree(TreeNode *p, TreeNode *q) {
+bool
+isSameTree (TreeNode *p, TreeNode *q)
+{
     if (p == NULL && q == NULL) {
         return true;
     }
@@ -24,7 +26,7 @@ bool isSameTree(TreeNode *p, TreeNode *q) {
     }
 
     if (p->val == q->val) {
-        return (isSameTree(p->left, q->left) && isSameTree(p->right, q->right));
+        return (isSameTree (p->left, q->left) && isSameTree (p->right, q->right));
     }
 
     return false;

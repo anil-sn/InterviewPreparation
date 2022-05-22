@@ -25,19 +25,25 @@ struct cdata {
     struct LRUCache *tail;
 };
 
-inline void *alloc_cache(size_t capacity) {
-    struct cdata *cdata = calloc(1, sizeof * cdata);
-    cdata->cache = calloc(1, sizeof(struct LRUCache [MAX_CITEMS]));
+inline void *
+alloc_cache (size_t capacity)
+{
+    struct cdata *cdata = calloc (1, sizeof * cdata);
+    cdata->cache = calloc (1, sizeof (struct LRUCache [MAX_CITEMS]));
     cdata->capacity = capacity;
     return cdata;
 }
 
-inline void dealloc_cache(void *obj) {
-    free(((struct cdata *)obj)->cache);
-    free(obj);
+inline void
+dealloc_cache (void *obj)
+{
+    free (((struct cdata *)obj)->cache);
+    free (obj);
 }
 
-inline void refresh_cache(struct LRUCache *item, struct cdata *cdata, bool front) {
+inline void
+refresh_cache (struct LRUCache *item, struct cdata *cdata, bool front)
+{
     struct LRUCache **prev = &item->prev, **next = &item->next;
     struct LRUCache **head = &cdata->head, **tail = &cdata->tail;
 
@@ -58,11 +64,15 @@ inline void refresh_cache(struct LRUCache *item, struct cdata *cdata, bool front
     }
 }
 
-LRUCache *lRUCacheCreate(int capacity) {
-    return alloc_cache(capacity);
+LRUCache *
+lRUCacheCreate (int capacity)
+{
+    return alloc_cache (capacity);
 }
 
-int lRUCacheGet(LRUCache *obj, int key) {
+int
+lRUCacheGet (LRUCache *obj, int key)
+{
     struct cdata *cdata = (void *)obj;
     struct LRUCache *item = &cdata->cache[key];
 
@@ -74,11 +84,13 @@ int lRUCacheGet(LRUCache *obj, int key) {
         return item->val;    // Already at front
     }
 
-    refresh_cache(item, cdata, true); // Move front
+    refresh_cache (item, cdata, true); // Move front
     return item->val;
 }
 
-void lRUCachePut(LRUCache *obj, int key, int value) {
+void
+lRUCachePut (LRUCache *obj, int key, int value)
+{
     struct cdata *cdata = (void *)obj;
     struct LRUCache *item = &cdata->cache[key];
 
@@ -88,15 +100,17 @@ void lRUCachePut(LRUCache *obj, int key, int value) {
 
     if (!item->valid)
         if (cdata->size == cdata->capacity) {
-            refresh_cache(cdata->tail, cdata, false);    // Evict
+            refresh_cache (cdata->tail, cdata, false);   // Evict
         } else {
             cdata->size++;
         }
 
-    refresh_cache(item, cdata, true); // Move/add front
+    refresh_cache (item, cdata, true); // Move/add front
     item->val = value;
 }
 
-void lRUCacheFree(LRUCache *obj) {
-    dealloc_cache(obj);
+void
+lRUCacheFree (LRUCache *obj)
+{
+    dealloc_cache (obj);
 }

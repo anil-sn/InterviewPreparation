@@ -15,13 +15,12 @@ struct ListNode {
     struct ListNode *next;
 };
 
-struct ListNode *deleteDuplicates(struct ListNode *head) {
-
+struct ListNode *deleteDuplicates (struct ListNode *head)
+{
     struct ListNode *itor;
     struct ListNode *result_ind;
     struct ListNode *result_head;
     int prev_val;
-
     result_head = NULL;
     result_ind = NULL;
 
@@ -53,6 +52,5 @@ struct ListNode *deleteDuplicates(struct ListNode *head) {
     }
 
     result_ind->next = NULL;
-
     return result_head;
 }

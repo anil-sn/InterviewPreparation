@@ -24,35 +24,43 @@ typedef struct queue_ {
 } QUEUE;
 
 
-void initializeQueue(QUEUE *q) {
+void
+initializeQueue (QUEUE *q)
+{
     q->rear = -1;
     q->front = -1;
     q->size = 0;
 }
 
-bool isQueueEmpty(QUEUE *q) {
-    if(q->front == -1 || q->front == q->rear + 1) {
+bool
+isQueueEmpty (QUEUE *q)
+{
+    if (q->front == -1 || q->front == q->rear + 1) {
         return true;
     } else {
         return false;
     }
 }
 
-bool isQueueFull(QUEUE *q) {
-    if(q->rear == MAXIMUM - 1) {
+bool
+isQueueFull (QUEUE *q)
+{
+    if (q->rear == MAXIMUM - 1) {
         return true;
     } else {
         return false;
     }
 }
 
-void enqueue(QUEUE *q, TreeNode *x) {
-    if(isQueueFull(q)) {
-        printf("Queue Overflow\n");
+void
+enqueue (QUEUE *q, TreeNode *x)
+{
+    if (isQueueFull (q)) {
+        printf ("Queue Overflow\n");
         return;
     }
 
-    if(q->front == -1) {
+    if (q->front == -1) {
         q->front = 0;
     }
 
@@ -61,11 +69,13 @@ void enqueue(QUEUE *q, TreeNode *x) {
     q->size++;
 }
 
-TreeNode *dequeue(QUEUE *q) {
+TreeNode *
+dequeue (QUEUE *q)
+{
     int x;
 
-    if(isQueueEmpty(q)) {
-        printf("Queue Underflow\n");
+    if (isQueueEmpty (q)) {
+        printf ("Queue Underflow\n");
         return -1;
     }
 
@@ -75,36 +85,39 @@ TreeNode *dequeue(QUEUE *q) {
     return x;
 }
 
-int queueSize(QUEUE *q) {
+int
+queueSize (QUEUE *q)
+{
     return q->size;
 }
 
 int result[MAXIMUM];
 int pos = 0;
 
-void levelOrder(TreeNode *root) {
+void
+levelOrder (TreeNode *root)
+{
     if (root == NULL) {
         return;
     }
 
     QUEUE q;
-    initializeQueue(&q);
+    initializeQueue (&q);
+    enqueue (&q, root);
 
-    enqueue(&q, root);
-
-    while (false == isQueueEmpty(&q)) {
-        int cnt = queueSize(&q);
+    while (false == isQueueEmpty (&q)) {
+        int cnt = queueSize (&q);
 
         for (int i = 0; i < cnt; i++) {
-            TreeNode *node = dequeue(&q);
+            TreeNode *node = dequeue (&q);
             result[pos++] = node->val;
 
             if (node->left != NULL) {
-                enqueue(&q, node->left);
+                enqueue (&q, node->left);
             }
 
             if (node->right != NULL) {
-                enqueue(&q, node->right);
+                enqueue (&q, node->right);
             }
         }
     }

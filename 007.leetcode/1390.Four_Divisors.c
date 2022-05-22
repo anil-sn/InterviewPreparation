@@ -28,7 +28,9 @@
 
     Catch: if d == n / d, the number has 3 divisors, not four.
 */
-int sumFourDivisors(int *nums, int numsSize) {
+int
+sumFourDivisors (int *nums, int numsSize)
+{
     auto sum = 0;
 
     for (int i = 0; i < numsSize; i++) {

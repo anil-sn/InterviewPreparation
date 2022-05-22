@@ -9,7 +9,8 @@
 #include "assert.h"
 
 int
-numOfPairs (char **nums, int numsSize, char *target) {
+numOfPairs (char **nums, int numsSize, char *target)
+{
     int i, j, ans;
     int size_1, size_2, size_target;
     char *temp;

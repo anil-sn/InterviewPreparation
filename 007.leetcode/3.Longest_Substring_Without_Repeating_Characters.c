@@ -17,7 +17,6 @@ lengthOfLongestSubstring (char *s)
 {
     char c;
     int seen[128] = { 0 };
-
     int right = 0;
     int left = 0;
     int longest = 0;
@@ -26,7 +25,6 @@ lengthOfLongestSubstring (char *s)
         c = s[i];
         left = i - seen[c] + 1;
         seen[c] = i + 1;
-
         right ++;
         right = right < left ? right : left;
         longest = longest > right ? longest : right;

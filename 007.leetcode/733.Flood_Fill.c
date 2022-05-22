@@ -9,7 +9,8 @@
 #include "assert.h"
 
 void
-fill (int **ret, int rowMax, int colMax, int row, int col, int oldC, int newC) {
+fill (int **ret, int rowMax, int colMax, int row, int col, int oldC, int newC)
+{
     if (row < 0 || row >= rowMax) {
         return;
     }
@@ -31,13 +32,13 @@ fill (int **ret, int rowMax, int colMax, int row, int col, int oldC, int newC) {
 }
 
 int **
-floodFill (int **image, int imageSize, int *imageColSize, int sr, int sc, int newColor, int *returnSize, int **returnColumnSizes) {
+floodFill (int **image, int imageSize, int *imageColSize, int sr, int sc, int newColor, int *returnSize, int **returnColumnSizes)
+{
     if (imageSize < 1 || *imageColSize < 1) {
         return image;
     }
 
     int **ret = malloc (sizeof (int *) * imageSize);
-
     *returnColumnSizes = malloc (sizeof (int) * imageSize);
 
     for (int i = 0; i < imageSize; i++) {

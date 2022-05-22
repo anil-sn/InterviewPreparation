@@ -43,16 +43,20 @@
     Step 2. Recursive (top-down)
     Converting the recurrent relation from Step 1 shound't be very hard.
 */
-int rob1(int k, int houses[]) {
+int
+rob1 (int k, int houses[])
+{
     if (k < 0) {
         return 0;
     }
 
-    return MAX(rob1(k - 2, houses) + houses[k], rob1(k - 1, houses));
+    return MAX (rob1 (k - 2, houses) + houses[k], rob1 (k - 1, houses));
 }
 
-int robHouses1(int nums[], int n) {
-    return rob1(nums, n - 1);
+int
+robHouses1 (int nums[], int n)
+{
+    return rob1 (nums, n - 1);
 }
 
 /*
@@ -60,7 +64,9 @@ int robHouses1(int nums[], int n) {
     Step 3. Recursive + memo (top-down).
 */
 
-int rob2(int houses[], int i, int memo[]) {
+int
+rob2 (int houses[], int i, int memo[])
+{
     if (i < 0) {
         return 0;
     }
@@ -69,17 +75,17 @@ int rob2(int houses[], int i, int memo[]) {
         return memo[i];
     }
 
-    int result = MAX(rob2(houses, i - 2, memo) + houses[i], rob2(houses, i - 1, memo));
+    int result = MAX (rob2 (houses, i - 2, memo) + houses[i], rob2 (houses, i - 1, memo));
     memo[i] = result;
     return result;
 }
 
-int robHouses2(int nums[], int n) {
-
+int
+robHouses2 (int nums[], int n)
+{
     int memo[n + 1];
-    memset(memo, -1, sizeof(memo));
-
-    return rob2(nums, n - 1, memo);
+    memset (memo, -1, sizeof (memo));
+    return rob2 (nums, n - 1, memo);
 }
 
 /*
@@ -87,19 +93,21 @@ int robHouses2(int nums[], int n) {
     Space complexity is O(n) as well, because of the recursion stack, let's try to get rid of it.
     Step 4. Iterative + memo (bottom-up)
 */
-int rob3(int houses[], int n) {
+int
+rob3 (int houses[], int n)
+{
     if (n == 0) {
         return 0;
     }
 
     int memo[n + 1];
-    memset(memo, 0, sizeof(memo));
+    memset (memo, 0, sizeof (memo));
     memo[0] = 0;
     memo[1] = houses[0];
 
     for (int i = 1; i < n; i++) {
         int val = houses[i];
-        memo[i + 1] = MAX(memo[i], memo[i - 1] + val);
+        memo[i + 1] = MAX (memo[i], memo[i - 1] + val);
     }
 
     return memo[n];
@@ -111,7 +119,9 @@ int rob3(int houses[], int n) {
     We can hold them in 2 variables instead. This optimization is met in Fibonacci sequence creation and some other problems [to paste links].
 */
 /* the order is: prev2, prev1, num  */
-int rob4(int houses[], int n) {
+int
+rob4 (int houses[], int n)
+{
     if (n == 0) {
         return 0;
     }
@@ -121,7 +131,7 @@ int rob4(int houses[], int n) {
 
     for (int i = 0; i < n; i++) {
         int tmp = prev1;
-        prev1 = MAX(prev2 + houses[i], prev1);
+        prev1 = MAX (prev2 + houses[i], prev1);
         prev2 = tmp;
     }
 

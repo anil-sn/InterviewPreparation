@@ -21,22 +21,23 @@ typedef struct TreeNode_ {
 
 int maxValue = INT_MIN;
 
-int maxPathDown(TreeNode *node) {
+int
+maxPathDown (TreeNode *node)
+{
     if (node == NULL) {
         return 0;
     }
 
-    int left = MAX(0, maxPathDown(node->left));
-    int right = MAX(0, maxPathDown(node->right));
-
-    maxValue = MAX(maxValue, left + right + node->val);
-
-    return MAX(left, right) + node->val;
+    int left = MAX (0, maxPathDown (node->left));
+    int right = MAX (0, maxPathDown (node->right));
+    maxValue = MAX (maxValue, left + right + node->val);
+    return MAX (left, right) + node->val;
 }
 
-int maxPathSum(TreeNode *root) {
+int
+maxPathSum (TreeNode *root)
+{
     maxValue = INT_MIN;
-    maxPathDown(root);
-
+    maxPathDown (root);
     return maxValue;
 }

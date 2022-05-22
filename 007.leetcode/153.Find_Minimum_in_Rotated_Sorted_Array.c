@@ -8,7 +8,9 @@
 #include "sys/types.h"
 #include "assert.h"
 
-int findMin(int nums[], int len) {
+int
+findMin (int nums[], int len)
+{
     // If the list has just one element then return that element.
     if (len == 1) {
         return nums[0];
@@ -26,7 +28,6 @@ int findMin(int nums[], int len) {
 
     // Binary search way
     while (right >= left) {
-
         // Find the mid element
         int mid = left + (right - left) / 2;
 
@@ -56,10 +57,11 @@ int findMin(int nums[], int len) {
     return -1;
 }
 
-int main (void) {
+int
+main (void)
+{
     int data[] = {6, 7, 8, 9, 10, 1, 2, 3, 4, 5};
-    int len = sizeof(data) / sizeof(data[0]);
-
-    int min = findMin(data, len);
-    printf("The Minimum: %d \r\n", min);
+    int len = sizeof (data) / sizeof (data[0]);
+    int min = findMin (data, len);
+    printf ("The Minimum: %d \r\n", min);
 }

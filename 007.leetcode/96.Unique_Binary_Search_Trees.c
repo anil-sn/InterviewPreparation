@@ -27,16 +27,17 @@
     It is used as database when we need to know how many left sub trees are possible for k nodes when picking (k+1) as root.
 */
 
-int numTrees(int n) {
+int
+numTrees (int n)
+{
     int dp[n + 1];
-    memset(dp, 0, sizeof(dp));
-
+    memset (dp, 0, sizeof (dp));
     /* base condition */
     dp[0] = 1;
     dp[1] = 1;
 
-    for(int nodes = 2; nodes <= n; nodes++) {
-        for(int root = 1; root <= nodes; root++) {
+    for (int nodes = 2; nodes <= n; nodes++) {
+        for (int root = 1; root <= nodes; root++) {
             int left = root - 1;
             int right = nodes - root;
             dp[nodes] += dp[left] * dp[right];

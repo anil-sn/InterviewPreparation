@@ -28,18 +28,20 @@ struct dimension {
     int col;
 } ;
 
-void enqueue(int row, int col) {
+void
+enqueue (int row, int col)
+{
     struct Node *t;
-    t = (struct Node *)malloc(sizeof(struct Node));
+    t = (struct Node *)malloc (sizeof (struct Node));
 
-    if(t == NULL) {
-        printf("Queue is FUll\n");
+    if (t == NULL) {
+        printf ("Queue is FUll\n");
     } else {
         t->row = row;
         t->col = col;
         t->next = NULL;
 
-        if(front == NULL) {
+        if (front == NULL) {
             front = rear = t;
         } else {
             rear->next = t;
@@ -50,30 +52,34 @@ void enqueue(int row, int col) {
 
 struct dimension dim;
 
-struct dimension *dequeue() {
-
+struct dimension *dequeue()
+{
     struct Node *t;
 
-    if((front == NULL)) {
-        printf("Queue is Empty\n");
+    if ((front == NULL)) {
+        printf ("Queue is Empty\n");
     } else {
         dim.row = front->row;
         dim.col = front->col;
         t = front;
         front = front->next;
-        free(t);
+        free (t);
     }
 
     return &dim;
 }
 
-int isEmpty() {
+int
+isEmpty()
+{
     return (front == NULL);
 }
 
 
-int numIslands(char **grid, int gridSize, int *gridColSize) {
-    if((gridSize == 0) || (!gridColSize)) {
+int
+numIslands (char **grid, int gridSize, int *gridColSize)
+{
+    if ((gridSize == 0) || (!gridColSize)) {
         return 0;
     }
 
@@ -83,13 +89,12 @@ int numIslands(char **grid, int gridSize, int *gridColSize) {
     int row = 0, col = 0;
     int nxtrow = 0, nxtcol = 0;
 
-    for(i = 0; i < gridSize; i++) {
-        for(j = 0; j < (*gridColSize); j++) {
-            if(grid[i][j] == '1') {
-
+    for (i = 0; i < gridSize; i++) {
+        for (j = 0; j < (*gridColSize); j++) {
+            if (grid[i][j] == '1') {
                 grid[i][j] = 0;
                 islandCount++;
-                enqueue(i, j);
+                enqueue (i, j);
 
                 while (!isEmpty()) {
                     t = dequeue();
@@ -103,18 +108,16 @@ int numIslands(char **grid, int gridSize, int *gridColSize) {
                         nxtrow = row + directions[k][0];
                         nxtcol = col + directions[k][1];
 
-                        if(nxtrow < 0 || nxtcol < 0 || nxtrow > (gridSize - 1) || nxtcol > (*gridColSize - 1)) {
+                        if (nxtrow < 0 || nxtcol < 0 || nxtrow > (gridSize - 1) || nxtcol > (*gridColSize - 1)) {
                             continue;
                         }
 
-                        if(grid[nxtrow][nxtcol] == '1') {
-
-                            enqueue(nxtrow, nxtcol);
+                        if (grid[nxtrow][nxtcol] == '1') {
+                            enqueue (nxtrow, nxtcol);
                             grid[nxtrow][nxtcol] = '0';
                         }
                     }
                 }
-
             }
         }
     }
@@ -123,28 +126,30 @@ int numIslands(char **grid, int gridSize, int *gridColSize) {
 }
 
 /*************************************************/
-int numIslands(int row, int col, char A[row][col]) {
+int
+numIslands (int row, int col, char A[row][col])
+{
     int  res = 0;
 
     for (int i = 0; i < row; i++)
         for (int j = 0; j < col; j++) {
-            res += dfs(row, col, A, i, j);
+            res += dfs (row, col, A, i, j);
         }
 
     return res;
 }
 
-int dfs(int row, int col, char A[row][col], int i, int j) {
-
+int
+dfs (int row, int col, char A[row][col], int i, int j)
+{
     if (i < 0 || i == row || j < 0 || j == col || A[i][j] == '0') {
         return 0;
     }
 
     A[i][j] = '0';
-    dfs(row, col, A, i - 1, j);
-    dfs(row, col, A, i + 1, j);
-    dfs(row, col, A, i, j - 1);
-    dfs(row, col, A, i, j + 1);
-
+    dfs (row, col, A, i - 1, j);
+    dfs (row, col, A, i + 1, j);
+    dfs (row, col, A, i, j - 1);
+    dfs (row, col, A, i, j + 1);
     return 1;
 }

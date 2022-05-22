@@ -31,31 +31,32 @@
 #define max(a,b) ((a) > (b) ? (a) : (b))
 #define min(a,b) ((a) < (b) ? (a) : (b))
 
-void distributeCandies(int candies, int num_people, int people[num_people]) {
+void
+distributeCandies (int candies, int num_people, int people[num_people])
+{
     int give = 0;
 
     for (give = 0; candies > 0; candies -= give) {
-        people[give % num_people] +=  min(candies, (give + 1));
+        people[give % num_people] +=  min (candies, (give + 1));
         give += 1;
     }
 
     return;
 }
 
-int main (void) {
+int
+main (void)
+{
     int candies = 7;
     int num_people = 4;
     int people[num_people];
-    memset(people, 0, sizeof(people));
-
-    distributeCandies(candies, num_people, people);
-
-    printf("[ ");
+    memset (people, 0, sizeof (people));
+    distributeCandies (candies, num_people, people);
+    printf ("[ ");
 
     for (int i = 0; i < num_people; i++) {
-        printf("%d ", people[i]);
+        printf ("%d ", people[i]);
     }
 
-    printf("]\r\n");
-
+    printf ("]\r\n");
 }

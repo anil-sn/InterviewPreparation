@@ -25,9 +25,11 @@ typedef struct stack_ {
 int number = 0;
 int count = 0;
 
-void helper(TreeNode *n) {
+void
+helper (TreeNode *n)
+{
     if (n->left != NULL) {
-        helper(n->left);
+        helper (n->left);
     }
 
     count--;
@@ -38,29 +40,31 @@ void helper(TreeNode *n) {
     }
 
     if (n->right != NULL) {
-        helper(n->right);
+        helper (n->right);
     }
 }
 
-int kthSmallest(TreeNode *root, int k) {
+int
+kthSmallest (TreeNode *root, int k)
+{
     count = k;
-    helper(root);
+    helper (root);
     return number;
 }
 
 // DFS in-order iterative: time complexity: O(N) best
-int kthSmallest(TreeNode *root, int k) {
+int
+kthSmallest (TreeNode *root, int k)
+{
     STACK s;
 
     while (root != NULL) {
-        push(&s, root);
+        push (&s, root);
         root = root->left;
     }
 
     while (k != 0) {
-
-        TreeNode *n = pop(&s);
-
+        TreeNode *n = pop (&s);
         k--;
 
         if (k == 0) {
@@ -70,8 +74,7 @@ int kthSmallest(TreeNode *root, int k) {
         TreeNode *right = n->right;
 
         while (right != NULL) {
-
-            push(&s, right);
+            push (&s, right);
             right = right->left;
         }
     }
@@ -80,23 +83,21 @@ int kthSmallest(TreeNode *root, int k) {
 }
 
 /* Optimized */
-int kthSmallest(TreeNode *root, int k) {
-
+int
+kthSmallest (TreeNode *root, int k)
+{
     STACK s;
     TreeNode *p = root;
     int count = 0;
 
-    while(false == isStackEmpty(&s) || p != NULL) {
-        if(p != NULL) {
-
-            push(&s, p);    // Just like recursion
+    while (false == isStackEmpty (&s) || p != NULL) {
+        if (p != NULL) {
+            push (&s, p);   // Just like recursion
             p = p->left;
         } else {
+            TreeNode *node = pop (&s);
 
-            TreeNode *node = pop(&s);
-
-            if(++count == k) {
-
+            if (++count == k) {
                 return node->val;
             }
 

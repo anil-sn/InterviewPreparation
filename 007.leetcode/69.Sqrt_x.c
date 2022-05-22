@@ -8,7 +8,9 @@
 #include "sys/types.h"
 #include "assert.h"
 
-int Sqrt(int x) {
+int
+Sqrt (int x)
+{
     if (x < 2) {
         return x;
     }
@@ -32,10 +34,11 @@ int Sqrt(int x) {
     return right;
 }
 
-int main (void) {
+int
+main (void)
+{
     int x = 4;
     int result = 0;
-
-    result = Sqrt(x);
-    printf("The square root of %d is : %d \r\n", x, result);
+    result = Sqrt (x);
+    printf ("The square root of %d is : %d \r\n", x, result);
 }

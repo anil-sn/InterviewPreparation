@@ -14,12 +14,12 @@ struct ListNode {
     struct ListNode *next;
 };
 
-struct ListNode *partition(struct ListNode *head, int x) {
+struct ListNode *partition (struct ListNode *head, int x)
+{
     struct ListNode node1;
     node1.val = 0;
     struct ListNode node2;
     node2.val = 0;
-
     struct ListNode *p1 = &node1;
     struct ListNode *p2 = &node2;
 
@@ -37,6 +37,5 @@ struct ListNode *partition(struct ListNode *head, int x) {
 
     p2->next = NULL;
     p1->next = node2.next;
-
     return node1.next;
 }

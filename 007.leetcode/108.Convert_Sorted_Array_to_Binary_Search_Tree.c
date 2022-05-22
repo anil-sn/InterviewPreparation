@@ -14,32 +14,36 @@ typedef struct TreeNode_ {
     struct TreeNode_ *right;
 } TreeNode;
 
-TreeNode *getTreeNode(int val) {
-    TreeNode *t = calloc(1, sizeof(TreeNode));
+TreeNode *
+getTreeNode (int val)
+{
+    TreeNode *t = calloc (1, sizeof (TreeNode));
     t->val = val;
     return t;
 }
 
-TreeNode *helper(int num[], int low, int high) {
+TreeNode *
+helper (int num[], int low, int high)
+{
     if (low > high) {
         return NULL;
     }
 
     int mid = (low) + (high - low) / 2;
-
-    TreeNode *node = getTreeNode(num[mid]);
-    node->left = helper(num, low, mid - 1);
-    node->right = helper(num, mid + 1, high);
-
+    TreeNode *node = getTreeNode (num[mid]);
+    node->left = helper (num, low, mid - 1);
+    node->right = helper (num, mid + 1, high);
     return node;
 }
 
 
-TreeNode *sortedArrayToBST(int num[], int n) {
+TreeNode *
+sortedArrayToBST (int num[], int n)
+{
     if (n == 0) {
         return NULL;
     }
 
-    TreeNode *head = helper(num, 0, n - 1);
+    TreeNode *head = helper (num, 0, n - 1);
     return head;
 }

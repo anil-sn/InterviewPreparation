@@ -15,17 +15,21 @@ typedef struct TreeNode_ {
     struct TreeNode_ *right;
 } TreeNode;
 
-int goodNodes(TreeNode *root, int ma) {
+int
+goodNodes (TreeNode *root, int ma)
+{
     if (root == NULL) {
         return 0;
     }
 
     int res = root->val >= ma ? 1 : 0;
-    res += goodNodes(root->left, max(ma, root->val));
-    res += goodNodes(root->right, max(ma, root->val));
+    res += goodNodes (root->left, max (ma, root->val));
+    res += goodNodes (root->right, max (ma, root->val));
     return res;
 }
 
-int goodNodes(TreeNode *root) {
-    return goodNodes(root, -10000);
+int
+goodNodes (TreeNode *root)
+{
+    return goodNodes (root, -10000);
 }

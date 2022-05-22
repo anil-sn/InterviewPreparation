@@ -78,7 +78,6 @@ double
 findMedianSortedArrays (int *nums1, int nums1Size, int *nums2, int nums2Size)
 {
     double d;
-
     int p1, p2;
     p1 =  (nums1Size + nums2Size - 1) / 2;
     p2 = ((nums1Size + nums2Size) % 2) ? 0 : 1;
@@ -115,15 +114,16 @@ findMedianSortedArrays (int *nums1, int nums1Size, int *nums2, int nums2Size)
 /****************************************************************************/
 
 double
-findMedianSortedArrays (int *nums1, int nums1Size, int *nums2, int nums2Size) 
+findMedianSortedArrays (int *nums1, int nums1Size, int *nums2, int nums2Size)
 {
     int index1 = 0;
     int index2 = 0;
     int med1 = 0;
     int med2 = 0;
 
-    for (int i=0; i<=(nums1Size+nums2Size)/2; i++) {
+    for (int i = 0; i <= (nums1Size + nums2Size) / 2; i++) {
         med1 = med2;
+
         if (index1 == nums1Size) {
             med2 = nums2[index2];
             index2++;
@@ -140,8 +140,8 @@ findMedianSortedArrays (int *nums1, int nums1Size, int *nums2, int nums2Size)
     }
 
     // the median is the average of two numbers
-    if ((nums1Size+nums2Size)%2 == 0) {
-        return (float)(med1+med2)/2;
+    if ((nums1Size + nums2Size) % 2 == 0) {
+        return (float) (med1 + med2) / 2;
     }
 
     return med2;

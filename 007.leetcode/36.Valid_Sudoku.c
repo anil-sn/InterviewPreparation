@@ -9,7 +9,8 @@
 #include "assert.h"
 
 bool
-isValidSudoku (char **board, int boardSize, int *boardColSize) {
+isValidSudoku (char **board, int boardSize, int *boardColSize)
+{
     int *arr = (int *)calloc (10, sizeof (int));
     int i, j;
 
@@ -90,7 +91,9 @@ isValidSudoku (char **board, int boardSize, int *boardColSize) {
 }
 
 
-bool isValidSudoku(char **board, int boardSize, int *boardColSize) {
+bool
+isValidSudoku (char **board, int boardSize, int *boardColSize)
+{
     int rowNumPosition[9][9];
     int colNumPosition[9][9];
 
@@ -116,7 +119,6 @@ bool isValidSudoku(char **board, int boardSize, int *boardColSize) {
 
             rowNumPosition[i][num] = j;
             colNumPosition[j][num] = i;
-
             int rowStart = i / 3 * 3;
             int colStart = j / 3 * 3;
 

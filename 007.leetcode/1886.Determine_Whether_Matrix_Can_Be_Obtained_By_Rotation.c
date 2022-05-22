@@ -25,26 +25,28 @@
     This same code can also be used to find out the valid rotation, i,e 0deg / 90deg / 180 deg/ 270 deg by checking the boolean value in c[0], c[1]. c[2], c[3] respectively.
 */
 
-bool findRotation(int **mat, int matSize, int *matColSize, int **target, int targetSize, int *targetColSize) {
+bool
+findRotation (int **mat, int matSize, int *matColSize, int **target, int targetSize, int *targetColSize)
+{
     bool c[4];
-    memset(c, true, sizeof(c));
+    memset (c, true, sizeof (c));
     int n = matSize;
 
-    for(int i = 0; i < n; i++) {
-        for(int j = 0; j < n; j++) {
-            if(mat[i][j] != target[i]    [j]) {
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < n; j++) {
+            if (mat[i][j] != target[i]    [j]) {
                 c[0] = false;    //   0deg rotation
             }
 
-            if(mat[i][j] != target[n - j - 1][i]) {
+            if (mat[i][j] != target[n - j - 1][i]) {
                 c[1] = false;    //  90deg rotation
             }
 
-            if(mat[i][j] != target[n - i - 1][n - j - 1]) {
+            if (mat[i][j] != target[n - i - 1][n - j - 1]) {
                 c[2] = false;    // 180deg rotation
             }
 
-            if(mat[i][j] != target[j]    [n - i - 1]) {
+            if (mat[i][j] != target[j]    [n - i - 1]) {
                 c[3] = false;    // 270deg rotation
             }
         }

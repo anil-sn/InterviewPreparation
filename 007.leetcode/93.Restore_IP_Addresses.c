@@ -9,7 +9,9 @@
 #include "assert.h"
 #define RESULT_SIZE 10000
 
-bool is_valid(char *s, int start, int end) {
+bool
+is_valid (char *s, int start, int end)
+{
     int value = 0;
 
     if (s[start] == '0' && end - start > 1) {
@@ -34,8 +36,9 @@ bool is_valid(char *s, int start, int end) {
 /**
  * Note: The returned array must be malloced, assume caller calls free().
  */
-char **restoreIpAddresses(char *s, int *returnSize) {
-
+char **
+restoreIpAddresses (char *s, int *returnSize)
+{
     int length[4] = {1, 1, 1, 1};
     int start = 0;
     int end = 0;
@@ -43,8 +46,7 @@ char **restoreIpAddresses(char *s, int *returnSize) {
     char **result;
     int result_ind = 0;
     int increase = 0;
-
-    result = malloc(RESULT_SIZE * sizeof(char *));
+    result = malloc (RESULT_SIZE * sizeof (char *));
 
     for (char *c = s; *c != 0; c++) {
         string_len++;
@@ -62,7 +64,7 @@ char **restoreIpAddresses(char *s, int *returnSize) {
                 break;
             }
 
-            if (!is_valid(s, start, end)) {
+            if (!is_valid (s, start, end)) {
                 break;
             } else {
                 if (j == 3) {
@@ -71,17 +73,14 @@ char **restoreIpAddresses(char *s, int *returnSize) {
                     }
 
                     //result[result_ind] = malloc((string_len + 4) * sizeof(char));
-                    result[result_ind] = calloc(string_len + 4, sizeof(char));
+                    result[result_ind] = calloc (string_len + 4, sizeof (char));
                     start = 0;
 
                     for (int k = 0; k < 4; k++) {
-
                         /* MISTAKE*/
                         //end = start + length[k];
-
-
                         end = start + length[k];
-                        memcpy(result[result_ind] + start + k, s + start, sizeof(char) * length[k]);
+                        memcpy (result[result_ind] + start + k, s + start, sizeof (char) * length[k]);
                         result[result_ind][end + k] = '.';
                         start = end;
                     }
@@ -95,7 +94,6 @@ char **restoreIpAddresses(char *s, int *returnSize) {
         }
 
         for (int k = 3; k >= 0; k--) {
-
             length[k] = length[k] + 1;
 
             if (length[k] > 3 && k != 0) {
@@ -110,8 +108,6 @@ char **restoreIpAddresses(char *s, int *returnSize) {
         }
     }
 
-
     *returnSize = result_ind;
-
     return result;
 }

@@ -13,17 +13,14 @@ int
 maxArea (int *height, int heightSize)
 {
     int l, r, min, water, max = 0;
-
     int i = 0;
     int j = heightSize - 1;
 
     while (i < j) {
-
         l = height[i];
         r = height[j];
-
-        min = MIN(l, r);
-        max = MAX(max, min * (j - i))
+        min = MIN (l, r);
+        max = MAX (max, min * (j - i))
 
         if (l < r) {
             i ++;

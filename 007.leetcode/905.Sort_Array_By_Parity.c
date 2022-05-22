@@ -8,8 +8,10 @@
 #include "sys/types.h"
 #include "assert.h"
 
-int *sortArrayByParity(int *A, int ASize, int *returnSize) {
-    int *array = (int *) malloc (sizeof(int) * ASize);
+int *
+sortArrayByParity (int *A, int ASize, int *returnSize)
+{
+    int *array = (int *) malloc (sizeof (int) * ASize);
     int front = 0, end = ASize - 1, i = 0;
 
     while ((end - front) >= 0) {
@@ -28,7 +30,9 @@ int *sortArrayByParity(int *A, int ASize, int *returnSize) {
     return array;
 }
 
-int *sortArrayByParity(int *A, int ASize, int *returnSize) {
+int *
+sortArrayByParity (int *A, int ASize, int *returnSize)
+{
     *returnSize = ASize;
 
     for (int i = 0, j = 0; j < ASize; j++) {

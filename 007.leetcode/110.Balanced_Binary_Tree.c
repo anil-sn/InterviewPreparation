@@ -15,27 +15,32 @@ typedef struct TreeNode_ {
 } TreeNode;
 
 // Method 1:  O(N^2). This is a top down approach.
-int depth (TreeNode *root) {
+int
+depth (TreeNode *root)
+{
     if (root == NULL) {
         return 0;
     }
 
-    return max (depth(root -> left), depth (root -> right)) + 1;
+    return max (depth (root -> left), depth (root -> right)) + 1;
 }
 
-bool isBalanced (TreeNode *root) {
+bool
+isBalanced (TreeNode *root)
+{
     if (root == NULL) {
         return true;
     }
 
-    int left = depth(root->left);
-    int right = depth(root->right);
-
-    return abs(left - right) <= 1 && isBalanced(root->left) && isBalanced(root->right);
+    int left = depth (root->left);
+    int right = depth (root->right);
+    return abs (left - right) <= 1 && isBalanced (root->left) && isBalanced (root->right);
 }
 
 // Method 2:  O(N) based on DFS
-int dfsHeight (TreeNode *root) {
+int
+dfsHeight (TreeNode *root)
+{
     if (root == NULL) {
         return 0;
     }
@@ -52,13 +57,15 @@ int dfsHeight (TreeNode *root) {
         return -1;
     }
 
-    if (abs(leftHeight - rightHeight) > 1) {
+    if (abs (leftHeight - rightHeight) > 1) {
         return -1;
     }
 
     return max (leftHeight, rightHeight) + 1;
 }
 
-bool isBalanced(TreeNode *root) {
+bool
+isBalanced (TreeNode *root)
+{
     return dfsHeight (root) != -1;
 }

@@ -35,46 +35,58 @@ static int  mask1      = 0x80, pattern1      = 0x00,
             mask4      = 0xf8, pattern4      = 0xf0,
             maskOther  = 0xc0, patternOther  = 0x80;
 
-static int validContByte(int c) {
+static int
+validContByte (int c)
+{
     return (c & maskOther) == patternOther;
 }
 
-static int valid1(int c) {
+static int
+valid1 (int c)
+{
     return (c & mask1) == pattern1;
 }
 
-static int valid2(int c) {
+static int
+valid2 (int c)
+{
     return (c & mask2) == pattern2;
 }
 
-static int valid3(int c) {
+static int
+valid3 (int c)
+{
     return (c & mask3) == pattern3;
 }
 
-static int valid4(int c) {
+static int
+valid4 (int c)
+{
     return (c & mask4) == pattern4;
 }
 
-bool validUtf8(int *data, int dataSize) {
+bool
+validUtf8 (int *data, int dataSize)
+{
     int i, c, contBytes;
 
     for (i = 0; i < dataSize; i++) {
         c = data[i];
 
-        if (valid1(c)) {
+        if (valid1 (c)) {
             continue;
-        } else if (valid2(c)) {
+        } else if (valid2 (c)) {
             contBytes = 1;
-        } else if (valid3(c)) {
+        } else if (valid3 (c)) {
             contBytes = 2;
-        } else if (valid4(c)) {
+        } else if (valid4 (c)) {
             contBytes = 3;
         } else {
             return false;
         }
 
         while (contBytes-- > 0)
-            if (++i >= dataSize || !validContByte(data[i])) {
+            if (++i >= dataSize || !validContByte (data[i])) {
                 return false;
             }
     }

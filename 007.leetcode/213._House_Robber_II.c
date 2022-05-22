@@ -18,12 +18,13 @@
     The code is as follows. Some edge cases (n < 2) are handled explicitly.
 */
 
-int robber(int houses[], int l, int r) {
+int
+robber (int houses[], int l, int r)
+{
     int pre = 0, cur = 0;
 
     for (int i = l; i <= r; i++) {
-
-        int temp = max(pre + houses[i], cur);
+        int temp = max (pre + houses[i], cur);
         pre = cur;
         cur = temp;
     }
@@ -31,10 +32,12 @@ int robber(int houses[], int l, int r) {
     return cur;
 }
 
-int rob(int houses[], int n) {
+int
+rob (int houses[], int n)
+{
     if (n < 2) {
         return n;
     }
 
-    return MAX(robber(houses, 0, n - 2), robber(houses, 1, n - 1));
+    return MAX (robber (houses, 0, n - 2), robber (houses, 1, n - 1));
 }

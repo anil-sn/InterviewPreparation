@@ -55,46 +55,54 @@ Explanation: M = 1000, CM = 900, XC = 90 and IV = 4.
 
 // An elegant solution is to make a state machine.
 
-int romanToInt(char *s) 
+int
+romanToInt (char *s)
 {
-    int len = strlen(s);
+    int len = strlen (s);
     int nums[len];
     int numsLen = 0;
-    memset(nums, 0, sizeof(nums));
+    memset (nums, 0, sizeof (nums));
 
-    for(numsLen=0; numsLen<len; numsLen++) {
-        switch (s[numsLen]){
+    for (numsLen = 0; numsLen < len; numsLen++) {
+        switch (s[numsLen]) {
             case 'M':
-                nums[numsLen]=1000;
+                nums[numsLen] = 1000;
                 break;
+
             case 'D':
-                nums[numsLen]=500;
+                nums[numsLen] = 500;
                 break;
+
             case 'C':
-                nums[numsLen]=100;
+                nums[numsLen] = 100;
                 break;
+
             case 'L':
-                nums[numsLen]=50;
+                nums[numsLen] = 50;
                 break;
+
             case 'X' :
-                nums[numsLen]=10;
+                nums[numsLen] = 10;
                 break;
+
             case 'V':
-                nums[numsLen]=5;
+                nums[numsLen] = 5;
                 break;
+
             case 'I':
-                nums[numsLen]=1;
+                nums[numsLen] = 1;
                 break;
         }
     }
 
+    int sum = 0;
 
-    int sum=0;
-    for(int i=0;i<numsLen - 1 ;i++){
-        if(nums[i]<nums[i+1])
-            sum-=nums[i];
+    for (int i = 0; i < numsLen - 1 ; i++) {
+        if (nums[i] < nums[i + 1])
+        { sum -= nums[i]; }
         else
-            sum+=nums[i];
+        { sum += nums[i]; }
     }
-    return sum+nums[numsLen - 1];
+
+    return sum + nums[numsLen - 1];
 }

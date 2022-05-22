@@ -23,24 +23,26 @@ Let me give you two examples of these two "search space"
     we can not find a linear way to map the number and its index.
 */
 
-int findMin(int row, int col, int matrix[row][col], int k) {
+int
+findMin (int row, int col, int matrix[row][col], int k)
+{
     int lo = matrix[0][0];
     int hi = matrix[row - 1][col - 1] + 1;//[lo, hi)
 
-    while(lo < hi) {
+    while (lo < hi) {
         int mid = lo + (hi - lo) / 2;
         int count = 0;
         int j = col - 1;
 
-        for(int i = 0; i < row; i++) {
-            while(j >= 0 && matrix[i][j] > mid) {
+        for (int i = 0; i < row; i++) {
+            while (j >= 0 && matrix[i][j] > mid) {
                 j--;
             }
 
             count += (j + 1);
         }
 
-        if(count < k) {
+        if (count < k) {
             lo = mid + 1;
         } else {
             hi = mid;
@@ -50,7 +52,9 @@ int findMin(int row, int col, int matrix[row][col], int k) {
     return lo;
 }
 
-int main (void) {
+int
+main (void)
+{
     int data[3][3] = {{1,   5,  9},
         {10, 11, 13},
         {12, 13, 15}
@@ -58,7 +62,6 @@ int main (void) {
     int row = 3;
     int col = 3;
     int k = 8;
-
-    int min = findMin(row, col, data, k);
-    printf("The %dth Minimum: %d \r\n", k, min);
+    int min = findMin (row, col, data, k);
+    printf ("The %dth Minimum: %d \r\n", k, min);
 }

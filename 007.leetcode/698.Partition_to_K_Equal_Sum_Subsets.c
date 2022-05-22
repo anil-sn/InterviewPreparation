@@ -10,21 +10,22 @@
 
 
 /* Solution 1: Back Tracking Slow Process */
-bool canPartition(int start, int len, int a[len], bool seen[len], int k, int sum, int target) {
+bool
+canPartition (int start, int len, int a[len], bool seen[len], int k, int sum, int target)
+{
     if (k == 1) {
         return true;
     }
 
     if (sum == target) {
-        return canPartition(0, len, a, seen, k - 1, 0, target);
+        return canPartition (0, len, a, seen, k - 1, 0, target);
     }
 
     for (int i = start; i < len; i++) {
-
-        if(false == seen[i]) {
+        if (false == seen[i]) {
             seen[i] = true;
 
-            if (canPartition(i + 1, len, a, seen, k, sum + a[i], target)) {
+            if (canPartition (i + 1, len, a, seen, k, sum + a[i], target)) {
                 return true;
             }
 
@@ -35,10 +36,12 @@ bool canPartition(int start, int len, int a[len], bool seen[len], int k, int sum
     return false;
 }
 
-bool canPartitionKSubsets(int *nums, int numsSize, int k) {
+bool
+canPartitionKSubsets (int *nums, int numsSize, int k)
+{
     bool result = false;
     bool seen[numsSize];
-    memset(seen, false, sizeof(seen));
+    memset (seen, false, sizeof (seen));
 
     if (0 == k) {
         return false;
@@ -54,7 +57,7 @@ bool canPartitionKSubsets(int *nums, int numsSize, int k) {
         return false;
     }
 
-    result = canPartition(0, numsSize, nums, seen, k, 0, sum / k);
+    result = canPartition (0, numsSize, nums, seen, k, 0, sum / k);
     return result;
 }
 
@@ -95,14 +98,17 @@ bool canPartitionKSubsets(int *nums, int numsSize, int k) {
     total[i] stores the sum of subset with sum less than equal to target sum (total sum/k why? because we need to split array into k subset).
 */
 
-int cmp(const void *x, const void *y) {
+int
+cmp (const void *x, const void *y)
+{
     int *a = (int *)x;
     int *b = (int *)y;
-
     return *a > *b;
 }
 
-bool canPartitionKSubsets(int *nums, int numsSize, int k) {
+bool
+canPartitionKSubsets (int *nums, int numsSize, int k)
+{
     if (nums == NULL || numsSize == 0) {
         return false;
     }
@@ -115,12 +121,9 @@ bool canPartitionKSubsets(int *nums, int numsSize, int k) {
     int n = numsSize;
     bool dp[bitMaxLen];
     int total[bitMaxLen];
-
-    memset(dp, false, sizeof(dp));
-    memset(total, 0, sizeof(total));
-
+    memset (dp, false, sizeof (dp));
+    memset (total, 0, sizeof (total));
     dp[0] = true;
-
     int sum = 0;
 
     for (int i = 0; i < numsSize; i++) {
@@ -131,31 +134,26 @@ bool canPartitionKSubsets(int *nums, int numsSize, int k) {
         return false;
     }
 
-    qsort(nums, numsSize, sizeof(nums[0]), cmp);
-
+    qsort (nums, numsSize, sizeof (nums[0]), cmp);
     sum = sum / k;
 
-    if(nums[numsSize - 1] > sum) {
+    if (nums[numsSize - 1] > sum) {
         return false;
     }
 
     // Loop over power set
-    for(int i = 0; i < (bitMaxLen); i++) {
-
-        if(dp[i]) {
-
+    for (int i = 0; i < (bitMaxLen); i++) {
+        if (dp[i]) {
             // Loop over each element to find subset
-            for(int j = 0; j < n; j++) {
-
+            for (int j = 0; j < n; j++) {
                 // set the jth bit
                 int temp = i | (1 << j);
 
-                if(temp != i) {
-
+                if (temp != i) {
                     /* if total sum is less than target store in dp and total array
                        to make sure that only j with condition: nums[j] smaller than ( or equal to) sum- total[i] can be selected and then we continue. The % is very interesting. When nums[j] equals to sum- total[i], nums[j] is added to total[i], now we have finished finding one of k groups. Now we move to find next group, so % can make sure we ignore the sum of existed groups in the condition for next group.
                     */
-                    if(nums[j] <= (sum - (total[i] % sum))) {
+                    if (nums[j] <= (sum - (total[i] % sum))) {
                         dp[temp] = true;
                         total[temp] = nums[j] + total[i];
                     } else {
@@ -166,5 +164,5 @@ bool canPartitionKSubsets(int *nums, int numsSize, int k) {
         }
     }
 
-    return dp[(bitMaxLen) - 1];
+    return dp[ (bitMaxLen) - 1];
 }

@@ -14,8 +14,10 @@ typedef struct TreeNode_ {
     struct TreeNode_ *right;
 } TreeNode;
 
-TreeNode *getTreeNode(int val) {
-    TreeNode *t = calloc(1, sizeof(TreeNode));
+TreeNode *
+getTreeNode (int val)
+{
+    TreeNode *t = calloc (1, sizeof (TreeNode));
     t->val = val;
     return t;
 }
@@ -40,13 +42,14 @@ TreeNode *getTreeNode(int val) {
     Output: [3,9,20,null,null,15,7]
 */
 
-TreeNode *helper(int preStart, int inStart, int inEnd, int preorder[], int inorder[], int len) {
+TreeNode *
+helper (int preStart, int inStart, int inEnd, int preorder[], int inorder[], int len)
+{
     if (preStart > len - 1 || inStart > inEnd) {
         return NULL;
     }
 
-    TreeNode *root = getTreeNode(preorder[preStart]);
-
+    TreeNode *root = getTreeNode (preorder[preStart]);
     // Index of current root in inorder
     int inIndex = 0;
 
@@ -56,11 +59,13 @@ TreeNode *helper(int preStart, int inStart, int inEnd, int preorder[], int inord
         }
     }
 
-    root->left = helper(preStart + 1, inStart, inIndex - 1, preorder, inorder, len);
-    root->right = helper(preStart + inIndex - inStart + 1, inIndex + 1, inEnd, preorder, inorder, len);
+    root->left = helper (preStart + 1, inStart, inIndex - 1, preorder, inorder, len);
+    root->right = helper (preStart + inIndex - inStart + 1, inIndex + 1, inEnd, preorder, inorder, len);
     return root;
 }
 
-TreeNode *buildTree(int preorder[], int inorder[],  int len) {
-    return helper(0, 0, len - 1, preorder, inorder, len);
+TreeNode *
+buildTree (int preorder[], int inorder[],  int len)
+{
+    return helper (0, 0, len - 1, preorder, inorder, len);
 }
