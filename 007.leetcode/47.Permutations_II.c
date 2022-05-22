@@ -77,68 +77,69 @@ static bool next_permutation(int *arr, int arr_len)
  * assume caller calls free().
  */
 
-int ** permuteUnique(
-        int *nums, int nums_len,
-        int *out_result_len, int **out_result_elem_lens)
+int **
+permuteUnique (
+    int *nums, int nums_len,
+    int *out_result_len, int **out_result_elem_lens)
 {
-    assert(nums || nums_len == 0);
-    assert(nums_len >= 1);
-    assert(out_result_len);
-    assert(out_result_elem_lens);
-
+    assert (nums || nums_len == 0);
+    assert (nums_len >= 1);
+    assert (out_result_len);
+    assert (out_result_elem_lens);
     // the sorted array is the lexicographically smallest permutation
     // and we need it to calculate the result length
-    qsort(nums, (size_t) nums_len, sizeof(*nums), cmp_int);
-
+    qsort (nums, (size_t) nums_len, sizeof (*nums), cmp_int);
     // calculate result len
-    size_t result_len = factorial((size_t) nums_len);
+    size_t result_len = factorial ((size_t) nums_len);
     size_t count = 1;
-    for (int i = 1; i < nums_len; ++i, ++count)
-    {
-        if (nums[i - 1] != nums[i])
-        {
-            result_len /= factorial(count);
+
+    for (int i = 1; i < nums_len; ++i, ++count) {
+        if (nums[i - 1] != nums[i]) {
+            result_len /= factorial (count);
             count = 0;
         }
     }
-    result_len /= factorial(count);
 
+    result_len /= factorial (count);
     // allocate memory
-    int **result = malloc(result_len * sizeof(*result));
+    int **result = malloc (result_len * sizeof (*result));
+
     if (!result)
-        return NULL;
-    int *result_elem_lens = malloc(result_len * sizeof(*result_elem_lens));
-    if (!result_elem_lens)
-    {
-        free(result);
+    { return NULL; }
+
+    int *result_elem_lens = malloc (result_len * sizeof (*result_elem_lens));
+
+    if (!result_elem_lens) {
+        free (result);
         return NULL;
     }
-    for (size_t i = 0; i < result_len; ++i)
-    {
-        result[i] = malloc((size_t) nums_len * sizeof(*result[i]));
-        if (!result[i])
-        {
+
+    for (size_t i = 0; i < result_len; ++i) {
+        result[i] = malloc ((size_t) nums_len * sizeof (*result[i]));
+
+        if (!result[i]) {
             for (size_t j = 0; j < i; ++j)
-                free(result[j]);
-            free(result_elem_lens);
-            free(result);
+            { free (result[j]); }
+
+            free (result_elem_lens);
+            free (result);
             return NULL;
         }
     }
 
     // set output parameters
     for (size_t i = 0; i < result_len; ++i)
-        result_elem_lens[i] = nums_len;
+    { result_elem_lens[i] = nums_len; }
+
     *out_result_elem_lens = result_elem_lens;
     *out_result_len = (int) result_len;
-
     // copy each permutation to the result
-    memcpy(result[0], nums, (size_t) nums_len * sizeof(*nums));
-    for (size_t i = 1; i < result_len; ++i)
-    {
-        bool success = next_permutation(nums, nums_len);
-        assert(success);
-        memcpy(result[i], nums, (size_t) nums_len * sizeof(*nums));
+    memcpy (result[0], nums, (size_t) nums_len * sizeof (*nums));
+
+    for (size_t i = 1; i < result_len; ++i) {
+        bool success = next_permutation (nums, nums_len);
+        assert (success);
+        memcpy (result[i], nums, (size_t) nums_len * sizeof (*nums));
     }
 
     return result;

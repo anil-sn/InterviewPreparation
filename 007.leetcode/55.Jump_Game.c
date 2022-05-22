@@ -14,8 +14,8 @@ canJump (int *nums, int numsSize)
 {
     int i = 0;
 
-    for (int reach = 0; i < numsSize && i <= reach; ++i) { 
-        reach = MAX (i + nums[i], reach); 
+    for (int reach = 0; i < numsSize && i <= reach; ++i) {
+        reach = MAX (i + nums[i], reach);
     }
 
     return i == numsSize;

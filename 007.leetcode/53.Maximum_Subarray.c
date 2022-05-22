@@ -23,14 +23,18 @@ maxSubArray (int *nums, int numsSize)
 {
     int sum = 0;
     int max = INT_MIN;
-    
-    if (1 == numsSize) return nums[0];
-    
-    for (int i = 0; i < numsSize; i ++) {
 
+    if (1 == numsSize) {
+        return nums[0];
+    }
+
+    for (int i = 0; i < numsSize; i ++) {
         sum += nums[i];
-        max = MAX(sum, max);
-        if(sum<0) sum = 0;
+        max = MAX (sum, max);
+
+        if (sum < 0) {
+            sum = 0;
+        }
     }
 
     return max;

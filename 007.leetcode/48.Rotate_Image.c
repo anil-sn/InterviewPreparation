@@ -42,45 +42,49 @@ rotate (int **matrix, int matrixSize, int *matrixColSize)
 }
 
 /**************************************/
-void rotate(int** matrix, int matrixSize, int* matrixColSize){
-	int c=0;
-	int n=matrixSize-1;
+void
+rotate (int **matrix, int matrixSize, int *matrixColSize)
+{
+    int c = 0;
+    int n = matrixSize - 1;
 
-	for( c=0 ; c <= n ; c++, n=--) {
-		for( int i=c, j=n ; i<n; i++, j--) {
-		   	int tmp = matrix[c][j];
-			matrix[c][j] = matrix[i][c];
-			matrix[i][c] = matrix[n][i];
-			matrix[n][i] = matrix[j][n];
-			matrix[j][n] = tmp;
-     	}
-	}
+    for ( c = 0 ; c <= n ; c++, n = --) {
+        for ( int i = c, j = n ; i < n; i++, j--) {
+            int tmp = matrix[c][j];
+            matrix[c][j] = matrix[i][c];
+            matrix[i][c] = matrix[n][i];
+            matrix[n][i] = matrix[j][n];
+            matrix[j][n] = tmp;
+        }
+    }
 }
 
 /**************************************/
 // https://leetcode.com/problems/rotate-image/discuss/2049385/C%2B%2B-100-Simple-solution-using-just-2-flips-step-by-step-visualization.
-void rotate(int** matrix, int matrixSize, int* matrixColSize){
+void
+rotate (int **matrix, int matrixSize, int *matrixColSize)
+{
     int height = matrixSize;
     int width = (* matrixColSize);
     int temp;
-    
+
     // flip diagonally (upper-left -> lower-right)
     for (int i = 0; i < height; ++i) {
-        for (int j = i+1; j < width; ++j) {
+        for (int j = i + 1; j < width; ++j) {
             // swap element
             temp = matrix[i][j];
             matrix[i][j] = matrix[j][i];
             matrix[j][i] = temp;
         }
     }
-            
+
     // flip horizontally
     for (int i = 0; i < height; ++i) {
-        for (int j = 0; j < width/2; ++j) {
+        for (int j = 0; j < width / 2; ++j) {
             // swap element
             temp = matrix[i][j];
-            matrix[i][j] = matrix[i][width-1-j];
-            matrix[i][width-1-j] = temp;
+            matrix[i][j] = matrix[i][width - 1 - j];
+            matrix[i][width - 1 - j] = temp;
         }
     }
 }

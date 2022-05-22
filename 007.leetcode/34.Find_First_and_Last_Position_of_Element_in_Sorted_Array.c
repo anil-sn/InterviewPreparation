@@ -62,7 +62,6 @@
 int *
 searchRange (int *A, int numsSize, int target, int *returnSize)
 {
-   
     int *ret = (int *)calloc (2, sizeof (int));
     ret[0] = -1, ret[1] = -1;
     *returnSize = 2;
@@ -70,30 +69,41 @@ searchRange (int *A, int numsSize, int target, int *returnSize)
     if ((NULL == A) || (0 == numsSize)) {
         return ret;
     }
-    
+
     int i = 0, j = numsSize - 1;
 
     // Search for the left one
-    while (i < j)
-    {
-        int mid = (i + j) /2;
-        if (A[mid] < target) i = mid + 1;
-        else j = mid;
+    while (i < j) {
+        int mid = (i + j) / 2;
+
+        if (A[mid] < target) {
+            i = mid + 1;
+        } else {
+            j = mid;
+        }
     }
-    if (A[i]!=target) return ret;
-    else ret[0] = i;
-    
+
+    if (A[i] != target) {
+        return ret;
+    } else {
+        ret[0] = i;
+    }
+
     // Search for the right one
-    j = numsSize-1;  // We don't have to set i to 0 the second time.
-    while (i < j)
-    {
-        int mid = (i + j) /2 + 1;	// Make mid biased to the right
-        if (A[mid] > target) j = mid - 1;  
-        else i = mid;				// So that this won't make the search range stuck.
+    j = numsSize - 1; // We don't have to set i to 0 the second time.
+
+    while (i < j) {
+        int mid = (i + j) / 2 + 1;  // Make mid biased to the right
+
+        if (A[mid] > target) {
+            j = mid - 1;
+        } else {
+            i = mid;    // So that this won't make the search range stuck.
+        }
     }
 
     ret[1] = j;
-    return ret; 
+    return ret;
 }
 
 int

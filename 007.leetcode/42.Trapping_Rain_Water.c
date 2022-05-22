@@ -22,9 +22,9 @@ trap (int *height, int heightSize)
     int w = 0;
     int left = 0;
     int right = heightSize - 1;
-    int res=0;
-    int maxleft=0;
-    int maxright=0;
+    int res = 0;
+    int maxleft = 0;
+    int maxright = 0;
 
     while (left <= right) {
         if (height[left] <= height[right]) {
@@ -33,13 +33,15 @@ trap (int *height, int heightSize)
             } else {
                 res += maxleft - height[left];
             }
+
             left++;
         } else {
             if (height[right] >= maxright) {
-                maxright= height[right];
+                maxright = height[right];
             } else {
                 res += maxright - height[right];
             }
+
             right --;
         }
     }
