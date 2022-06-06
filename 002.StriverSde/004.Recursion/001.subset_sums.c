@@ -12,29 +12,10 @@
 #include <unistd.h>
 #include <sys/prctl.h>
 
-#define BACK_TRACE false
-
-#if (BACK_TRACE == true)
-void print_trace() {
-    char pid_buf[30];
-    sprintf(pid_buf, "%d", getpid());
-    char name_buf[512];
-    name_buf[readlink("/proc/self/exe", name_buf, 511)]=0;
-    prctl(PR_SET_PTRACER, PR_SET_PTRACER_ANY, 0, 0, 0);
-    int child_pid = fork();
-    if (!child_pid) {
-        dup2(2,0); // redirect output to stderr - edit: unnecessary?
-        execl("/usr/bin/gdb", "gdb", "--batch", "-n", "-ex", "thread", "-ex", "bt", name_buf, pid_buf, NULL);
-        abort(); /* If gdb failed to start */
-    } else {
-        waitpid(child_pid, NULL, 0);
-    }
-}
-#else
 void print_trace() {
     return;
 }
-#endif
+
 /*
     Subset Sum : Sum of all Subsets
     Problem Statement: Given an array print all the sum of the subset generated from it,
@@ -69,25 +50,12 @@ int cmp (const void *a, const void *b) {
 
 void solve(int idx, int arr[], int n, int sum)
 {
-#if (BACK_TRACE == true)
-    printf("\tTrace: idx : %d, sum: %d \r\n", idx, sum);
-    print_trace();
-#endif
     if (idx == n) {
-#if (BACK_TRACE == true)
-        printf("\t\t Trace: Result Sum : %d, sum: %d \r\n\r\n\r\n", pos, sum);
-#endif
         sums[pos++] = sum;
         return;
     }
 
-#if (BACK_TRACE == true)
-    printf("Trace: solve(idx(%d)+1, arr, n, sum(%d) + 0); \r\n", idx, sum);
-#endif
     solve(idx+1, arr, n, sum + 0);
-#if (BACK_TRACE == true)
-    printf("Trace: solve(idx(%d)+1, arr, n, sum(%d) + arr[idx](%d)); \r\n", idx, sum, arr[idx]);
-#endif
     solve(idx+1, arr, n, sum + arr[idx]);
     return;
 }
@@ -102,16 +70,12 @@ void printSubSetSum(int arr[], int len)
     }
     printf("\r\n");
 
-#if (BACK_TRACE == true)
-    printf("Trace: solve(0, arr, len, 0); \r\n");
-#endif
     solve(0, arr, len, 0);
     return;
 }
 
 int main ()
 {
-    setvbuf (stdout, NULL, _IONBF, BUFSIZ);
     int arr[] = {5,2,1};
     int len = sizeof(arr)/sizeof(arr[0]);
     printSubSetSum(arr, len);
