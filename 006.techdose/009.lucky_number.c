@@ -19,9 +19,8 @@ bool isLucky(int n)
 		return 0;	 
 	
 	/*variable next_position is just for readability of the program we can remove it and use n only */
-	int next_position = n; 
-
 	/*calculate next position of input no*/
+	int next_position = n; 
 	next_position -= next_position/counter; 
 	
 	counter++; 
