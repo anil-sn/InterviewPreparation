@@ -1,0 +1,4529 @@
+# Mastering Bitwise Operations: A Complete Guide
+## From Fundamentals to Advanced Patterns
+
+**Author's Note**: Bitwise operations are among the most powerful and efficient tools in programming. This guide will transform you from basic understanding to expert-level bit manipulation skills.
+
+---
+
+## TABLE OF CONTENTS
+
+### PART 1: FUNDAMENTALS
+1. [Binary Number System Basics](#section-1-binary-number-system)
+2. [Bitwise Operators Deep Dive](#section-2-bitwise-operators)
+3. [Bit Manipulation Fundamentals](#section-3-bit-manipulation-fundamentals)
+
+### PART 2: ESSENTIAL PATTERNS
+4. [Setting, Clearing, and Toggling Bits](#section-4-setting-clearing-toggling)
+5. [Checking and Extracting Bits](#section-5-checking-extracting)
+6. [Counting Bits Pattern](#section-6-counting-bits)
+7. [Power of Two Pattern](#section-7-power-of-two)
+8. [XOR Magic Pattern](#section-8-xor-magic)
+9. [Bit Masking Pattern](#section-9-bit-masking)
+
+### PART 3: ADVANCED PATTERNS
+10. [Subset Generation Pattern](#section-10-subset-generation)
+11. [Bit Manipulation Tricks](#section-11-bit-tricks)
+12. [Gray Code Pattern](#section-12-gray-code)
+13. [Hamming Distance Pattern](#section-13-hamming-distance)
+
+### PART 4: PRACTICAL APPLICATIONS
+14. [Problem-Solving Framework](#section-14-problem-solving)
+15. [Common Bitwise Problems](#section-15-common-problems)
+16. [Practice Roadmap](#section-16-practice-roadmap)
+
+---
+
+# PART 1: FUNDAMENTALS
+
+## Section 1: Binary Number System
+
+### 1.1 Understanding Binary
+
+**Decimal vs Binary:**
+```
+Decimal 13 = Binary 1101
+
+1101 (binary) = 1×2³ + 1×2² + 0×2¹ + 1×2⁰
+              = 8 + 4 + 0 + 1
+              = 13 (decimal)
+
+Bit positions (right to left):
+Position: 3  2  1  0
+Value:    8  4  2  1
+Binary:   1  1  0  1
+```
+
+**Binary Representation in C:**
+```c
+#include <stdio.h>
+
+// Print binary representation of a number
+void printBinary(int n) {
+    // For 32-bit integer
+    for (int i = 31; i >= 0; i--) {
+        int bit = (n >> i) & 1;
+        printf("%d", bit);
+        if (i % 4 == 0) printf(" ");  // Space every 4 bits for readability
+    }
+    printf("\n");
+}
+
+// Test function
+void testPrintBinary() {
+    printf("Binary of 13: ");
+    printBinary(13);
+    // Output: 0000 0000 0000 0000 0000 0000 0000 1101
+    
+    printf("Binary of -13: ");
+    printBinary(-13);
+    // Output: 1111 1111 1111 1111 1111 1111 1111 0011 (Two's complement)
+}
+```
+
+### 1.2 Signed vs Unsigned Numbers
+
+**Representation:**
+```c
+// 8-bit examples for clarity
+
+unsigned char a = 255;     // 1111 1111 = 255
+signed char b = -1;        // 1111 1111 = -1 (two's complement)
+
+// Two's complement for negative numbers:
+// -n = ~n + 1 (flip bits and add 1)
+
+// Example: -5
+// 5  = 0000 0101
+// ~5 = 1111 1010 (flip bits)
+// +1 = 1111 1011 (add 1) = -5 in two's complement
+```
+
+**Important Ranges:**
+```c
+// 8-bit
+unsigned char:  0 to 255 (0x00 to 0xFF)
+signed char:   -128 to 127
+
+// 16-bit
+unsigned short: 0 to 65,535 (0x0000 to 0xFFFF)
+signed short:  -32,768 to 32,767
+
+// 32-bit
+unsigned int:   0 to 4,294,967,295
+signed int:    -2,147,483,648 to 2,147,483,647
+
+// 64-bit
+unsigned long long: 0 to 18,446,744,073,709,551,615
+signed long long:  -9,223,372,036,854,775,808 to 9,223,372,036,854,775,807
+```
+
+### 1.3 Common Number Representations
+
+```c
+// Decimal, Hexadecimal, Binary, Octal representations
+void numberRepresentations() {
+    int num;
+    
+    num = 15;        // Decimal
+    num = 0xF;       // Hexadecimal (prefix 0x)
+    num = 0b1111;    // Binary (prefix 0b, C23 or GCC extension)
+    num = 017;       // Octal (prefix 0)
+    
+    // All represent the same value: 15
+    
+    printf("Decimal: %d\n", 15);      // 15
+    printf("Hex: 0x%X\n", 15);        // 0xF
+    printf("Octal: %o\n", 15);        // 17
+    
+    // Hex to Binary quick reference:
+    // 0x0 = 0000    0x8 = 1000
+    // 0x1 = 0001    0x9 = 1001
+    // 0x2 = 0010    0xA = 1010
+    // 0x3 = 0011    0xB = 1011
+    // 0x4 = 0100    0xC = 1100
+    // 0x5 = 0101    0xD = 1101
+    // 0x6 = 0110    0xE = 1110
+    // 0x7 = 0111    0xF = 1111
+}
+```
+
+---
+
+## Section 2: Bitwise Operators
+
+### 2.1 The Six Bitwise Operators
+
+```c
+/**
+ * BITWISE OPERATORS IN C
+ * 
+ * &  - AND
+ * |  - OR
+ * ^  - XOR (exclusive OR)
+ * ~  - NOT (complement)
+ * << - Left Shift
+ * >> - Right Shift
+ */
+
+void bitwiseOperatorsBasics() {
+    int a = 12;  // 1100 in binary
+    int b = 10;  // 1010 in binary
+    
+    // AND: Both bits must be 1
+    printf("12 & 10 = %d\n", a & b);  // 8 (1000)
+    /*
+        1100  (12)
+      & 1010  (10)
+      ------
+        1000  (8)
+    */
+    
+    // OR: At least one bit must be 1
+    printf("12 | 10 = %d\n", a | b);  // 14 (1110)
+    /*
+        1100  (12)
+      | 1010  (10)
+      ------
+        1110  (14)
+    */
+    
+    // XOR: Bits must be different
+    printf("12 ^ 10 = %d\n", a ^ b);  // 6 (0110)
+    /*
+        1100  (12)
+      ^ 1010  (10)
+      ------
+        0110  (6)
+    */
+    
+    // NOT: Flip all bits
+    printf("~12 = %d\n", ~a);  // -13
+    /*
+        0000 1100  (12)
+      ~ 1111 0011  (-13 in two's complement)
+    */
+    
+    // Left Shift: Multiply by 2^n
+    printf("12 << 2 = %d\n", a << 2);  // 48
+    /*
+        1100  (12)
+        << 2
+        110000  (48) - shifted left by 2, added 0s on right
+    */
+    
+    // Right Shift: Divide by 2^n
+    printf("12 >> 2 = %d\n", a >> 2);  // 3
+    /*
+        1100  (12)
+        >> 2
+        0011  (3) - shifted right by 2, removed rightmost bits
+    */
+}
+```
+
+### 2.2 Detailed AND Operator (&)
+
+**Truth Table:**
+```
+A   B   A & B
+0   0     0
+0   1     0
+1   0     0
+1   1     1
+```
+
+**Common Uses:**
+```c
+/**
+ * AND OPERATOR PATTERNS
+ */
+
+// 1. Check if bit is set
+bool isBitSet(int num, int pos) {
+    return (num & (1 << pos)) != 0;
+}
+
+// 2. Clear specific bits (use with ~)
+int clearBits(int num, int mask) {
+    return num & ~mask;
+}
+
+// 3. Extract lower bits
+int getLowerNBits(int num, int n) {
+    int mask = (1 << n) - 1;
+    return num & mask;
+}
+
+// 4. Check if number is even
+bool isEven(int num) {
+    return (num & 1) == 0;  // Check if last bit is 0
+}
+
+// 5. Check if power of 2
+bool isPowerOfTwo(int num) {
+    return num > 0 && (num & (num - 1)) == 0;
+}
+
+// Examples
+void testAND() {
+    int num = 0b11010110;  // 214
+    
+    printf("Is bit 5 set? %d\n", isBitSet(num, 5));  // 1 (yes)
+    printf("Is bit 0 set? %d\n", isBitSet(num, 0));  // 0 (no)
+    
+    printf("Is 42 even? %d\n", isEven(42));          // 1 (yes)
+    printf("Is 43 even? %d\n", isEven(43));          // 0 (no)
+    
+    printf("Is 16 power of 2? %d\n", isPowerOfTwo(16));  // 1 (yes)
+    printf("Is 18 power of 2? %d\n", isPowerOfTwo(18));  // 0 (no)
+}
+```
+
+### 2.3 Detailed OR Operator (|)
+
+**Truth Table:**
+```
+A   B   A | B
+0   0     0
+0   1     1
+1   0     1
+1   1     1
+```
+
+**Common Uses:**
+```c
+/**
+ * OR OPERATOR PATTERNS
+ */
+
+// 1. Set specific bit
+int setBit(int num, int pos) {
+    return num | (1 << pos);
+}
+
+// 2. Set multiple bits using mask
+int setMultipleBits(int num, int mask) {
+    return num | mask;
+}
+
+// 3. Combine flags
+int combineFlags(int flag1, int flag2, int flag3) {
+    return flag1 | flag2 | flag3;
+}
+
+// 4. Round up to next power of 2 (using OR in sequence)
+unsigned int nextPowerOf2(unsigned int n) {
+    n--;
+    n |= n >> 1;
+    n |= n >> 2;
+    n |= n >> 4;
+    n |= n >> 8;
+    n |= n >> 16;
+    n++;
+    return n;
+}
+
+// Examples
+void testOR() {
+    int num = 0b10000000;  // 128
+    
+    printf("Set bit 2: ");
+    printBinary(setBit(num, 2));  // 10000100 (132)
+    
+    printf("Set bits 0,1,2: ");
+    int mask = 0b111;
+    printBinary(setMultipleBits(num, mask));  // 10000111 (135)
+    
+    // Flag examples
+    #define READ  0x01   // 0001
+    #define WRITE 0x02   // 0010
+    #define EXEC  0x04   // 0100
+    
+    int permissions = READ | WRITE;  // 0011 (3)
+    printf("Permissions: 0x%X\n", permissions);
+}
+```
+
+### 2.4 Detailed XOR Operator (^)
+
+**Truth Table:**
+```
+A   B   A ^ B
+0   0     0
+0   1     1
+1   0     1
+1   1     0
+```
+
+**XOR Properties (CRITICAL):**
+```c
+/**
+ * XOR PROPERTIES - MEMORIZE THESE!
+ */
+
+void xorProperties() {
+    int a = 42;
+    
+    // 1. XOR with 0 = identity (no change)
+    printf("%d ^ 0 = %d\n", a, a ^ 0);  // 42
+    
+    // 2. XOR with itself = 0
+    printf("%d ^ %d = %d\n", a, a, a ^ a);  // 0
+    
+    // 3. XOR is commutative: a ^ b = b ^ a
+    int b = 17;
+    printf("%d ^ %d = %d\n", a, b, a ^ b);  // 59
+    printf("%d ^ %d = %d\n", b, a, b ^ a);  // 59
+    
+    // 4. XOR is associative: (a ^ b) ^ c = a ^ (b ^ c)
+    int c = 99;
+    printf("(%d ^ %d) ^ %d = %d\n", a, b, c, (a ^ b) ^ c);
+    printf("%d ^ (%d ^ %d) = %d\n", a, b, c, a ^ (b ^ c));
+    
+    // 5. Double XOR cancels out: a ^ b ^ b = a
+    printf("%d ^ %d ^ %d = %d\n", a, b, b, a ^ b ^ b);  // 42
+    
+    // 6. XOR for swapping (no temp variable!)
+    int x = 5, y = 10;
+    printf("Before: x=%d, y=%d\n", x, y);
+    x = x ^ y;
+    y = x ^ y;  // y = (x ^ y) ^ y = x
+    x = x ^ y;  // x = (x ^ y) ^ x = y
+    printf("After:  x=%d, y=%d\n", x, y);  // x=10, y=5
+}
+```
+
+**Common XOR Uses:**
+```c
+/**
+ * XOR OPERATOR PATTERNS
+ */
+
+// 1. Toggle specific bit
+int toggleBit(int num, int pos) {
+    return num ^ (1 << pos);
+}
+
+// 2. Find single number (all others appear twice)
+int singleNumber(int* nums, int numsSize) {
+    int result = 0;
+    for (int i = 0; i < numsSize; i++) {
+        result ^= nums[i];  // Pairs cancel out
+    }
+    return result;
+}
+
+// 3. Swap without temp variable
+void swapXOR(int* a, int* b) {
+    if (a != b) {  // Important: check not same address
+        *a = *a ^ *b;
+        *b = *a ^ *b;
+        *a = *a ^ *b;
+    }
+}
+
+// 4. Check if two numbers have different signs
+bool differentSigns(int a, int b) {
+    return (a ^ b) < 0;  // XOR of signs
+}
+
+// 5. Find missing number (0 to n with one missing)
+int missingNumber(int* nums, int numsSize) {
+    int result = numsSize;  // Start with n
+    for (int i = 0; i < numsSize; i++) {
+        result ^= i ^ nums[i];  // XOR with both index and value
+    }
+    return result;
+}
+
+// Examples
+void testXOR() {
+    int num = 0b10101100;  // 172
+    
+    printf("Toggle bit 2: ");
+    printBinary(toggleBit(num, 2));  // Changes bit 2
+    
+    int arr[] = {4, 1, 2, 1, 2};
+    printf("Single number: %d\n", singleNumber(arr, 5));  // 4
+    
+    int missing[] = {0, 1, 3, 4, 5};
+    printf("Missing number: %d\n", missingNumber(missing, 5));  // 2
+}
+```
+
+### 2.5 Detailed NOT Operator (~)
+
+**Operation:**
+```
+~0 = 1
+~1 = 0
+```
+
+**Important Note:**
+```c
+/**
+ * NOT OPERATOR PATTERNS
+ */
+
+void notOperator() {
+    unsigned char a = 5;  // 0000 0101
+    
+    printf("~5 (8-bit) = %u\n", (unsigned char)~a);  // 250 (1111 1010)
+    
+    // Two's complement: -n = ~n + 1
+    int b = 5;
+    printf("~5 + 1 = %d\n", ~b + 1);  // -5
+    
+    // Create mask of all 1s
+    unsigned int allOnes = ~0;
+    printf("All ones: 0x%X\n", allOnes);  // 0xFFFFFFFF
+    
+    // Create mask for lower n bits
+    int n = 4;
+    unsigned int lowerMask = ~(~0 << n);  // 0000 1111
+    printf("Lower %d bits mask: 0x%X\n", n, lowerMask);
+}
+
+// Common NOT uses
+// 1. Clear specific bit
+int clearBit(int num, int pos) {
+    return num & ~(1 << pos);
+}
+
+// 2. Clear lower n bits
+int clearLowerNBits(int num, int n) {
+    return num & (~0 << n);
+}
+
+// 3. Invert all bits
+int invertBits(int num) {
+    return ~num;
+}
+```
+
+### 2.6 Left Shift Operator (<<)
+
+**Operation:**
+```
+n << k = n * 2^k
+```
+
+**Detailed Explanation:**
+```c
+/**
+ * LEFT SHIFT OPERATOR
+ */
+
+void leftShift() {
+    int num = 5;  // 0101
+    
+    printf("5 << 0 = %d\n", num << 0);  // 5  (0101)
+    printf("5 << 1 = %d\n", num << 1);  // 10 (1010)
+    printf("5 << 2 = %d\n", num << 2);  // 20 (10100)
+    printf("5 << 3 = %d\n", num << 3);  // 40 (101000)
+    
+    // Fast multiplication by powers of 2
+    printf("5 * 2 = %d\n", num << 1);
+    printf("5 * 4 = %d\n", num << 2);
+    printf("5 * 8 = %d\n", num << 3);
+    
+    // Create bit mask at position
+    int pos = 3;
+    int mask = 1 << pos;  // 0000 1000 (8)
+    printf("Mask at position %d: %d\n", pos, mask);
+    
+    // WARNING: Undefined behavior for shift >= width
+    // Don't do: int x = 1 << 32; (on 32-bit int)
+}
+
+// Common left shift patterns
+// 1. Create single bit at position
+int createBit(int pos) {
+    return 1 << pos;
+}
+
+// 2. Create mask with n bits set
+unsigned int createMask(int n) {
+    return (1 << n) - 1;  // Example: n=4 → 1111
+}
+
+// 3. Fast power of 2
+int powerOf2(int n) {
+    return 1 << n;
+}
+
+// 4. Multiply by power of 2
+int multiplyByPowerOf2(int num, int power) {
+    return num << power;
+}
+```
+
+### 2.7 Right Shift Operator (>>)
+
+**Operation:**
+```
+n >> k = n / 2^k (for positive numbers)
+```
+
+**Logical vs Arithmetic Shift:**
+```c
+/**
+ * RIGHT SHIFT OPERATOR
+ */
+
+void rightShift() {
+    // UNSIGNED: Always logical shift (fill with 0)
+    unsigned int positive = 20;  // 10100
+    printf("20 >> 1 = %u\n", positive >> 1);  // 10 (01010)
+    printf("20 >> 2 = %u\n", positive >> 2);  // 5  (00101)
+    
+    // SIGNED: Arithmetic shift (sign extension)
+    int negative = -20;
+    printf("-20 >> 1 = %d\n", negative >> 1);  // -10 (preserves sign)
+    printf("-20 >> 2 = %d\n", negative >> 2);  // -5
+    
+    // Fast division by powers of 2 (for positive)
+    int num = 100;
+    printf("100 / 2 = %d\n", num >> 1);  // 50
+    printf("100 / 4 = %d\n", num >> 2);  // 25
+    printf("100 / 8 = %d\n", num >> 3);  // 12 (integer division)
+}
+
+// Common right shift patterns
+// 1. Extract specific bits
+int extractBits(int num, int start, int count) {
+    return (num >> start) & ((1 << count) - 1);
+}
+
+// 2. Divide by power of 2
+int divideByPowerOf2(int num, int power) {
+    return num >> power;
+}
+
+// 3. Get bit at position
+int getBit(int num, int pos) {
+    return (num >> pos) & 1;
+}
+
+// 4. Remove lower n bits
+int removeLowerBits(int num, int n) {
+    return num >> n;
+}
+```
+
+---
+
+## Section 3: Bit Manipulation Fundamentals
+
+### 3.1 Essential Bit Operations
+
+```c
+/**
+ * FUNDAMENTAL BIT OPERATIONS
+ * Master these - they're the building blocks!
+ */
+
+// 1. SET a bit (make it 1)
+int setBit(int num, int pos) {
+    return num | (1 << pos);
+}
+
+// 2. CLEAR a bit (make it 0)
+int clearBit(int num, int pos) {
+    return num & ~(1 << pos);
+}
+
+// 3. TOGGLE a bit (flip it)
+int toggleBit(int num, int pos) {
+    return num ^ (1 << pos);
+}
+
+// 4. CHECK if bit is set
+bool checkBit(int num, int pos) {
+    return (num & (1 << pos)) != 0;
+}
+
+// 5. MODIFY a bit to specific value
+int modifyBit(int num, int pos, bool value) {
+    // Clear bit first, then set if needed
+    int mask = ~(1 << pos);
+    return (num & mask) | (value << pos);
+}
+
+// Test all operations
+void testBasicOperations() {
+    int num = 0b10101100;  // 172
+    
+    printf("Original: ");
+    printBinary(num);
+    
+    printf("Set bit 0: ");
+    printBinary(setBit(num, 0));  // 10101101
+    
+    printf("Clear bit 3: ");
+    printBinary(clearBit(num, 3));  // 10100100
+    
+    printf("Toggle bit 2: ");
+    printBinary(toggleBit(num, 2));  // 10101000
+    
+    printf("Check bit 5: %d\n", checkBit(num, 5));  // 1 (set)
+    printf("Check bit 0: %d\n", checkBit(num, 0));  // 0 (clear)
+    
+    printf("Modify bit 1 to 1: ");
+    printBinary(modifyBit(num, 1, 1));  // 10101110
+}
+```
+
+### 3.2 Range Operations
+
+```c
+/**
+ * OPERATIONS ON RANGES OF BITS
+ */
+
+// 1. SET multiple bits in range [start, start+count)
+int setRange(int num, int start, int count) {
+    int mask = ((1 << count) - 1) << start;
+    return num | mask;
+}
+
+// 2. CLEAR multiple bits in range
+int clearRange(int num, int start, int count) {
+    int mask = ((1 << count) - 1) << start;
+    return num & ~mask;
+}
+
+// 3. TOGGLE multiple bits in range
+int toggleRange(int num, int start, int count) {
+    int mask = ((1 << count) - 1) << start;
+    return num ^ mask;
+}
+
+// 4. EXTRACT bits from range
+int extractRange(int num, int start, int count) {
+    return (num >> start) & ((1 << count) - 1);
+}
+
+// 5. INSERT bits into range
+int insertRange(int num, int start, int count, int value) {
+    // Clear the range first
+    int clearMask = ~(((1 << count) - 1) << start);
+    num &= clearMask;
+    
+    // Insert new value
+    return num | ((value & ((1 << count) - 1)) << start);
+}
+
+// Examples
+void testRangeOperations() {
+    int num = 0b10101100;  // 172
+    
+    printf("Original: ");
+    printBinary(num);
+    
+    printf("Set bits 1-3: ");
+    printBinary(setRange(num, 1, 3));  // 10101110
+    
+    printf("Clear bits 2-4: ");
+    printBinary(clearRange(num, 2, 3));  // 10100000
+    
+    printf("Extract bits 2-5: %d\n", extractRange(num, 2, 4));  // 1011 = 11
+    
+    printf("Insert 0101 at position 2: ");
+    printBinary(insertRange(num, 2, 4, 0b0101));  // 10010100
+}
+```
+
+### 3.3 Quick Reference: Common Bit Tricks
+
+```c
+/**
+ * QUICK REFERENCE: BIT MANIPULATION TRICKS
+ */
+
+void bitTricksReference() {
+    int n = 42;
+    
+    // Check if even/odd
+    bool isEven = (n & 1) == 0;
+    
+    // Multiply/divide by 2
+    int doubled = n << 1;
+    int halved = n >> 1;
+    
+    // Check if power of 2
+    bool isPow2 = (n > 0) && ((n & (n - 1)) == 0);
+    
+    // Get rightmost set bit
+    int rightmost = n & -n;
+    
+    // Clear rightmost set bit
+    int cleared = n & (n - 1);
+    
+    // Isolate rightmost 0 bit
+    int rightmost0 = ~n & (n + 1);
+    
+    // Create mask of n bits
+    unsigned int mask = (1 << n) - 1;
+    
+    // Swap two numbers
+    int a = 5, b = 10;
+    a ^= b; b ^= a; a ^= b;  // Now a=10, b=5
+    
+    // Absolute value (for int)
+    int num = -15;
+    int sign = num >> 31;  // All 1s if negative, all 0s if positive
+    int abs = (num ^ sign) - sign;
+    
+    // Check if opposite signs
+    bool oppositeSigns = (a ^ b) < 0;
+    
+    // Count trailing zeros
+    int trailingZeros = __builtin_ctz(n);  // GCC built-in
+    
+    // Count leading zeros
+    int leadingZeros = __builtin_clz(n);  // GCC built-in
+    
+    // Count set bits
+    int setBits = __builtin_popcount(n);  // GCC built-in
+}
+```
+
+---
+
+# PART 2: ESSENTIAL PATTERNS
+
+## Section 4: Setting, Clearing, and Toggling Bits
+
+### 4.1 Pattern Overview
+
+**When to Use:**
+- ✅ Need to modify specific bit(s)
+- ✅ Flag manipulation
+- ✅ State management
+- ✅ Configuration registers
+- ✅ Permissions and access control
+
+### 4.2 Complete Implementation
+
+```c
+/**
+ * COMPREHENSIVE BIT MODIFICATION TOOLKIT
+ */
+
+// ============ SINGLE BIT OPERATIONS ============
+
+// Set bit at position (make it 1)
+int setBit(int num, int pos) {
+    return num | (1 << pos);
+}
+
+// Clear bit at position (make it 0)
+int clearBit(int num, int pos) {
+    return num & ~(1 << pos);
+}
+
+// Toggle bit at position (flip it)
+int toggleBit(int num, int pos) {
+    return num ^ (1 << pos);
+}
+
+// Update bit to specific value (0 or 1)
+int updateBit(int num, int pos, int value) {
+    int clearMask = ~(1 << pos);
+    return (num & clearMask) | ((value & 1) << pos);
+}
+
+// ============ MULTIPLE BIT OPERATIONS ============
+
+// Set all bits in range [start, start+len)
+int setRange(int num, int start, int len) {
+    int mask = ((1 << len) - 1) << start;
+    return num | mask;
+}
+
+// Clear all bits in range
+int clearRange(int num, int start, int len) {
+    int mask = ((1 << len) - 1) << start;
+    return num & ~mask;
+}
+
+// Toggle all bits in range
+int toggleRange(int num, int start, int len) {
+    int mask = ((1 << len) - 1) << start;
+    return num ^ mask;
+}
+
+// ============ SPECIAL OPERATIONS ============
+
+// Clear all bits from most significant down to position (inclusive)
+int clearBitsMSBToI(int num, int pos) {
+    int mask = (1 << pos) - 1;
+    return num & mask;
+}
+
+// Clear all bits from position to LSB (inclusive)
+int clearBitsIToLSB(int num, int pos) {
+    int mask = ~0 << (pos + 1);
+    return num & mask;
+}
+
+// Set all bits to 1
+int setAllBits(int num) {
+    return ~0;
+}
+
+// Clear all bits to 0
+int clearAllBits(int num) {
+    return 0;
+}
+```
+
+### 4.3 Practical Examples
+
+#### Example 1: Permission System
+
+```c
+/**
+ * FILE PERMISSION SYSTEM (like Unix chmod)
+ * 
+ * Bits: | Owner | Group | Others |
+ *       | R W X | R W X | R  W X |
+ *       | 8 7 6 | 5 4 3 | 2  1 0 |
+ */
+
+#define OWNER_READ    (1 << 8)
+#define OWNER_WRITE   (1 << 7)
+#define OWNER_EXEC    (1 << 6)
+#define GROUP_READ    (1 << 5)
+#define GROUP_WRITE   (1 << 4)
+#define GROUP_EXEC    (1 << 3)
+#define OTHERS_READ   (1 << 2)
+#define OTHERS_WRITE  (1 << 1)
+#define OTHERS_EXEC   (1 << 0)
+
+typedef struct {
+    int permissions;
+    char filename[256];
+} File;
+
+// Grant permission
+void grantPermission(File* file, int permission) {
+    file->permissions |= permission;
+}
+
+// Revoke permission
+void revokePermission(File* file, int permission) {
+    file->permissions &= ~permission;
+}
+
+// Check permission
+bool hasPermission(File* file, int permission) {
+    return (file->permissions & permission) != 0;
+}
+
+// Set permission using octal notation (like chmod 755)
+void setPermissionOctal(File* file, int owner, int group, int others) {
+    file->permissions = (owner << 6) | (group << 3) | others;
+}
+
+// Display permissions (like ls -l)
+void displayPermissions(File* file) {
+    printf("%s: ", file->filename);
+    
+    // Owner
+    printf(hasPermission(file, OWNER_READ) ? "r" : "-");
+    printf(hasPermission(file, OWNER_WRITE) ? "w" : "-");
+    printf(hasPermission(file, OWNER_EXEC) ? "x" : "-");
+    
+    // Group
+    printf(hasPermission(file, GROUP_READ) ? "r" : "-");
+    printf(hasPermission(file, GROUP_WRITE) ? "w" : "-");
+    printf(hasPermission(file, GROUP_EXEC) ? "x" : "-");
+    
+    // Others
+    printf(hasPermission(file, OTHERS_READ) ? "r" : "-");
+    printf(hasPermission(file, OTHERS_WRITE) ? "w" : "-");
+    printf(hasPermission(file, OTHERS_EXEC) ? "x" : "-");
+    
+    printf("\n");
+}
+
+// Test permission system
+void testPermissionSystem() {
+    File myFile = {0};
+    strcpy(myFile.filename, "document.txt");
+    
+    // Set permission to 644 (rw-r--r--)
+    setPermissionOctal(&myFile, 6, 4, 4);  // 110 100 100
+    displayPermissions(&myFile);
+    
+    // Grant execute permission to owner
+    grantPermission(&myFile, OWNER_EXEC);
+    displayPermissions(&myFile);  // rwxr--r--
+    
+    // Revoke write permission from owner
+    revokePermission(&myFile, OWNER_WRITE);
+    displayPermissions(&myFile);  // r-xr--r--
+}
+```
+
+#### Example 2: Status Flags System
+
+```c
+/**
+ * STATUS FLAGS (like TCP flags or device status)
+ */
+
+// Status bit definitions
+#define STATUS_ACTIVE      (1 << 0)  // Bit 0: Active/Inactive
+#define STATUS_ERROR       (1 << 1)  // Bit 1: Error flag
+#define STATUS_WARNING     (1 << 2)  // Bit 2: Warning flag
+#define STATUS_BUSY        (1 << 3)  // Bit 3: Busy
+#define STATUS_READY       (1 << 4)  // Bit 4: Ready
+#define STATUS_CONNECTED   (1 << 5)  // Bit 5: Connected
+#define STATUS_AUTHORIZED  (1 << 6)  // Bit 6: Authorized
+#define STATUS_ENCRYPTED   (1 << 7)  // Bit 7: Encrypted
+
+typedef struct {
+    unsigned char status;
+    char name[50];
+} Device;
+
+// Set status flag
+void setStatus(Device* device, unsigned char flag) {
+    device->status |= flag;
+}
+
+// Clear status flag
+void clearStatus(Device* device, unsigned char flag) {
+    device->status &= ~flag;
+}
+
+// Toggle status flag
+void toggleStatus(Device* device, unsigned char flag) {
+    device->status ^= flag;
+}
+
+// Check if status flag is set
+bool isStatusSet(Device* device, unsigned char flag) {
+    return (device->status & flag) != 0;
+}
+
+// Clear all status flags
+void clearAllStatus(Device* device) {
+    device->status = 0;
+}
+
+// Get status string
+void getStatusString(Device* device, char* buffer, int bufferSize) {
+    buffer[0] = '\0';
+    
+    if (isStatusSet(device, STATUS_ACTIVE)) strcat(buffer, "ACTIVE ");
+    if (isStatusSet(device, STATUS_ERROR)) strcat(buffer, "ERROR ");
+    if (isStatusSet(device, STATUS_WARNING)) strcat(buffer, "WARNING ");
+    if (isStatusSet(device, STATUS_BUSY)) strcat(buffer, "BUSY ");
+    if (isStatusSet(device, STATUS_READY)) strcat(buffer, "READY ");
+    if (isStatusSet(device, STATUS_CONNECTED)) strcat(buffer, "CONNECTED ");
+    if (isStatusSet(device, STATUS_AUTHORIZED)) strcat(buffer, "AUTHORIZED ");
+    if (isStatusSet(device, STATUS_ENCRYPTED)) strcat(buffer, "ENCRYPTED ");
+}
+
+// Test device status
+void testDeviceStatus() {
+    Device device = {0};
+    strcpy(device.name, "Sensor-001");
+    char statusStr[200];
+    
+    // Initial state
+    setStatus(&device, STATUS_ACTIVE | STATUS_READY | STATUS_CONNECTED);
+    getStatusString(&device, statusStr, sizeof(statusStr));
+    printf("%s Status: %s\n", device.name, statusStr);
+    
+    // Start operation
+    setStatus(&device, STATUS_BUSY);
+    clearStatus(&device, STATUS_READY);
+    getStatusString(&device, statusStr, sizeof(statusStr));
+    printf("%s Status: %s\n", device.name, statusStr);
+    
+    // Error occurred
+    setStatus(&device, STATUS_ERROR);
+    getStatusString(&device, statusStr, sizeof(statusStr));
+    printf("%s Status: %s\n", device.name, statusStr);
+}
+```
+
+#### Example 3: Bit Field Packing
+
+```c
+/**
+ * PACKING MULTIPLE VALUES INTO SINGLE INTEGER
+ * Useful for saving memory in embedded systems
+ */
+
+// Pack RGB color into 32-bit integer
+// Format: 0xAARRGGBB (Alpha, Red, Green, Blue)
+unsigned int packRGB(unsigned char red, unsigned char green, unsigned char blue, unsigned char alpha) {
+    return (alpha << 24) | (red << 16) | (green << 8) | blue;
+}
+
+// Unpack RGB color
+void unpackRGB(unsigned int color, unsigned char* red, unsigned char* green, unsigned char* blue, unsigned char* alpha) {
+    *alpha = (color >> 24) & 0xFF;
+    *red = (color >> 16) & 0xFF;
+    *green = (color >> 8) & 0xFF;
+    *blue = color & 0xFF;
+}
+
+// Pack date into 16-bit integer
+// Format: YYYYYYYMMMMDDDDD (7 bits year offset from 2000, 4 bits month, 5 bits day)
+unsigned short packDate(int year, int month, int day) {
+    int yearOffset = year - 2000;  // Years since 2000
+    return (yearOffset << 9) | (month << 5) | day;
+}
+
+// Unpack date
+void unpackDate(unsigned short packed, int* year, int* month, int* day) {
+    *year = ((packed >> 9) & 0x7F) + 2000;
+    *month = (packed >> 5) & 0x0F;
+    *day = packed & 0x1F;
+}
+
+// Pack time into 16-bit integer
+// Format: HHHHHMMMMMMXXXXX (5 bits hour, 6 bits minute, 5 bits second/2)
+unsigned short packTime(int hour, int minute, int second) {
+    return (hour << 11) | (minute << 5) | (second / 2);
+}
+
+// Unpack time
+void unpackTime(unsigned short packed, int* hour, int* minute, int* second) {
+    *hour = (packed >> 11) & 0x1F;
+    *minute = (packed >> 5) & 0x3F;
+    *second = (packed & 0x1F) * 2;
+}
+
+// Test packing/unpacking
+void testPacking() {
+    // RGB color
+    unsigned int color = packRGB(255, 128, 64, 200);
+    printf("Packed color: 0x%08X\n", color);
+    
+    unsigned char r, g, b, a;
+    unpackRGB(color, &r, &g, &b, &a);
+    printf("Unpacked: R=%d, G=%d, B=%d, A=%d\n\n", r, g, b, a);
+    
+    // Date
+    unsigned short date = packDate(2025, 10, 3);
+    printf("Packed date: 0x%04X\n", date);
+    
+    int year, month, day;
+    unpackDate(date, &year, &month, &day);
+    printf("Unpacked date: %d-%02d-%02d\n\n", year, month, day);
+    
+    // Time
+    unsigned short time = packTime(14, 30, 45);
+    printf("Packed time: 0x%04X\n", time);
+    
+    int hour, minute, second;
+    unpackTime(time, &hour, &minute, &second);
+    printf("Unpacked time: %02d:%02d:%02d\n", hour, minute, second);
+}
+```
+
+### 4.4 Practice Problems
+
+#### Beginner Level
+
+1. **Set Bit**
+   - Input: `num = 10` (binary: 1010), `pos = 0`
+   - Output: `11` (binary: 1011)
+   - Hint: Use OR with shifted 1
+
+2. **Clear Bit**
+   - Input: `num = 15` (binary: 1111), `pos = 2`
+   - Output: `11` (binary: 1011)
+   - Hint: Use AND with NOT of shifted 1
+
+3. **Toggle Bit**
+   - Input: `num = 10` (binary: 1010), `pos = 1`
+   - Output: `8` (binary: 1000)
+   - Hint: Use XOR with shifted 1
+
+4. **Update Bit**
+   - Input: `num = 10`, `pos = 0`, `value = 1`
+   - Output: `11`
+   - Hint: Clear then set if value is 1
+
+5. **Check Bit**
+   - Input: `num = 10` (binary: 1010), `pos = 3`
+   - Output: `true`
+   - Hint: Shift and mask with 1
+
+---
+
+## Section 5: Checking and Extracting Bits
+
+### 5.1 Pattern Overview
+
+**When to Use:**
+- ✅ Need to read specific bit(s)
+- ✅ Extract fields from packed data
+- ✅ Check status or flags
+- ✅ Parse binary protocols
+- ✅ Decode bit fields
+
+### 5.2 Core Operations
+
+```c
+/**
+ * BIT CHECKING AND EXTRACTION OPERATIONS
+ */
+
+// ============ SINGLE BIT CHECKING ============
+
+// Check if bit at position is set
+bool isBitSet(int num, int pos) {
+    return (num & (1 << pos)) != 0;
+}
+
+// Check if bit at position is clear
+bool isBitClear(int num, int pos) {
+    return (num & (1 << pos)) == 0;
+}
+
+// Get bit value at position (returns 0 or 1)
+int getBit(int num, int pos) {
+    return (num >> pos) & 1;
+}
+
+// ============ MULTIPLE BITS EXTRACTION ============
+
+// Extract n bits starting from position
+int extractBits(int num, int pos, int n) {
+    // Create mask of n ones: (1 << n) - 1
+    // Shift num right by pos, then mask
+    return (num >> pos) & ((1 << n) - 1);
+}
+
+// Extract bits in range [start, end] (inclusive)
+int extractRange(int num, int start, int end) {
+    int len = end - start + 1;
+    return (num >> start) & ((1 << len) - 1);
+}
+
+// Get lower n bits
+int getLowerBits(int num, int n) {
+    return num & ((1 << n) - 1);
+}
+
+// Get upper n bits (for 32-bit integer)
+int getUpperBits(int num, int n) {
+    return (unsigned int)num >> (32 - n);
+}
+
+// ============ SPECIAL CHECKS ============
+
+// Check if multiple bits are all set
+bool areAllBitsSet(int num, int mask) {
+    return (num & mask) == mask;
+}
+
+// Check if any bit in mask is set
+bool isAnyBitSet(int num, int mask) {
+    return (num & mask) != 0;
+}
+
+// Check if no bits in mask are set
+bool areNoBitsSet(int num, int mask) {
+    return (num & mask) == 0;
+}
+
+// Count set bits in a number
+int countSetBits(int num) {
+    int count = 0;
+    while (num) {
+        count += num & 1;
+        num >>= 1;
+    }
+    return count;
+}
+
+// Alternative: Brian Kernighan's Algorithm (faster)
+int countSetBitsFast(int num) {
+    int count = 0;
+    while (num) {
+        num &= (num - 1);  // Remove rightmost set bit
+        count++;
+    }
+    return count;
+}
+```
+
+### 5.3 Practical Examples
+
+#### Example 1: IP Address Parsing
+
+```c
+/**
+ * IP ADDRESS MANIPULATION
+ * IPv4 address stored as 32-bit integer: A.B.C.D
+ */
+
+// Convert IP octets to 32-bit integer
+unsigned int ipToInt(unsigned char a, unsigned char b, unsigned char c, unsigned char d) {
+    return (a << 24) | (b << 16) | (c << 8) | d;
+}
+
+// Extract octets from 32-bit IP
+void intToIp(unsigned int ip, unsigned char* a, unsigned char* b, unsigned char* c, unsigned char* d) {
+    *a = (ip >> 24) & 0xFF;
+    *b = (ip >> 16) & 0xFF;
+    *c = (ip >> 8) & 0xFF;
+    *d = ip & 0xFF;
+}
+
+// Check if IP is in subnet
+bool isInSubnet(unsigned int ip, unsigned int subnet, unsigned int mask) {
+    return (ip & mask) == (subnet & mask);
+}
+
+// Get network address
+unsigned int getNetworkAddress(unsigned int ip, unsigned int mask) {
+    return ip & mask;
+}
+
+// Get broadcast address
+unsigned int getBroadcastAddress(unsigned int ip, unsigned int mask) {
+    return ip | ~mask;
+}
+
+// Count number of hosts in subnet
+unsigned int countHosts(unsigned int mask) {
+    // Number of zero bits in mask minus 2 (network and broadcast)
+    int zeroBits = countSetBits(~mask);
+    return (1 << zeroBits) - 2;
+}
+
+// Test IP operations
+void testIPOperations() {
+    unsigned int ip = ipToInt(192, 168, 1, 100);
+    unsigned int mask = ipToInt(255, 255, 255, 0);
+    unsigned int subnet = ipToInt(192, 168, 1, 0);
+    
+    printf("IP: %u.%u.%u.%u\n", 
+           (ip >> 24) & 0xFF, (ip >> 16) & 0xFF, 
+           (ip >> 8) & 0xFF, ip & 0xFF);
+    
+    printf("Is in subnet: %s\n", isInSubnet(ip, subnet, mask) ? "Yes" : "No");
+    
+    unsigned int network = getNetworkAddress(ip, mask);
+    printf("Network: %u.%u.%u.%u\n",
+           (network >> 24) & 0xFF, (network >> 16) & 0xFF,
+           (network >> 8) & 0xFF, network & 0xFF);
+    
+    unsigned int broadcast = getBroadcastAddress(ip, mask);
+    printf("Broadcast: %u.%u.%u.%u\n",
+           (broadcast >> 24) & 0xFF, (broadcast >> 16) & 0xFF,
+           (broadcast >> 8) & 0xFF, broadcast & 0xFF);
+    
+    printf("Available hosts: %u\n", countHosts(mask));
+}
+```
+
+#### Example 2: Network Packet Header
+
+```c
+/**
+ * PARSING NETWORK PACKET HEADERS
+ * Example: IPv4 header fields
+ */
+
+typedef struct {
+    unsigned int header;  // 32-bit packed header
+    /*
+     * Bits 0-3:   Version (4 bits)
+     * Bits 4-7:   IHL - Internet Header Length (4 bits)
+     * Bits 8-13:  DSCP - Differentiated Services (6 bits)
+     * Bits 14-15: ECN - Explicit Congestion Notification (2 bits)
+     * Bits 16-31: Total Length (16 bits)
+     */
+} IPv4Header;
+
+// Extract version (bits 0-3)
+int getVersion(IPv4Header* header) {
+    return extractBits(header->header, 0, 4);
+}
+
+// Extract IHL (bits 4-7)
+int getIHL(IPv4Header* header) {
+    return extractBits(header->header, 4, 4);
+}
+
+// Extract DSCP (bits 8-13)
+int getDSCP(IPv4Header* header) {
+    return extractBits(header->header, 8, 6);
+}
+
+// Extract ECN (bits 14-15)
+int getECN(IPv4Header* header) {
+    return extractBits(header->header, 14, 2);
+}
+
+// Extract Total Length (bits 16-31)
+int getTotalLength(IPv4Header* header) {
+    return extractBits(header->header, 16, 16);
+}
+
+// Set version
+void setVersion(IPv4Header* header, int version) {
+    // Clear version bits and set new value
+    header->header = (header->header & ~0x0F) | (version & 0x0F);
+}
+
+// Build header from components
+unsigned int buildHeader(int version, int ihl, int dscp, int ecn, int totalLength) {
+    return (version & 0x0F) | 
+           ((ihl & 0x0F) << 4) | 
+           ((dscp & 0x3F) << 8) | 
+           ((ecn & 0x03) << 14) | 
+           ((totalLength & 0xFFFF) << 16);
+}
+
+// Test packet header
+void testPacketHeader() {
+    IPv4Header header;
+    header.header = buildHeader(4, 5, 0, 0, 1500);
+    
+    printf("Version: %d\n", getVersion(&header));
+    printf("IHL: %d\n", getIHL(&header));
+    printf("DSCP: %d\n", getDSCP(&header));
+    printf("ECN: %d\n", getECN(&header));
+    printf("Total Length: %d\n", getTotalLength(&header));
+}
+```
+
+#### Example 3: Bitboard (Chess/Checkers)
+
+```c
+/**
+ * BITBOARD REPRESENTATION
+ * Used in chess engines - 64-bit board, each bit = square
+ */
+
+typedef unsigned long long Bitboard;
+
+// Set piece at position
+Bitboard setPiece(Bitboard board, int square) {
+    return board | (1ULL << square);
+}
+
+// Remove piece at position
+Bitboard removePiece(Bitboard board, int square) {
+    return board & ~(1ULL << square);
+}
+
+// Check if square occupied
+bool isOccupied(Bitboard board, int square) {
+    return (board & (1ULL << square)) != 0;
+}
+
+// Move piece from one square to another
+Bitboard movePiece(Bitboard board, int from, int to) {
+    board = removePiece(board, from);
+    board = setPiece(board, to);
+    return board;
+}
+
+// Count number of pieces
+int countPieces(Bitboard board) {
+    return countSetBitsFast(board);
+}
+
+// Get position of least significant bit (first piece)
+int getFirstPiece(Bitboard board) {
+    if (board == 0) return -1;
+    return __builtin_ctzll(board);  // Count trailing zeros
+}
+
+// Get position of most significant bit (last piece)
+int getLastPiece(Bitboard board) {
+    if (board == 0) return -1;
+    return 63 - __builtin_clzll(board);  // 63 - count leading zeros
+}
+
+// Print board (8x8 grid)
+void printBitboard(Bitboard board) {
+    for (int rank = 7; rank >= 0; rank--) {
+        printf("%d ", rank + 1);
+        for (int file = 0; file < 8; file++) {
+            int square = rank * 8 + file;
+            printf("%c ", isOccupied(board, square) ? 'X' : '.');
+        }
+        printf("\n");
+    }
+    printf("  a b c d e f g h\n");
+}
+
+// Test bitboard
+void testBitboard() {
+    Bitboard board = 0;
+    
+    // Place pieces
+    board = setPiece(board, 0);   // a1
+    board = setPiece(board, 7);   // h1
+    board = setPiece(board, 56);  // a8
+    board = setPiece(board, 63);  // h8
+    
+    printf("Initial board:\n");
+    printBitboard(board);
+    
+    printf("\nNumber of pieces: %d\n", countPieces(board));
+    
+    // Move piece from a1 to d4
+    board = movePiece(board, 0, 27);
+    printf("\nAfter moving a1 to d4:\n");
+    printBitboard(board);
+}
+```
+
+### 5.4 Practice Problems
+
+#### Beginner Level
+
+1. **Get Bit**
+   - Input: `num = 10` (1010), `pos = 3`
+   - Output: `1`
+   - Hint: Shift right and mask
+
+2. **Extract 3 Bits**
+   - Input: `num = 0b11010110`, `pos = 2`, `n = 3`
+   - Output: `0b101` (5)
+   - Hint: Shift and mask
+
+3. **Count Set Bits**
+   - Input: `num = 15` (1111)
+   - Output: `4`
+   - Hint: Loop or Brian Kernighan's algorithm
+
+4. **Check Multiple Bits**
+   - Input: `num = 0b1010`, `mask = 0b1000`
+   - Output: `true` (bit is set)
+   - Hint: AND with mask
+
+5. **Extract Byte**
+   - Input: `num = 0x12345678`, `bytePos = 2`
+   - Output: `0x34`
+   - Hint: Shift and mask with 0xFF
+
+#### Intermediate Level
+
+6. **Parse IPv4 Address**
+   - Input: `ip = 3232235876` (192.168.1.100)
+   - Output: `192, 168, 1, 100`
+   - Hint: Extract each byte
+
+7. **Extract Bit Range**
+   - Input: `num = 0xFF`, `start = 2`, `end = 5`
+   - Output: `0b1111` (15)
+   - Hint: Calculate length and extract
+
+8. **Check Power of 4**
+   - Input: `num = 16`
+   - Output: `true`
+   - Hint: Power of 2 and even number of trailing zeros
+
+9. **Reverse Bits in Byte**
+   - Input: `byte = 0b11010010`
+   - Output: `0b01001011`
+   - Hint: Extract and rebuild
+
+10. **Hamming Weight**
+    - Input: `num = 11` (1011)
+    - Output: `3` (number of 1s)
+    - Hint: Count set bits
+
+---
+
+## Section 6: Counting Bits Pattern
+
+### 6.1 Pattern Overview
+
+**When to Use:**
+- ✅ Count number of 1s (set bits)
+- ✅ Count number of 0s (clear bits)
+- ✅ Population count (popcount)
+- ✅ Hamming weight
+- ✅ Parity checking
+
+### 6.2 Counting Algorithms
+
+```c
+/**
+ * BIT COUNTING ALGORITHMS
+ */
+
+// Method 1: Naive approach - check each bit
+int countSetBitsNaive(unsigned int n) {
+    int count = 0;
+    while (n) {
+        if (n & 1) count++;
+        n >>= 1;
+    }
+    return count;
+}
+
+// Method 2: Brian Kernighan's Algorithm
+// Faster - only loops for each set bit
+int countSetBitsKernighan(unsigned int n) {
+    int count = 0;
+    while (n) {
+        n &= (n - 1);  // Clear rightmost set bit
+        count++;
+    }
+    return count;
+}
+
+// Method 3: Lookup table (fastest for repeated calls)
+static unsigned char bitCountTable[256];
+
+void initBitCountTable() {
+    bitCountTable[0] = 0;
+    for (int i = 1; i < 256; i++) {
+        bitCountTable[i] = bitCountTable[i / 2] + (i & 1);
+    }
+}
+
+int countSetBitsTable(unsigned int n) {
+    return bitCountTable[n & 0xFF] + 
+           bitCountTable[(n >> 8) & 0xFF] +
+           bitCountTable[(n >> 16) & 0xFF] +
+           bitCountTable[(n >> 24) & 0xFF];
+}
+
+// Method 4: Parallel counting (SWAR algorithm)
+int countSetBitsParallel(unsigned int n) {
+    n = n - ((n >> 1) & 0x55555555);
+    n = (n & 0x33333333) + ((n >> 2) & 0x33333333);
+    n = (n + (n >> 4)) & 0x0F0F0F0F;
+    n = n + (n >> 8);
+    n = n + (n >> 16);
+    return n & 0x3F;
+}
+
+// Method 5: Built-in function (compiler intrinsic)
+int countSetBitsBuiltin(unsigned int n) {
+    return __builtin_popcount(n);  // GCC/Clang
+}
+
+// Count zero bits
+int countZeroBits(unsigned int n) {
+    return 32 - countSetBits(n);
+}
+
+// Count trailing zeros (position of rightmost set bit)
+int countTrailingZeros(unsigned int n) {
+    if (n == 0) return 32;
+    return __builtin_ctz(n);  // GCC/Clang
+}
+
+// Count leading zeros
+int countLeadingZeros(unsigned int n) {
+    if (n == 0) return 32;
+    return __builtin_clz(n);  // GCC/Clang
+}
+```
+
+### 6.3 Practical Examples
+
+#### Example 1: Hamming Distance
+
+```c
+/**
+ * HAMMING DISTANCE
+ * Number of positions at which corresponding bits are different
+ */
+
+int hammingDistance(int x, int y) {
+    // XOR gives 1 where bits differ
+    return countSetBits(x ^ y);
+}
+
+// Total Hamming distance between all pairs in array
+int totalHammingDistance(int* nums, int numsSize) {
+    int total = 0;
+    
+    // For each bit position
+    for (int bit = 0; bit < 32; bit++) {
+        int countOnes = 0;
+        
+        // Count how many numbers have this bit set
+        for (int i = 0; i < numsSize; i++) {
+            if (nums[i] & (1 << bit)) {
+                countOnes++;
+            }
+        }
+        
+        // Each 1 paired with each 0 contributes to distance
+        int countZeros = numsSize - countOnes;
+        total += countOnes * countZeros;
+    }
+    
+    return total;
+}
+
+// Test Hamming distance
+void testHammingDistance() {
+    printf("Hamming distance between 1 and 4: %d\n", hammingDistance(1, 4));
+    // 1 = 001, 4 = 100, distance = 2
+    
+    int arr[] = {4, 14, 2};
+    printf("Total Hamming distance: %d\n", totalHammingDistance(arr, 3));
+}
+```
+
+#### Example 2: Binary Watch
+
+```c
+/**
+ * BINARY WATCH
+ * LED watch with 10 LEDs representing time in binary
+ * Top row: 4 LEDs for hours (0-11)
+ * Bottom row: 6 LEDs for minutes (0-59)
+ */
+
+char** readBinaryWatch(int turnedOn, int* returnSize) {
+    char** result = (char**)malloc(1000 * sizeof(char*));
+    *returnSize = 0;
+    
+    // Try all possible times
+    for (int hour = 0; hour < 12; hour++) {
+        for (int minute = 0; minute < 60; minute++) {
+            // Count total LEDs that would be on
+            int leds = countSetBits(hour) + countSetBits(minute);
+            
+            if (leds == turnedOn) {
+                result[*returnSize] = (char*)malloc(6 * sizeof(char));
+                sprintf(result[*returnSize], "%d:%02d", hour, minute);
+                (*returnSize)++;
+            }
+        }
+    }
+    
+    return result;
+}
+
+// Test binary watch
+void testBinaryWatch() {
+    int returnSize;
+    char** times = readBinaryWatch(1, &returnSize);
+    
+    printf("Times with 1 LED on:\n");
+    for (int i = 0; i < returnSize; i++) {
+        printf("%s ", times[i]);
+        free(times[i]);
+    }
+    printf("\n");
+    free(times);
+}
+```
+
+#### Example 3: Counting Bits for Range
+
+```c
+/**
+ * COUNTING BITS IN RANGE
+ * For each number from 0 to n, count set bits
+ */
+
+int* countBits(int n, int* returnSize) {
+    *returnSize = n + 1;
+    int* result = (int*)malloc((*returnSize) * sizeof(int));
+    
+    // Method 1: Simple approach
+    for (int i = 0; i <= n; i++) {
+        result[i] = countSetBits(i);
+    }
+    
+    return result;
+}
+
+int* countBitsDP(int n, int* returnSize) {
+    *returnSize = n + 1;
+    int* result = (int*)malloc((*returnSize) * sizeof(int));
+    
+    result[0] = 0;
+    for (int i = 1; i <= n; i++) {
+        // Key insight: count[i] = count[i/2] + (i%2)
+        // or equivalently: count[i] = count[i>>1] + (i&1)
+        result[i] = result[i >> 1] + (i & 1);
+    }
+    
+    return result;
+}
+
+// Another DP approach: using i & (i-1)
+int* countBitsDP2(int n, int* returnSize) {
+    *returnSize = n + 1;
+    int* result = (int*)malloc((*returnSize) * sizeof(int));
+    
+    result[0] = 0;
+    for (int i = 1; i <= n; i++) {
+        // i & (i-1) removes rightmost set bit
+        // so count[i] = count[i & (i-1)] + 1
+        result[i] = result[i & (i - 1)] + 1;
+    }
+    
+    return result;
+}
+
+// Test counting bits
+void testCountBits() {
+    int returnSize;
+    int* result = countBitsDP(10, &returnSize);
+    
+    printf("Bit counts from 0 to 10:\n");
+    for (int i = 0; i < returnSize; i++) {
+        printf("%d: %d bits\n", i, result[i]);
+    }
+    free(result);
+}
+```
+
+### 6.4 Practice Problems
+
+#### Beginner Level
+
+1. **Number of 1 Bits**
+   - Input: `n = 11` (1011)
+   - Output: `3`
+   - Hint: Count set bits
+
+2. **Hamming Distance**
+   - Input: `x = 1`, `y = 4`
+   - Output: `2`
+   - Hint: XOR then count bits
+
+3. **Counting Bits**
+   - Input: `n = 5`
+   - Output: `[0,1,1,2,1,2]`
+   - Hint: Use DP with bit patterns
+
+4. **Binary Watch**
+   - Input: `turnedOn = 1`
+   - Output: All valid times
+   - Hint: Enumerate and count
+
+5. **Power of Four**
+   - Input: `n = 16`
+   - Output: `true`
+   - Hint: One bit set and even position
+
+#### Intermediate Level
+
+6. **Total Hamming Distance**
+   - Input: `nums = [4,14,2]`
+   - Output: `6`
+   - Hint: Count bit differences at each position
+
+7. **Prime Number of Set Bits**
+   - Input: `left = 10`, `right = 15`
+   - Output: `5` (numbers with prime bit count)
+   - Hint: Count bits, check if prime
+
+8. **Binary Number with Alternating Bits**
+   - Input: `n = 5` (101)
+   - Output: `true`
+   - Hint: Check consecutive bits differ
+
+9. **Number Complement**
+   - Input: `num = 5` (101)
+   - Output: `2` (010)
+   - Hint: Flip all bits up to highest set bit
+
+10. **Find the Difference**
+    - Input: Two strings, one has extra character
+    - Output: The extra character
+    - Hint: XOR all characters
+
+---
+
+## Section 7: Power of Two Pattern
+
+### 7.1 Pattern Overview
+
+**Key Property:**
+```
+Power of 2 has exactly ONE bit set
+Examples:
+1  = 0001 = 2^0
+2  = 0010 = 2^1
+4  = 0100 = 2^2
+8  = 1000 = 2^3
+16 = 10000 = 2^4
+```
+
+**Critical Trick:**
+```c
+// For power of 2: n & (n-1) == 0
+// Example: 8 & 7 = 1000 & 0111 = 0000
+```
+
+### 7.2 Power of Two Operations
+
+```c
+/**
+ * POWER OF TWO PATTERNS
+ */
+
+// Check if number is power of 2
+bool isPowerOfTwo(int n) {
+    return n > 0 && (n & (n - 1)) == 0;
+}
+
+// Check if number is power of 4
+bool isPowerOfFour(int n) {
+    // Must be power of 2 AND
+    // The single bit must be at even position (0, 2, 4, 6...)
+    // Mask 0x55555555 = 01010101... (bits at even positions)
+    return n > 0 && (n & (n - 1)) == 0 && (n & 0x55555555) != 0;
+}
+
+// Find next power of 2
+unsigned int nextPowerOfTwo(unsigned int n) {
+    if (n == 0) return 1;
+    
+    // If already power of 2, return it
+    if ((n & (n - 1)) == 0) return n;
+    
+    // Otherwise, find next power of 2
+    n--;
+    n |= n >> 1;
+    n |= n >> 2;
+    n |= n >> 4;
+    n |= n >> 8;
+    n |= n >> 16;
+    n++;
+    
+    return n;
+}
+
+// Find previous power of 2
+unsigned int prevPowerOfTwo(unsigned int n) {
+    // Set all bits after the highest set bit
+    n |= n >> 1;
+    n |= n >> 2;
+    n |= n >> 4;
+    n |= n >> 8;
+    n |= n >> 16;
+    
+    // Remove all but highest bit
+    return n - (n >> 1);
+}
+
+// Get position of the single set bit (for power of 2)
+int getLogBase2(unsigned int n) {
+    if (!isPowerOfTwo(n)) return -1;
+    
+    // Count trailing zeros
+    return __builtin_ctz(n);
+}
+
+// Round down to nearest power of 2
+unsigned int floorPowerOfTwo(unsigned int n) {
+    if (n == 0) return 0;
+    
+    n |= n >> 1;
+    n |= n >> 2;
+    n |= n >> 4;
+    n |= n >> 8;
+    n |= n >> 16;
+    
+    return n - (n >> 1);
+}
+
+// Round up to nearest power of 2
+unsigned int ceilPowerOfTwo(unsigned int n) {
+    if (n == 0) return 1;
+    if ((n & (n - 1)) == 0) return n;  // Already power of 2
+    
+    return nextPowerOfTwo(n);
+}
+
+// Multiply by power of 2 (fast)
+int multiplyByPowerOfTwo(int n, int power) {
+    return n << power;
+}
+
+// Divide by power of 2 (fast)
+int divideByPowerOfTwo(int n, int power) {
+    return n >> power;
+}
+
+// Check if divisible by power of 2
+bool isDivisibleByPowerOfTwo(int n, int power) {
+    int divisor = 1 << power;
+    return (n & (divisor - 1)) == 0;
+}
+```
+
+### 7.3 Practical Examples
+
+#### Example 1: Memory Alignment
+
+```c
+/**
+ * MEMORY ALIGNMENT
+ * Align addresses to power-of-2 boundaries
+ */
+
+// Align address up to nearest boundary
+void* alignUp(void* ptr, size_t alignment) {
+    // alignment must be power of 2
+    if (!isPowerOfTwo(alignment)) return NULL;
+    
+    uintptr_t addr = (uintptr_t)ptr;
+    uintptr_t mask = alignment - 1;
+    
+    // Round up: (addr + mask) & ~mask
+    return (void*)((addr + mask) & ~mask);
+}
+
+// Align address down to nearest boundary
+void* alignDown(void* ptr, size_t alignment) {
+    if (!isPowerOfTwo(alignment)) return NULL;
+    
+    uintptr_t addr = (uintptr_t)ptr;
+    uintptr_t mask = alignment - 1;
+    
+    // Round down: addr & ~mask
+    return (void*)(addr & ~mask);
+}
+
+// Check if address is aligned
+bool isAligned(void* ptr, size_t alignment) {
+    if (!isPowerOfTwo(alignment)) return false;
+    
+    uintptr_t addr = (uintptr_t)ptr;
+    return (addr & (alignment - 1)) == 0;
+}
+
+// Get alignment of address (largest power of 2 that divides address)
+size_t getAlignment(void* ptr) {
+    uintptr_t addr = (uintptr_t)ptr;
+    if (addr == 0) return 0;
+    
+    // Isolate rightmost set bit
+    return addr & -addr;
+}
+
+// Test alignment
+void testAlignment() {
+    char buffer[100];
+    void* ptr = &buffer[5];
+    
+    printf("Original pointer: %p\n", ptr);
+    printf("Is 4-byte aligned? %s\n", isAligned(ptr, 4) ? "Yes" : "No");
+    
+    void* aligned8 = alignUp(ptr, 8);
+    printf("Aligned up to 8 bytes: %p\n", aligned8);
+    printf("Is 8-byte aligned? %s\n", isAligned(aligned8, 8) ? "Yes" : "No");
+    
+    void* aligned4down = alignDown(ptr, 4);
+    printf("Aligned down to 4 bytes: %p\n", aligned4down);
+}
+```
+
+#### Example 2: Fast Modulo with Power of 2
+
+```c
+/**
+ * FAST MODULO OPERATIONS
+ * When divisor is power of 2, use bitwise AND
+ */
+
+// Fast modulo for power of 2
+int fastModulo(int n, int powerOf2) {
+    // n % powerOf2 = n & (powerOf2 - 1)
+    // Works because powerOf2 - 1 creates a mask
+    // Example: n % 8 = n & 7 = n & 0111
+    return n & (powerOf2 - 1);
+}
+
+// Check if number is multiple of power of 2
+bool isMultipleOfPowerOf2(int n, int powerOf2) {
+    return (n & (powerOf2 - 1)) == 0;
+}
+
+// Circular buffer index (wrap around)
+int circularIndex(int index, int bufferSize) {
+    // bufferSize must be power of 2
+    return index & (bufferSize - 1);
+}
+
+// Circular buffer implementation
+typedef struct {
+    int* data;
+    int capacity;  // Must be power of 2
+    int head;
+    int tail;
+} CircularBuffer;
+
+CircularBuffer* createCircularBuffer(int capacity) {
+    // Round up to nearest power of 2
+    capacity = ceilPowerOfTwo(capacity);
+    
+    CircularBuffer* buf = (CircularBuffer*)malloc(sizeof(CircularBuffer));
+    buf->data = (int*)malloc(capacity * sizeof(int));
+    buf->capacity = capacity;
+    buf->head = 0;
+    buf->tail = 0;
+    
+    return buf;
+}
+
+void circularBufferPush(CircularBuffer* buf, int value) {
+    buf->data[buf->tail] = value;
+    buf->tail = (buf->tail + 1) & (buf->capacity - 1);  // Fast modulo
+}
+
+int circularBufferPop(CircularBuffer* buf) {
+    int value = buf->data[buf->head];
+    buf->head = (buf->head + 1) & (buf->capacity - 1);  // Fast modulo
+    return value;
+}
+
+bool circularBufferIsEmpty(CircularBuffer* buf) {
+    return buf->head == buf->tail;
+}
+
+// Test circular buffer
+void testCircularBuffer() {
+    CircularBuffer* buf = createCircularBuffer(7);  // Will be rounded to 8
+    
+    printf("Buffer capacity: %d\n", buf->capacity);
+    
+    for (int i = 0; i < 5; i++) {
+        circularBufferPush(buf, i * 10);
+    }
+    
+    while (!circularBufferIsEmpty(buf)) {
+        printf("%d ", circularBufferPop(buf));
+    }
+    printf("\n");
+    
+    free(buf->data);
+    free(buf);
+}
+```
+
+#### Example 3: Bit Indexing
+
+```c
+/**
+ * BIT INDEXING TRICKS
+ * Finding positions of set bits efficiently
+ */
+
+// Get index of rightmost set bit (0-indexed)
+int getRightmostSetBit(unsigned int n) {
+    if (n == 0) return -1;
+    return __builtin_ctz(n);  // Count trailing zeros
+}
+
+// Get index of leftmost set bit (0-indexed)
+int getLeftmostSetBit(unsigned int n) {
+    if (n == 0) return -1;
+    return 31 - __builtin_clz(n);  // 31 - count leading zeros
+}
+
+// Isolate rightmost set bit
+unsigned int isolateRightmostSetBit(unsigned int n) {
+    return n & -n;
+}
+
+// Clear rightmost set bit
+unsigned int clearRightmostSetBit(unsigned int n) {
+    return n & (n - 1);
+}
+
+// Isolate rightmost 0 bit
+unsigned int isolateRightmost0Bit(unsigned int n) {
+    return ~n & (n + 1);
+}
+
+// Set rightmost 0 bit
+unsigned int setRightmost0Bit(unsigned int n) {
+    return n | (n + 1);
+}
+
+// Create mask from rightmost set bit to LSB
+unsigned int maskToRightmostSetBit(unsigned int n) {
+    return n ^ (n - 1);
+}
+
+// Test bit indexing
+void testBitIndexing() {
+    unsigned int n = 0b101100;  // 44
+    
+    printf("Number: ");
+    printBinary(n);
+    
+    printf("Rightmost set bit position: %d\n", getRightmostSetBit(n));
+    printf("Leftmost set bit position: %d\n", getLeftmostSetBit(n));
+    
+    printf("Isolate rightmost set bit: ");
+    printBinary(isolateRightmostSetBit(n));
+    
+    printf("Clear rightmost set bit: ");
+    printBinary(clearRightmostSetBit(n));
+    
+    printf("Mask to rightmost set bit: ");
+    printBinary(maskToRightmostSetBit(n));
+}
+```
+
+### 7.4 Practice Problems
+
+#### Beginner Level
+
+1. **Power of Two**
+   - Input: `n = 16`
+   - Output: `true`
+   - Hint: Check if n & (n-1) == 0
+
+2. **Power of Four**
+   - Input: `n = 16`
+   - Output: `true`
+   - Hint: Power of 2 + even bit position
+
+3. **Power of Three** (NOT bitwise, but related)
+   - Input: `n = 27`
+   - Output: `true`
+   - Hint: Different approach needed
+
+4. **Find Next Power of 2**
+   - Input: `n = 10`
+   - Output: `16`
+   - Hint: Propagate highest bit
+
+5. **Log Base 2**
+   - Input: `n = 16`
+   - Output: `4`
+   - Hint: Count trailing zeros
+
+#### Intermediate Level
+
+6. **Single Number**
+   - Input: `nums = [4,1,2,1,2]`
+   - Output: `4`
+   - Hint: XOR all numbers
+
+7. **Missing Number**
+   - Input: `nums = [0,1,3]` (0 to n)
+   - Output: `2`
+   - Hint: XOR indices and values
+
+8. **Find Duplicate**
+   - Input: Array with one duplicate
+   - Output: The duplicate
+   - Hint: XOR with expected values
+
+9. **Reverse Bits**
+   - Input: `n = 43261596`
+   - Output: Reversed bit pattern
+   - Hint: Extract and rebuild
+
+10. **Bitwise AND of Range**
+    - Input: `left = 5`, `right = 7`
+    - Output: Common bits
+    - Hint: Find common prefix
+
+---
+
+## Section 8: XOR Magic Pattern
+
+### 8.1 XOR Properties (Essential!)
+
+```c
+/**
+ * XOR PROPERTIES - THE FOUNDATION
+ */
+
+void xorPropertiesDemo() {
+    int a = 42, b = 17;
+    
+    // Property 1: Identity
+    printf("a ^ 0 = a: %d ^ 0 = %d\n", a, a ^ 0);
+    
+    // Property 2: Self-inverse
+    printf("a ^ a = 0: %d ^ %d = %d\n", a, a, a ^ a);
+    
+    // Property 3: Commutative
+    printf("a ^ b = b ^ a: %d = %d\n", a ^ b, b ^ a);
+    
+    // Property 4: Associative
+    int c = 99;
+    printf("(a^b)^c = a^(b^c): %d = %d\n", (a^b)^c, a^(b^c));
+    
+    // Property 5: Cancellation
+    printf("a ^ b ^ b = a: %d ^ %d ^ %d = %d\n", a, b, b, a^b^b);
+    
+    // Property 6: Finding difference
+    printf("If a^b = c, then a^c = b: %d ^ %d = %d\n", a, a^b, b);
+}
+```
+
+### 8.2 XOR Patterns
+
+```c
+/**
+ * ESSENTIAL XOR PATTERNS
+ */
+
+// Pattern 1: Find single number (all others appear twice)
+int singleNumber(int* nums, int numsSize) {
+    int result = 0;
+    for (int i = 0; i < numsSize; i++) {
+        result ^= nums[i];  // Pairs cancel out
+    }
+    return result;
+}
+
+// Pattern 2: Find two single numbers (all others appear twice)
+int* singleNumberTwo(int* nums, int numsSize, int* returnSize) {
+    *returnSize = 2;
+    int* result = (int*)malloc(2 * sizeof(int));
+    
+    // Step 1: XOR all numbers (gives num1 ^ num2)
+    int xorAll = 0;
+    for (int i = 0; i < numsSize; i++) {
+        xorAll ^= nums[i];
+    }
+    
+    // Step 2: Find a bit where num1 and num2 differ
+    int diffBit = xorAll & -xorAll;  // Rightmost set bit
+    
+    // Step 3: Partition numbers into two groups
+    result[0] = 0;
+    result[1] = 0;
+    for (int i = 0; i < numsSize; i++) {
+        if (nums[i] & diffBit) {
+            result[0] ^= nums[i];
+        } else {
+            result[1] ^= nums[i];
+        }
+    }
+    
+    return result;
+}
+
+// Pattern 3: Find missing number in range [0, n]
+int missingNumber(int* nums, int numsSize) {
+    int result = numsSize;  // Start with n
+    
+    for (int i = 0; i < numsSize; i++) {
+        result ^= i ^ nums[i];  // XOR index and value
+    }
+    
+    return result;
+}
+
+// Pattern 4: Find duplicate number
+int findDuplicate(int* nums, int numsSize) {
+    int xorAll = 0;
+    
+    // XOR all array elements
+    for (int i = 0; i < numsSize; i++) {
+        xorAll ^= nums[i];
+    }
+    
+    // XOR with expected values [1, n]
+    for (int i = 1; i < numsSize; i++) {
+        xorAll ^= i;
+    }
+    
+    return xorAll;
+}
+
+// Pattern 5: Swap without temporary variable
+void swapXOR(int* a, int* b) {
+    if (a != b) {  // Check not same address
+        *a ^= *b;
+        *b ^= *a;  // b = (a^b) ^ old_b = old_a
+        *a ^= *b;  // a = (a^b) ^ old_a = old_b
+    }
+}
+
+// Pattern 6: Check if numbers have opposite signs
+bool oppositeSigns(int x, int y) {
+    return (x ^ y) < 0;
+}
+
+// Pattern 7: Toggle case of letter
+char toggleCase(char c) {
+    return c ^ 32;  // Toggle bit 5 (difference between 'A' and 'a')
+}
+
+// Pattern 8: Encrypt/Decrypt with XOR (simple cipher)
+void xorCipher(char* data, int len, char key) {
+    for (int i = 0; i < len; i++) {
+        data[i] ^= key;
+    }
+}
+
+// Pattern 9: Find element appearing once (others appear 3 times)
+int singleNumberThree(int* nums, int numsSize) {
+    int ones = 0, twos = 0;
+    
+    for (int i = 0; i < numsSize; i++) {
+        // Add to twos if already in ones
+        twos |= ones & nums[i];
+        
+        // Add to ones
+        ones ^= nums[i];
+        
+        // Remove if appears in both (means seen 3 times)
+        int threes = ones & twos;
+        ones &= ~threes;
+        twos &= ~threes;
+    }
+    
+    return ones;
+}
+```
+
+### 8.3 Practical Examples
+
+#### Example 1: Data Validation with Parity
+
+```c
+/**
+ * PARITY BIT CHECKING
+ * Even parity: total 1s should be even
+ * Odd parity: total 1s should be odd
+ */
+
+// Calculate parity bit for even parity
+int calculateParityEven(unsigned int data) {
+    int parity = 0;
+    while (data) {
+        parity ^= (data & 1);
+        data >>= 1;
+    }
+    return parity;  // 0 for even count of 1s, 1 for odd
+}
+
+// Add parity bit to data
+unsigned int addParityBit(unsigned int data, bool evenParity) {
+    int parity = calculateParityEven(data);
+    
+    if (evenParity) {
+        return (data << 1) | parity;
+    } else {
+        return (data << 1) | (parity ^ 1);
+    }
+}
+
+// Check if data is valid (including parity bit)
+bool checkParity(unsigned int dataWithParity, bool evenParity) {
+    int parity = calculateParityEven(dataWithParity);
+    return evenParity ? (parity == 0) : (parity == 1);
+}
+
+// Test parity
+void testParity() {
+    unsigned int data = 0b1011;  // 3 ones
+    
+    printf("Original data: ");
+    printBinary(data);
+    
+    unsigned int withParity = addParityBit(data, true);
+    printf("With even parity: ");
+    printBinary(withParity);
+    
+    printf("Parity check: %s\n", 
+           checkParity(withParity, true) ? "Valid" : "Invalid");
+    
+    // Simulate bit flip
+    withParity ^= (1 << 2);
+    printf("After bit flip: ");
+    printBinary(withParity);
+    printf("Parity check: %s\n", 
+           checkParity(withParity, true) ? "Valid" : "Invalid");
+}
+```
+
+#### Example 2: Error Detection (Checksum)
+
+```c
+/**
+ * XOR CHECKSUM
+ * Simple error detection mechanism
+ */
+
+// Calculate XOR checksum
+unsigned char calculateChecksum(unsigned char* data, int length) {
+    unsigned char checksum = 0;
+    for (int i = 0; i < length; i++) {
+        checksum ^= data[i];
+    }
+    return checksum;
+}
+
+// Verify data with checksum
+bool verifyChecksum(unsigned char* data, int length, unsigned char checksum) {
+    unsigned char calculated = calculateChecksum(data, length);
+    return calculated == checksum;
+}
+
+// Add checksum to data
+void addChecksum(unsigned char* buffer, int dataLength) {
+    unsigned char checksum = calculateChecksum(buffer, dataLength);
+    buffer[dataLength] = checksum;
+}
+
+// Test checksum
+void testChecksum() {
+    unsigned char data[] = {0x12, 0x34, 0x56, 0x78, 0x00};  // Last byte for checksum
+    int dataLen = 4;
+    
+    printf("Original data: ");
+    for (int i = 0; i < dataLen; i++) {
+        printf("0x%02X ", data[i]);
+    }
+    printf("\n");
+    
+    addChecksum(data, dataLen);
+    printf("Checksum: 0x%02X\n", data[dataLen]);
+    
+    printf("Verification: %s\n", 
+           verifyChecksum(data, dataLen, data[dataLen]) ? "Valid" : "Invalid");
+    
+    // Simulate corruption
+    data[1] ^= 0x01;
+    printf("After corruption, verification: %s\n", 
+           verifyChecksum(data, dataLen, data[dataLen]) ? "Valid" : "Invalid");
+}
+```
+
+#### Example 3: Finding Missing and Duplicate
+
+```c
+/**
+ * FIND MISSING AND DUPLICATE IN ARRAY
+ * Array should contain 1 to n, but one number is missing and one is duplicate
+ */
+
+void findMissingAndDuplicate(int* nums, int numsSize, int* missing, int* duplicate) {
+    int xorAll = 0;
+    
+    // XOR all array elements and expected values [1, n]
+    for (int i = 0; i < numsSize; i++) {
+        xorAll ^= nums[i];
+        xorAll ^= (i + 1);
+    }
+    
+    // xorAll now contains missing ^ duplicate
+    
+    // Find a bit where they differ
+    int diffBit = xorAll & -xorAll;
+    
+    // Partition into two groups
+    int x = 0, y = 0;
+    for (int i = 0; i < numsSize; i++) {
+        if (nums[i] & diffBit) {
+            x ^= nums[i];
+        } else {
+            y ^= nums[i];
+        }
+        
+        if ((i + 1) & diffBit) {
+            x ^= (i + 1);
+        } else {
+            y ^= (i + 1);
+        }
+    }
+    
+    // Determine which is missing and which is duplicate
+    bool xFound = false;
+    for (int i = 0; i < numsSize; i++) {
+        if (nums[i] == x) {
+            xFound = true;
+            break;
+        }
+    }
+    
+    if (xFound) {
+        *duplicate = x;
+        *missing = y;
+    } else {
+        *duplicate = y;
+        *missing = x;
+    }
+}
+
+// Test finding missing and duplicate
+void testFindMissingDuplicate() {
+    int nums[] = {1, 2, 2, 4, 5};  // Missing 3, duplicate 2
+    int missing, duplicate;
+    
+    findMissingAndDuplicate(nums, 5, &missing, &duplicate);
+    
+    printf("Array: ");
+    for (int i = 0; i < 5; i++) {
+        printf("%d ", nums[i]);
+    }
+    printf("\n");
+    
+    printf("Missing: %d\n", missing);
+    printf("Duplicate: %d\n", duplicate);
+}
+```
+
+### 8.4 Practice Problems
+
+#### Beginner Level
+
+1. **Single Number**
+   - Input: `[4,1,2,1,2]`
+   - Output: `4`
+   - Hint: XOR all elements
+
+2. **Missing Number**
+   - Input: `[0,1,3]` (0 to n with one missing)
+   - Output: `2`
+   - Hint: XOR indices and values
+
+3. **Find Difference**
+   - Input: Two strings, one has extra char
+   - Output: Extra character
+   - Hint: XOR all characters
+
+4. **Toggle Case**
+   - Input: `'A'` or `'a'`
+   - Output: `'a'` or `'A'`
+   - Hint: XOR with 32
+
+5. **Check Opposite Signs**
+   - Input: `x = 5`, `y = -3`
+   - Output: `true`
+   - Hint: Check sign bit with XOR
+
+#### Intermediate Level
+
+6. **Single Number II**
+   - Input: Array where every element appears 3 times except one
+   - Output: The single element
+   - Hint: Count bits modulo 3
+
+7. **Single Number III**
+   - Input: Array where every element appears twice except two
+   - Output: The two single elements
+   - Hint: XOR all, then partition
+
+8. **Maximum XOR of Two Numbers**
+   - Input: `nums = [3,10,5,25,2,8]`
+   - Output: `28` (5 XOR 25)
+   - Hint: Trie or greedy bit-by-bit
+
+9. **Find Missing and Duplicate**
+   - Input: Array 1 to n with one missing, one duplicate
+   - Output: Both numbers
+   - Hint: XOR partitioning
+
+10. **Minimize XOR**
+    - Input: Two numbers
+    - Output: Number with minimum XOR
+    - Hint: Match bits greedily
+
+---
+
+## Section 9: Bit Masking Pattern
+
+### 9.1 Pattern Overview
+
+**Bit Mask:** A pattern of bits used to select or modify specific bits.
+
+**Common Masks:**
+```c
+// Single bit masks
+#define BIT0  0x01  // 0000 0001
+#define BIT1  0x02  // 0000 0010
+#define BIT2  0x04  // 0000 0100
+#define BIT3  0x08  // 0000 1000
+#define BIT4  0x10  // 0001 0000
+#define BIT5  0x20  // 0010 0000
+#define BIT6  0x40  // 0100 0000
+#define BIT7  0x80  // 1000 0000
+
+// Multi-bit masks
+#define LOWER_NIBBLE  0x0F  // 0000 1111
+#define UPPER_NIBBLE  0xF0  // 1111 0000
+#define LOWER_BYTE    0xFF  // 1111 1111
+#define ALL_BITS      0xFFFFFFFF
+```
+
+### 9.2 Mask Operations
+
+```c
+/**
+ * BIT MASKING OPERATIONS
+ */
+
+// Create mask with n bits set starting from position
+unsigned int createMask(int pos, int n) {
+    return ((1 << n) - 1) << pos;
+}
+
+// Apply mask to extract bits
+unsigned int applyMask(unsigned int value, unsigned int mask) {
+    return value & mask;
+}
+
+// Set bits specified by mask
+unsigned int setBitsMask(unsigned int value, unsigned int mask) {
+    return value | mask;
+}
+
+// Clear bits specified by mask
+unsigned int clearBitsMask(unsigned int value, unsigned int mask) {
+    return value & ~mask;
+}
+
+// Toggle bits specified by mask
+unsigned int toggleBitsMask(unsigned int value, unsigned int mask) {
+    return value ^ mask;
+}
+
+// Check if all bits in mask are set
+bool checkAllBitsSet(unsigned int value, unsigned int mask) {
+    return (value & mask) == mask;
+}
+
+// Check if any bit in mask is set
+bool checkAnyBitSet(unsigned int value, unsigned int mask) {
+    return (value & mask) != 0;
+}
+
+// Replace bits in value with bits from newBits (using mask)
+unsigned int replaceBits(unsigned int value, unsigned int newBits, unsigned int mask) {
+    return (value & ~mask) | (newBits & mask);
+}
+
+// Extract field using mask and position
+unsigned int extractField(unsigned int value, unsigned int mask) {
+    // Count trailing zeros in mask to get position
+    int pos = __builtin_ctz(mask);
+    return (value & mask) >> pos;
+}
+
+// Insert field using mask and position
+unsigned int insertField(unsigned int value, unsigned int field, unsigned int mask) {
+    int pos = __builtin_ctz(mask);
+    return (value & ~mask) | ((field << pos) & mask);
+}
+```
+
+### 9.3 Practical Examples
+
+#### Example 1: Status Register Management
+
+```c
+/**
+ * HARDWARE STATUS REGISTER
+ * Common in embedded systems
+ */
+
+// Status register bit definitions
+#define STATUS_READY       (1 << 0)
+#define STATUS_ERROR       (1 << 1)
+#define STATUS_OVERFLOW    (1 << 2)
+#define STATUS_UNDERFLOW   (1 << 3)
+#define STATUS_BUSY        (1 << 4)
+#define STATUS_INTERRUPT   (1 << 5)
+#define STATUS_DMA_ENABLE  (1 << 6)
+#define STATUS_POWER_ON    (1 << 7)
+
+// Combined masks
+#define STATUS_ERROR_MASK  (STATUS_ERROR | STATUS_OVERFLOW | STATUS_UNDERFLOW)
+#define STATUS_CONTROL_MASK (STATUS_DMA_ENABLE | STATUS_POWER_ON)
+
+typedef struct {
+    unsigned char status;
+    char name[50];
+} HardwareRegister;
+
+// Initialize register
+void initRegister(HardwareRegister* reg, const char* name) {
+    strcpy(reg->name, name);
+    reg->status = 0;
+}
+
+// Set specific flags
+void setFlags(HardwareRegister* reg, unsigned char flags) {
+    reg->status |= flags;
+}
+
+// Clear specific flags
+void clearFlags(HardwareRegister* reg, unsigned char flags) {
+    reg->status &= ~flags;
+}
+
+// Check if any error flag is set
+bool hasError(HardwareRegister* reg) {
+    return (reg->status & STATUS_ERROR_MASK) != 0;
+}
+
+// Check if ready and not busy
+bool isReadyForOperation(HardwareRegister* reg) {
+    unsigned char mask = STATUS_READY | STATUS_BUSY;
+    return (reg->status & mask) == STATUS_READY;
+}
+
+// Get error type
+const char* getErrorType(HardwareRegister* reg) {
+    if (reg->status & STATUS_ERROR) return "General Error";
+    if (reg->status & STATUS_OVERFLOW) return "Overflow";
+    if (reg->status & STATUS_UNDERFLOW) return "Underflow";
+    return "No Error";
+}
+
+// Clear all error flags
+void clearAllErrors(HardwareRegister* reg) {
+    clearFlags(reg, STATUS_ERROR_MASK);
+}
+
+// Print register status
+void printRegisterStatus(HardwareRegister* reg) {
+    printf("Register: %s (0x%02X)\n", reg->name, reg->status);
+    printf("  Ready:      %s\n", (reg->status & STATUS_READY) ? "Yes" : "No");
+    printf("  Busy:       %s\n", (reg->status & STATUS_BUSY) ? "Yes" : "No");
+    printf("  Error:      %s\n", hasError(reg) ? "Yes" : "No");
+    if (hasError(reg)) {
+        printf("  Error Type: %s\n", getErrorType(reg));
+    }
+    printf("  DMA:        %s\n", (reg->status & STATUS_DMA_ENABLE) ? "Enabled" : "Disabled");
+    printf("  Power:      %s\n", (reg->status & STATUS_POWER_ON) ? "On" : "Off");
+}
+
+// Test hardware register
+void testHardwareRegister() {
+    HardwareRegister uart;
+    initRegister(&uart, "UART0");
+    
+    // Power on and enable
+    setFlags(&uart, STATUS_POWER_ON | STATUS_READY);
+    printRegisterStatus(&uart);
+    printf("\n");
+    
+    // Start operation
+    setFlags(&uart, STATUS_BUSY);
+    clearFlags(&uart, STATUS_READY);
+    printRegisterStatus(&uart);
+    printf("\n");
+    
+    // Error occurs
+    setFlags(&uart, STATUS_OVERFLOW);
+    printRegisterStatus(&uart);
+    printf("\n");
+    
+    // Clear errors
+    clearAllErrors(&uart);
+    printRegisterStatus(&uart);
+}
+```
+
+#### Example 2: Bitmap for Set Operations
+
+```c
+/**
+ * BITMAP SET IMPLEMENTATION
+ * Efficient set operations using bit arrays
+ */
+
+#define MAX_ELEMENTS 256
+#define BITS_PER_WORD 32
+#define WORD_COUNT (MAX_ELEMENTS / BITS_PER_WORD)
+
+typedef struct {
+    unsigned int bits[WORD_COUNT];
+    int size;
+} BitSet;
+
+// Initialize empty set
+void bitSetInit(BitSet* set) {
+    for (int i = 0; i < WORD_COUNT; i++) {
+        set->bits[i] = 0;
+    }
+    set->size = 0;
+}
+
+// Add element to set
+void bitSetAdd(BitSet* set, int element) {
+    if (element < 0 || element >= MAX_ELEMENTS) return;
+    
+    int wordIndex = element / BITS_PER_WORD;
+    int bitIndex = element % BITS_PER_WORD;
+    
+    unsigned int mask = 1U << bitIndex;
+    if (!(set->bits[wordIndex] & mask)) {
+        set->bits[wordIndex] |= mask;
+        set->size++;
+    }
+}
+
+// Remove element from set
+void bitSetRemove(BitSet* set, int element) {
+    if (element < 0 || element >= MAX_ELEMENTS) return;
+    
+    int wordIndex = element / BITS_PER_WORD;
+    int bitIndex = element % BITS_PER_WORD;
+    
+    unsigned int mask = 1U << bitIndex;
+    if (set->bits[wordIndex] & mask) {
+        set->bits[wordIndex] &= ~mask;
+        set->size--;
+    }
+}
+
+// Check if element exists
+bool bitSetContains(BitSet* set, int element) {
+    if (element < 0 || element >= MAX_ELEMENTS) return false;
+    
+    int wordIndex = element / BITS_PER_WORD;
+    int bitIndex = element % BITS_PER_WORD;
+    
+    return (set->bits[wordIndex] & (1U << bitIndex)) != 0;
+}
+
+// Union of two sets (A ∪ B)
+void bitSetUnion(BitSet* result, BitSet* setA, BitSet* setB) {
+    for (int i = 0; i < WORD_COUNT; i++) {
+        result->bits[i] = setA->bits[i] | setB->bits[i];
+    }
+    // Recalculate size
+    result->size = 0;
+    for (int i = 0; i < WORD_COUNT; i++) {
+        result->size += __builtin_popcount(result->bits[i]);
+    }
+}
+
+// Intersection of two sets (A ∩ B)
+void bitSetIntersection(BitSet* result, BitSet* setA, BitSet* setB) {
+    for (int i = 0; i < WORD_COUNT; i++) {
+        result->bits[i] = setA->bits[i] & setB->bits[i];
+    }
+    result->size = 0;
+    for (int i = 0; i < WORD_COUNT; i++) {
+        result->size += __builtin_popcount(result->bits[i]);
+    }
+}
+
+// Difference of two sets (A - B)
+void bitSetDifference(BitSet* result, BitSet* setA, BitSet* setB) {
+    for (int i = 0; i < WORD_COUNT; i++) {
+        result->bits[i] = setA->bits[i] & ~setB->bits[i];
+    }
+    result->size = 0;
+    for (int i = 0; i < WORD_COUNT; i++) {
+        result->size += __builtin_popcount(result->bits[i]);
+    }
+}
+
+// Symmetric difference (A Δ B = elements in A or B but not both)
+void bitSetSymmetricDifference(BitSet* result, BitSet* setA, BitSet* setB) {
+    for (int i = 0; i < WORD_COUNT; i++) {
+        result->bits[i] = setA->bits[i] ^ setB->bits[i];
+    }
+    result->size = 0;
+    for (int i = 0; i < WORD_COUNT; i++) {
+        result->size += __builtin_popcount(result->bits[i]);
+    }
+}
+
+// Check if subset (A ⊆ B)
+bool bitSetIsSubset(BitSet* setA, BitSet* setB) {
+    for (int i = 0; i < WORD_COUNT; i++) {
+        if ((setA->bits[i] & ~setB->bits[i]) != 0) {
+            return false;
+        }
+    }
+    return true;
+}
+
+// Print set elements
+void bitSetPrint(BitSet* set) {
+    printf("{");
+    bool first = true;
+    for (int i = 0; i < MAX_ELEMENTS; i++) {
+        if (bitSetContains(set, i)) {
+            if (!first) printf(", ");
+            printf("%d", i);
+            first = false;
+        }
+    }
+    printf("} (size: %d)\n", set->size);
+}
+
+// Test bit set
+void testBitSet() {
+    BitSet setA, setB, result;
+    
+    bitSetInit(&setA);
+    bitSetInit(&setB);
+    
+    // Add elements to setA: {1, 3, 5, 7, 9}
+    bitSetAdd(&setA, 1);
+    bitSetAdd(&setA, 3);
+    bitSetAdd(&setA, 5);
+    bitSetAdd(&setA, 7);
+    bitSetAdd(&setA, 9);
+    
+    // Add elements to setB: {2, 3, 5, 8}
+    bitSetAdd(&setB, 2);
+    bitSetAdd(&setB, 3);
+    bitSetAdd(&setB, 5);
+    bitSetAdd(&setB, 8);
+    
+    printf("Set A: ");
+    bitSetPrint(&setA);
+    printf("Set B: ");
+    bitSetPrint(&setB);
+    
+    printf("\nUnion (A ∪ B): ");
+    bitSetUnion(&result, &setA, &setB);
+    bitSetPrint(&result);
+    
+    printf("Intersection (A ∩ B): ");
+    bitSetIntersection(&result, &setA, &setB);
+    bitSetPrint(&result);
+    
+    printf("Difference (A - B): ");
+    bitSetDifference(&result, &setA, &setB);
+    bitSetPrint(&result);
+    
+    printf("Symmetric Difference (A Δ B): ");
+    bitSetSymmetricDifference(&result, &setA, &setB);
+    bitSetPrint(&result);
+}
+```
+
+#### Example 3: Permission Bits (Unix-style)
+
+```c
+/**
+ * FILE PERMISSIONS (Unix-style chmod)
+ */
+
+// Permission bit masks
+#define PERM_OWNER_READ    0400  // Octal: 0400 = Binary: 100 000 000
+#define PERM_OWNER_WRITE   0200  // Octal: 0200 = Binary: 010 000 000
+#define PERM_OWNER_EXEC    0100  // Octal: 0100 = Binary: 001 000 000
+#define PERM_GROUP_READ    0040  // Octal: 0040 = Binary: 000 100 000
+#define PERM_GROUP_WRITE   0020  // Octal: 0020 = Binary: 000 010 000
+#define PERM_GROUP_EXEC    0010  // Octal: 0010 = Binary: 000 001 000
+#define PERM_OTHERS_READ   0004  // Octal: 0004 = Binary: 000 000 100
+#define PERM_OTHERS_WRITE  0002  // Octal: 0002 = Binary: 000 000 010
+#define PERM_OTHERS_EXEC   0001  // Octal: 0001 = Binary: 000 000 001
+
+// Combined masks
+#define PERM_ALL_READ   (PERM_OWNER_READ | PERM_GROUP_READ | PERM_OTHERS_READ)
+#define PERM_ALL_WRITE  (PERM_OWNER_WRITE | PERM_GROUP_WRITE | PERM_OTHERS_WRITE)
+#define PERM_ALL_EXEC   (PERM_OWNER_EXEC | PERM_GROUP_EXEC | PERM_OTHERS_EXEC)
+
+typedef struct {
+    char name[256];
+    unsigned int permissions;
+} File;
+
+// Set permissions using octal notation (like chmod 755)
+void setPermissionsOctal(File* file, int octal) {
+    file->permissions = octal;
+}
+
+// Grant specific permissions
+void grantPermissions(File* file, unsigned int perms) {
+    file->permissions |= perms;
+}
+
+// Revoke specific permissions
+void revokePermissions(File* file, unsigned int perms) {
+    file->permissions &= ~perms;
+}
+
+// Check specific permission
+bool hasPermission(File* file, unsigned int perm) {
+    return (file->permissions & perm) != 0;
+}
+
+// Check if user can read (owner check)
+bool canRead(File* file, bool isOwner, bool isGroup) {
+    if (isOwner) return hasPermission(file, PERM_OWNER_READ);
+    if (isGroup) return hasPermission(file, PERM_GROUP_READ);
+    return hasPermission(file, PERM_OTHERS_READ);
+}
+
+// Display permissions in ls -l format
+void displayPermissions(File* file) {
+    printf("%s: ", file->name);
+    
+    // Owner
+    printf(hasPermission(file, PERM_OWNER_READ) ? "r" : "-");
+    printf(hasPermission(file, PERM_OWNER_WRITE) ? "w" : "-");
+    printf(hasPermission(file, PERM_OWNER_EXEC) ? "x" : "-");
+    
+    // Group
+    printf(hasPermission(file, PERM_GROUP_READ) ? "r" : "-");
+    printf(hasPermission(file, PERM_GROUP_WRITE) ? "w" : "-");
+    printf(hasPermission(file, PERM_GROUP_EXEC) ? "x" : "-");
+    
+    // Others
+    printf(hasPermission(file, PERM_OTHERS_READ) ? "r" : "-");
+    printf(hasPermission(file, PERM_OTHERS_WRITE) ? "w" : "-");
+    printf(hasPermission(file, PERM_OTHERS_EXEC) ? "x" : "-");
+    
+    printf(" (%03o)\n", file->permissions);
+}
+
+// Convert permission string to octal
+unsigned int permStringToOctal(const char* str) {
+    // str format: "rwxr-xr--" (9 characters)
+    unsigned int perm = 0;
+    
+    if (str[0] == 'r') perm |= PERM_OWNER_READ;
+    if (str[1] == 'w') perm |= PERM_OWNER_WRITE;
+    if (str[2] == 'x') perm |= PERM_OWNER_EXEC;
+    if (str[3] == 'r') perm |= PERM_GROUP_READ;
+    if (str[4] == 'w') perm |= PERM_GROUP_WRITE;
+    if (str[5] == 'x') perm |= PERM_GROUP_EXEC;
+    if (str[6] == 'r') perm |= PERM_OTHERS_READ;
+    if (str[7] == 'w') perm |= PERM_OTHERS_WRITE;
+    if (str[8] == 'x') perm |= PERM_OTHERS_EXEC;
+    
+    return perm;
+}
+
+// Test file permissions
+void testFilePermissions() {
+    File myFile;
+    strcpy(myFile.name, "data.txt");
+    
+    // Set permission to 644 (rw-r--r--)
+    setPermissionsOctal(&myFile, 0644);
+    displayPermissions(&myFile);
+    
+    // Change to 755 (rwxr-xr-x)
+    setPermissionsOctal(&myFile, 0755);
+    displayPermissions(&myFile);
+    
+    // Revoke write for everyone
+    revokePermissions(&myFile, PERM_ALL_WRITE);
+    displayPermissions(&myFile);
+    
+    // Grant write to owner only
+    grantPermissions(&myFile, PERM_OWNER_WRITE);
+    displayPermissions(&myFile);
+}
+```
+
+### 9.4 Practice Problems
+
+#### Beginner Level
+
+1. **Create Bit Mask**
+   - Input: `pos = 3`, `n = 4`
+   - Output: `0b01111000` (mask for bits 3-6)
+   - Hint: Shift and subtract
+
+2. **Extract Field**
+   - Input: `value = 0xABCD`, `mask = 0x0F00`
+   - Output: `0xC`
+   - Hint: AND then shift
+
+3. **Set Flags**
+   - Input: `value = 0x00`, `flags = 0x05`
+   - Output: `0x05`
+   - Hint: OR operation
+
+4. **Clear Flags**
+   - Input: `value = 0xFF`, `flags = 0x0F`
+   - Output: `0xF0`
+   - Hint: AND with NOT
+
+5. **Toggle Flags**
+   - Input: `value = 0xAA`, `flags = 0xFF`
+   - Output: `0x55`
+   - Hint: XOR operation
+
+#### Intermediate Level
+
+6. **Replace Bits**
+   - Input: `value = 0xFF00`, `newBits = 0x00AB`, `mask = 0x00FF`
+   - Output: `0xFFAB`
+   - Hint: Clear then set
+
+7. **Bitmap Set Operations**
+   - Implement union, intersection, difference
+   - Hint: Use bitwise OR, AND, AND NOT
+
+8. **Status Register**
+   - Design and implement status flags
+   - Hint: Define bit positions
+
+9. **Permission System**
+   - Implement chmod-like permissions
+   - Hint: 9 bits for rwx × 3 users
+
+10. **Color Packing**
+    - Pack/unpack RGBA into 32-bit int
+    - Hint: 8 bits per channel
+
+---
+
+## Section 10: Subset Generation Pattern
+
+### 10.1 Pattern Overview
+
+**Key Insight:** For a set of n elements, there are 2^n possible subsets. Each subset can be represented by an n-bit number where bit i indicates if element i is included.
+
+**Example:**
+```
+Set: {a, b, c}
+Subsets: 2^3 = 8
+
+000 = {}
+001 = {c}
+010 = {b}
+011 = {b, c}
+100 = {a}
+101 = {a, c}
+110 = {a, b}
+111 = {a, b, c}
+```
+
+### 10.2 Subset Generation
+
+```c
+/**
+ * SUBSET GENERATION USING BITS
+ */
+
+// Generate all subsets of array
+void generateSubsets(int* nums, int numsSize) {
+    int totalSubsets = 1 << numsSize;  // 2^n
+    
+    printf("All subsets:\n");
+    for (int mask = 0; mask < totalSubsets; mask++) {
+        printf("{");
+        bool first = true;
+        
+        for (int i = 0; i < numsSize; i++) {
+            // Check if i-th bit is set
+            if (mask & (1 << i)) {
+                if (!first) printf(", ");
+                printf("%d", nums[i]);
+                first = false;
+            }
+        }
+        
+        printf("}\n");
+    }
+}
+
+// Generate all subsets of size k
+void generateSubsetsOfSizeK(int* nums, int numsSize, int k) {
+    int totalSubsets = 1 << numsSize;
+    
+    printf("Subsets of size %d:\n", k);
+    for (int mask = 0; mask < totalSubsets; mask++) {
+        // Count set bits
+        if (__builtin_popcount(mask) == k) {
+            printf("{");
+            bool first = true;
+            
+            for (int i = 0; i < numsSize; i++) {
+                if (mask & (1 << i)) {
+                    if (!first) printf(", ");
+                    printf("%d", nums[i]);
+                    first = false;
+                }
+            }
+            
+            printf("}\n");
+        }
+    }
+}
+
+// Return all subsets as array of arrays
+int** subsets(int* nums, int numsSize, int* returnSize, int** returnColumnSizes) {
+    int totalSubsets = 1 << numsSize;
+    *returnSize = totalSubsets;
+    
+    int** result = (int**)malloc(totalSubsets * sizeof(int*));
+    *returnColumnSizes = (int*)malloc(totalSubsets * sizeof(int));
+    
+    for (int mask = 0; mask < totalSubsets; mask++) {
+        int subsetSize = __builtin_popcount(mask);
+        result[mask] = (int*)malloc(subsetSize * sizeof(int));
+        (*returnColumnSizes)[mask] = subsetSize;
+        
+        int idx = 0;
+        for (int i = 0; i < numsSize; i++) {
+            if (mask & (1 << i)) {
+                result[mask][idx++] = nums[i];
+            }
+        }
+    }
+    
+    return result;
+}
+
+// Iterate through subsets efficiently (Gosper's hack for fixed k)
+void iterateSubsetsOfSizeK(int n, int k) {
+    printf("Subsets of size %d from %d elements:\n", k, n);
+    
+    unsigned int subset = (1 << k) - 1;  // First k bits set
+    unsigned int limit = (1 << n);
+    
+    while (subset < limit) {
+        // Print current subset
+        printf("Mask: ");
+        printBinary(subset);
+        
+        // Gosper's hack: find next subset with same number of bits
+        unsigned int c = subset & -subset;
+        unsigned int r = subset + c;
+        subset = (((r ^ subset) >> 2) / c) | r;
+    }
+}
+
+// Test subset generation
+void testSubsetGeneration() {
+    int nums[] = {1, 2, 3};
+    int size = 3;
+    
+    printf("Array: {1, 2, 3}\n\n");
+    generateSubsets(nums, size);
+    
+    printf("\n");
+    generateSubsetsOfSizeK(nums, size, 2);
+}
+```
+
+### 10.3 Practical Examples
+
+#### Example 1: Subset Sum Problem
+
+```c
+/**
+ * SUBSET SUM PROBLEM
+ * Find if there's a subset with given sum
+ */
+
+bool subsetSum(int* nums, int numsSize, int target) {
+    int totalSubsets = 1 << numsSize;
+    
+    for (int mask = 0; mask < totalSubsets; mask++) {
+        int sum = 0;
+        
+        for (int i = 0; i < numsSize; i++) {
+            if (mask & (1 << i)) {
+                sum += nums[i];
+            }
+        }
+        
+        if (sum == target) {
+            // Found a subset
+            printf("Subset with sum %d: {", target);
+            bool first = true;
+            for (int i = 0; i < numsSize; i++) {
+                if (mask & (1 << i)) {
+                    if (!first) printf(", ");
+                    printf("%d", nums[i]);
+                    first = false;
+                }
+            }
+            printf("}\n");
+            return true;
+        }
+    }
+    
+    return false;
+}
+
+// Find all subsets with given sum
+void allSubsetSums(int* nums, int numsSize, int target) {
+    int totalSubsets = 1 << numsSize;
+    int count = 0;
+    
+    printf("All subsets with sum %d:\n", target);
+    
+    for (int mask = 0; mask < totalSubsets; mask++) {
+        int sum = 0;
+        
+        for (int i = 0; i < numsSize; i++) {
+            if (mask & (1 << i)) {
+                sum += nums[i];
+            }
+        }
+        
+        if (sum == target) {
+            count++;
+            printf("%d: {", count);
+            bool first = true;
+            for (int i = 0; i < numsSize; i++) {
+                if (mask & (1 << i)) {
+                    if (!first) printf(", ");
+                    printf("%d", nums[i]);
+                    first = false;
+                }
+            }
+            printf("}\n");
+        }
+    }
+    
+    printf("Total: %d subsets\n", count);
+}
+
+// Test subset sum
+void testSubsetSum() {
+    int nums[] = {3, 34, 4, 12, 5, 2};
+    int target = 9;
+    
+    printf("Array: {3, 34, 4, 12, 5, 2}\n");
+    printf("Target: %d\n\n", target);
+    
+    allSubsetSums(nums, 6, target);
+}
+```
+
+#### Example 2: Maximum XOR Subset
+
+```c
+/**
+ * MAXIMUM XOR OF SUBSET
+ * Find subset with maximum XOR value
+ */
+
+int maxSubsetXOR(int* nums, int numsSize) {
+    int totalSubsets = 1 << numsSize;
+    int maxXOR = 0;
+    int bestMask = 0;
+    
+    for (int mask = 1; mask < totalSubsets; mask++) {  // Skip empty set
+        int xorValue = 0;
+        
+        for (int i = 0; i < numsSize; i++) {
+            if (mask & (1 << i)) {
+                xorValue ^= nums[i];
+            }
+        }
+        
+        if (xorValue > maxXOR) {
+            maxXOR = xorValue;
+            bestMask = mask;
+        }
+    }
+    
+    // Print best subset
+    printf("Maximum XOR: %d\n", maxXOR);
+    printf("Subset: {");
+    bool first = true;
+    for (int i = 0; i < numsSize; i++) {
+        if (bestMask & (1 << i)) {
+            if (!first) printf(", ");
+            printf("%d", nums[i]);
+            first = false;
+        }
+    }
+    printf("}\n");
+    
+    return maxXOR;
+}
+
+// Test maximum XOR
+void testMaxXOR() {
+    int nums[] = {2, 4, 5};
+    printf("Array: {2, 4, 5}\n");
+    maxSubsetXOR(nums, 3);
+}
+```
+
+#### Example 3: Partition into Equal Sum Subsets
+
+```c
+/**
+ * PARTITION EQUAL SUBSET SUM
+ * Can array be partitioned into two subsets with equal sum?
+ */
+
+bool canPartition(int* nums, int numsSize) {
+    // Calculate total sum
+    int totalSum = 0;
+    for (int i = 0; i < numsSize; i++) {
+        totalSum += nums[i];
+    }
+    
+    // If odd sum, can't partition equally
+    if (totalSum % 2 != 0) return false;
+    
+    int target = totalSum / 2;
+    
+    // Use bit manipulation for DP
+    // bit[i] = 1 means sum i is achievable
+    unsigned long long dp = 1;  // Empty set has sum 0
+    
+    for (int i = 0; i < numsSize; i++) {
+        // For each number, update achievable sums
+        dp |= (dp << nums[i]);
+    }
+    
+    // Check if target sum is achievable
+    return (dp >> target) & 1;
+}
+
+// Find partition (if exists)
+void findPartition(int* nums, int numsSize) {
+    int totalSum = 0;
+    for (int i = 0; i < numsSize; i++) {
+        totalSum += nums[i];
+    }
+    
+    if (totalSum % 2 != 0) {
+        printf("Cannot partition into equal sums\n");
+        return;
+    }
+    
+    int target = totalSum / 2;
+    int totalSubsets = 1 << numsSize;
+    
+    for (int mask = 0; mask < totalSubsets; mask++) {
+        int sum = 0;
+        
+        for (int i = 0; i < numsSize; i++) {
+            if (mask & (1 << i)) {
+                sum += nums[i];
+            }
+        }
+        
+        if (sum == target) {
+            printf("Partition found!\n");
+            printf("Subset 1: {");
+            bool first = true;
+            for (int i = 0; i < numsSize; i++) {
+                if (mask & (1 << i)) {
+                    if (!first) printf(", ");
+                    printf("%d", nums[i]);
+                    first = false;
+                }
+            }
+            printf("}\n");
+            
+            printf("Subset 2: {");
+            first = true;
+            for (int i = 0; i < numsSize; i++) {
+                if (!(mask & (1 << i))) {
+                    if (!first) printf(", ");
+                    printf("%d", nums[i]);
+                    first = false;
+                }
+            }
+            printf("}\n");
+            return;
+        }
+    }
+    
+    printf("Cannot partition into equal sums\n");
+}
+
+// Test partition
+void testPartition() {
+    int nums[] = {1, 5, 11, 5};
+    printf("Array: {1, 5, 11, 5}\n");
+    printf("Total sum: 22, target: 11\n\n");
+    findPartition(nums, 4);
+}
+```
+
+### 10.4 Practice Problems
+
+#### Beginner Level
+
+1. **Generate All Subsets**
+   - Input: `[1,2,3]`
+   - Output: All 8 subsets
+   - Hint: Iterate 0 to 2^n-1
+
+2. **Subsets of Size K**
+   - Input: `nums=[1,2,3,4]`, `k=2`
+   - Output: All subsets with 2 elements
+   - Hint: Check popcount
+
+3. **Subset Sum Exists**
+   - Input: `nums=[3,34,4,12,5,2]`, `target=9`
+   - Output: `true`
+   - Hint: Try all subsets
+
+4. **Count Subsets with Sum**
+   - Input: `nums=[1,2,3]`, `target=3`
+   - Output: `2` (subsets: {3}, {1,2})
+   - Hint: Count matching subsets
+
+5. **Empty Subset Check**
+   - Input: Any array
+   - Output: Always includes empty set
+   - Hint: mask=0
+
+#### Intermediate Level
+
+6. **Partition Equal Subset Sum**
+   - Input: `[1,5,11,5]`
+   - Output: `true` (can partition to {1,5,5} and {11})
+   - Hint: Check if sum/2 achievable
+
+7. **Maximum XOR Subset**
+   - Input: `[2,4,5]`
+   - Output: `7` (subset {2,5})
+   - Hint: Try all subsets, track max XOR
+
+8. **Subset with Max Sum**
+   - Input: `[-1,2,3,-4]`
+   - Output: `5` (subset {2,3})
+   - Hint: Consider only positives
+
+9. **Minimum Difference Subsets**
+   - Input: `[1,6,11,5]`
+   - Output: `1` (partition to {1,5,6} and {11})
+   - Hint: Find partition with min difference
+
+10. **Subset Product**
+    - Input: `nums=[2,3,5]`, `target=30`
+    - Output: `true` (subset {2,3,5})
+    - Hint: Similar to subset sum
+
+---
+
+## Section 11: Bit Manipulation Tricks
+
+### 11.1 Essential Tricks Collection
+
+```c
+/**
+ * COMPREHENSIVE BIT MANIPULATION TRICKS
+ */
+
+// ========== BASIC TRICKS ==========
+
+// 1. Check if n is even
+bool isEven(int n) {
+    return (n & 1) == 0;
+}
+
+// 2. Check if n is odd
+bool isOdd(int n) {
+    return (n & 1) == 1;
+}
+
+// 3. Multiply by 2^k
+int multiplyBy2Power(int n, int k) {
+    return n << k;
+}
+
+// 4. Divide by 2^k (positive numbers)
+int divideBy2Power(int n, int k) {
+    return n >> k;
+}
+
+// 5. Get absolute value
+int absoluteValue(int n) {
+    int mask = n >> 31;  // All 1s if negative, all 0s if positive
+    return (n + mask) ^ mask;
+    // Alternative: (n ^ mask) - mask
+}
+
+// ========== POWER OF 2 TRICKS ==========
+
+// 6. Check if power of 2
+bool isPowerOf2(int n) {
+    return n > 0 && (n & (n - 1)) == 0;
+}
+
+// 7. Next power of 2
+unsigned int nextPowerOf2(unsigned int n) {
+    n--;
+    n |= n >> 1;
+    n |= n >> 2;
+    n |= n >> 4;
+    n |= n >> 8;
+    n |= n >> 16;
+    return n + 1;
+}
+
+// 8. Check if divisible by 2^k
+bool isDivisibleBy2Power(int n, int k) {
+    int divisor = 1 << k;
+    return (n & (divisor - 1)) == 0;
+}
+
+// ========== BIT ISOLATION TRICKS ==========
+
+// 9. Isolate rightmost set bit
+int isolateRightmostBit(int n) {
+    return n & -n;
+}
+
+// 10. Clear rightmost set bit
+int clearRightmostBit(int n) {
+    return n & (n - 1);
+}
+
+// 11. Isolate rightmost 0 bit
+int isolateRightmost0Bit(int n) {
+    return ~n & (n + 1);
+}
+
+// 12. Set rightmost 0 bit
+int setRightmost0Bit(int n) {
+    return n | (n + 1);
+}
+
+// 13. Get rightmost different bit between x and y
+int rightmostDifferentBit(int x, int y) {
+    return (x ^ y) & -(x ^ y);
+}
+
+// ========== SIGN TRICKS ==========
+
+// 14. Check if opposite signs
+bool oppositeSigns(int x, int y) {
+    return (x ^ y) < 0;
+}
+
+// 15. Get sign (-1, 0, or 1)
+int sign(int n) {
+    return (n > 0) - (n < 0);
+}
+
+// 16. Min of two integers without branching
+int minNoBranch(int a, int b) {
+    return b ^ ((a ^ b) & -(a < b));
+}
+
+// 17. Max of two integers without branching
+int maxNoBranch(int a, int b) {
+    return a ^ ((a ^ b) & -(a < b));
+}
+
+// ========== SWAP TRICKS ==========
+
+// 18. Swap without temp variable
+void swapXOR(int* a, int* b) {
+    if (a != b) {
+        *a ^= *b;
+        *b ^= *a;
+        *a ^= *b;
+    }
+}
+
+// 19. Swap using addition/subtraction
+void swapAddSub(int* a, int* b) {
+    if (a != b) {
+        *a = *a + *b;
+        *b = *a - *b;
+        *a = *a - *b;
+    }
+}
+
+// ========== ROTATION TRICKS ==========
+
+// 20. Rotate left
+unsigned int rotateLeft(unsigned int n, int d) {
+    return (n << d) | (n >> (32 - d));
+}
+
+// 21. Rotate right
+unsigned int rotateRight(unsigned int n, int d) {
+    return (n >> d) | (n << (32 - d));
+}
+
+// ========== REVERSE TRICKS ==========
+
+// 22. Reverse bits in byte
+unsigned char reverseByte(unsigned char b) {
+    b = (b & 0xF0) >> 4 | (b & 0x0F) << 4;
+    b = (b & 0xCC) >> 2 | (b & 0x33) << 2;
+    b = (b & 0xAA) >> 1 | (b & 0x55) << 1;
+    return b;
+}
+
+// 23. Reverse bits in 32-bit integer
+unsigned int reverseBits(unsigned int n) {
+    n = ((n & 0xFFFF0000) >> 16) | ((n & 0x0000FFFF) << 16);
+    n = ((n & 0xFF00FF00) >> 8)  | ((n & 0x00FF00FF) << 8);
+    n = ((n & 0xF0F0F0F0) >> 4)  | ((n & 0x0F0F0F0F) << 4);
+    n = ((n & 0xCCCCCCCC) >> 2)  | ((n & 0x33333333) << 2);
+    n = ((n & 0xAAAAAAAA) >> 1)  | ((n & 0x55555555) << 1);
+    return n;
+}
+
+// ========== COUNTING TRICKS ==========
+
+// 24. Count trailing zeros
+int countTrailingZeros(unsigned int n) {
+    if (n == 0) return 32;
+    return __builtin_ctz(n);
+}
+
+// 25. Count leading zeros
+int countLeadingZeros(unsigned int n) {
+    if (n == 0) return 32;
+    return __builtin_clz(n);
+}
+
+// 26. Parity (even/odd number of 1s)
+bool parity(unsigned int n) {
+    return __builtin_parity(n);
+}
+
+// ========== MASKING TRICKS ==========
+
+// 27. Turn off rightmost consecutive 1s
+int turnOffRightmost1s(int n) {
+    return n & (n + 1);
+}
+
+// 28. Turn on rightmost consecutive 0s
+int turnOnRightmost0s(int n) {
+    return n | (n - 1);
+}
+
+// 29. Create mask of n ones
+unsigned int createOnes(int n) {
+    return (1U << n) - 1;
+}
+
+// 30. Check if only one bit is set
+bool onlyOneBitSet(unsigned int n) {
+    return n != 0 && (n & (n - 1)) == 0;
+}
+
+// ========== ADVANCED TRICKS ==========
+
+// 31. Average of two integers without overflow
+int averageNoOverflow(int a, int b) {
+    return (a & b) + ((a ^ b) >> 1);
+}
+
+// 32. Modulo by power of 2
+int moduloPowerOf2(int n, int powerOf2) {
+    return n & (powerOf2 - 1);
+}
+
+// 33. Check if addition would overflow
+bool willAddOverflow(int a, int b) {
+    int sum = a + b;
+    return ((a ^ sum) & (b ^ sum)) < 0;
+}
+
+// 34. Set all bits after position n
+unsigned int setAllAfter(int n) {
+    return (1U << (n + 1)) - 1;
+}
+
+// 35. Clear all bits after position n
+unsigned int clearAllAfter(unsigned int num, int n) {
+    return num & ~((1U << (n + 1)) - 1);
+}
+
+// 36. Toggle bit range [i, j]
+int toggleRange(int num, int i, int j) {
+    int len = j - i + 1;
+    int mask = ((1 << len) - 1) << i;
+    return num ^ mask;
+}
+
+// 37. Copy bit from position src to position dst
+int copyBit(int num, int src, int dst) {
+    int bit = (num >> src) & 1;
+    return (num & ~(1 << dst)) | (bit << dst);
+}
+
+// 38. Swap adjacent bits
+unsigned int swapAdjacentBits(unsigned int n) {
+    return ((n & 0xAAAAAAAA) >> 1) | ((n & 0x55555555) << 1);
+}
+
+// 39. Get bit value at position
+int getBitValue(int num, int pos) {
+    return (num >> pos) & 1;
+}
+
+// 40. Count bits to flip to convert A to B
+int bitsToFlip(int a, int b) {
+    return __builtin_popcount(a ^ b);
+}
+```
+
+### 11.2 Performance Optimizations
+
+```c
+/**
+ * PERFORMANCE TRICKS
+ */
+
+// Fast multiplication by constants
+int multiply10(int n) {
+    // n * 10 = (n << 3) + (n << 1)
+    return (n << 3) + (n << 1);
+}
+
+int multiply9(int n) {
+    // n * 9 = (n << 3) + n
+    return (n << 3) + n;
+}
+
+int multiply7(int n) {
+    // n * 7 = (n << 3) - n
+    return (n << 3) - n;
+}
+
+// Fast division by 3 (approximation)
+int divideBy3(int n) {
+    // Only works for small positive numbers
+    return (n * 0xAAAAAAAB) >> 33;
+}
+
+// Check if n is multiple of 3 without division
+bool isMultipleOf3(int n) {
+    int count = 0;
+    if (n < 0) n = -n;
+    
+    while (n) {
+        count ^= (n & 1);
+        n >>= 1;
+    }
+    
+    return count == 0;
+}
+
+// Check if n is multiple of 9
+bool isMultipleOf9(int n) {
+    if (n < 0) n = -n;
+    
+    while (n > 9) {
+        n = (n >> 4) + (n & 0xF);
+    }
+    
+    return n == 0 || n == 9;
+}
+
+// Count bits faster with lookup table
+static int bitCountTable[256];
+
+void initBitCountTable() {
+    for (int i = 0; i < 256; i++) {
+        bitCountTable[i] = (i & 1) + bitCountTable[i / 2];
+    }
+}
+
+int countBitsFast(unsigned int n) {
+    return bitCountTable[n & 0xFF] + 
+           bitCountTable[(n >> 8) & 0xFF] +
+           bitCountTable[(n >> 16) & 0xFF] +
+           bitCountTable[(n >> 24) & 0xFF];
+}
+```
+
+### 11.3 Practice Problems
+
+#### Beginner Level
+
+1. **Swap Numbers**
+   - Swap two integers without temp
+   - Hint: XOR swap
+
+2. **Reverse Bits**
+   - Reverse bit pattern
+   - Hint: Swap and shift
+
+3. **Absolute Value**
+   - Get absolute without branching
+   - Hint: Use sign mask
+
+4. **Min/Max Without Branch**
+   - Find min/max without if
+   - Hint: XOR trick
+
+5. **Rotate Bits**
+   - Rotate left/right
+   - Hint: Shift and OR
+
+#### Intermediate Level
+
+6. **Gray Code**
+   - Convert binary to Gray code
+   - Hint: n ^ (n >> 1)
+
+7. **Next Sparse Number**
+   - Find next number with no adjacent 1s
+   - Hint: Check consecutive bits
+
+8. **Bit Difference**
+   - Count bits to flip A to B
+   - Hint: XOR and count
+
+9. **Add Binary Numbers**
+   - Add without + operator
+   - Hint: XOR and carry
+
+10. **Multiply Without * Operator**
+    - Multiply using shifts
+    - Hint: Add shifted values
+
+---
+
+## Section 12: Gray Code Pattern
+
+### 12.1 Pattern Overview
+
+**Gray Code:** Binary numeral system where consecutive values differ in only one bit.
+
+**Example (3-bit):**
+```
+Binary  Gray
+000  →  000
+001  →  001
+010  →  011
+011  →  010
+100  →  110
+101  →  111
+110  →  101
+111  →  100
+```
+
+**Conversion Formula:**
+```
+Gray = Binary ^ (Binary >> 1)
+```
+
+### 12.2 Gray Code Operations
+
+```c
+/**
+ * GRAY CODE OPERATIONS
+ */
+
+// Convert binary to Gray code
+unsigned int binaryToGray(unsigned int binary) {
+    return binary ^ (binary >> 1);
+}
+
+// Convert Gray code to binary
+unsigned int grayToBinary(unsigned int gray) {
+    unsigned int binary = gray;
+    
+    while (gray >>= 1) {
+        binary ^= gray;
+    }
+    
+    return binary;
+}
+
+// Generate all n-bit Gray codes
+int* grayCode(int n, int* returnSize) {
+    int size = 1 << n;  // 2^n codes
+    *returnSize = size;
+    
+    int* result = (int*)malloc(size * sizeof(int));
+    
+    for (int i = 0; i < size; i++) {
+        result[i] = binaryToGray(i);
+    }
+    
+    return result;
+}
+
+// Generate Gray codes recursively (reflected binary)
+void grayCodeRecursive(int n, int* result, int* index, int current) {
+    if (n == 0) {
+        result[(*index)++] = current;
+        return;
+    }
+    
+    // Generate codes with 0 prefix
+    grayCodeRecursive(n - 1, result, index, current);
+    
+    // Generate codes with 1 prefix (reflected)
+    grayCodeRecursive(n - 1, result, index, current | (1 << (n - 1)));
+}
+
+// Check if two numbers are adjacent in Gray code
+bool areAdjacentInGray(unsigned int a, unsigned int b) {
+    unsigned int diff = a ^ b;
+    return (diff & (diff - 1)) == 0;  // Only one bit different
+}
+
+// Get next Gray code
+unsigned int nextGray(unsigned int current) {
+    unsigned int binary = grayToBinary(current);
+    return binaryToGray(binary + 1);
+}
+
+// Test Gray code
+void testGrayCode() {
+    printf("3-bit Gray codes:\n");
+    printf("Binary → Gray\n");
+    
+    for (int i = 0; i < 8; i++) {
+        unsigned int gray = binaryToGray(i);
+        printf("%03d → %03d (", i, gray);
+        printBinary(gray & 0x7);
+        printf(")\n");
+    }
+    
+    printf("\nGray → Binary verification:\n");
+    for (int i = 0; i < 8; i++) {
+        unsigned int gray = binaryToGray(i);
+        unsigned int binary = grayToBinary(gray);
+        printf("Gray %03d → Binary %03d %s\n", 
+               gray, binary, (binary == i) ? "✓" : "✗");
+    }
+}
+```
+
+### 12.3 Applications
+
+```c
+/**
+ * GRAY CODE APPLICATIONS
+ */
+
+// Karnaugh map optimization
+// Gray code ensures adjacent cells differ by one variable
+
+// Position encoding in rotary encoders
+// Reduces errors when reading mechanical position
+
+// Error correction in digital communications
+// Adjacent codes differ by only one bit
+
+// Genetic algorithms
+// Smooth transition between chromosome values
+
+// Example: Generate Hamiltonian path on hypercube
+void hypercubeHamiltonianPath(int n) {
+    int size = 1 << n;
+    
+    printf("Hamiltonian path on %d-dimensional hypercube:\n", n);
+    
+    for (int i = 0; i < size; i++) {
+        unsigned int gray = binaryToGray(i);
+        
+        for (int bit = n - 1; bit >= 0; bit--) {
+            printf("%d", (gray >> bit) & 1);
+        }
+        
+        if (i < size - 1) printf(" → ");
+    }
+    printf("\n");
+}
+```
+
+---
+
+## Section 13: Hamming Distance Pattern
+
+### 13.1 Pattern Overview
+
+**Hamming Distance:** Number of positions at which corresponding bits are different.
+
+**Formula:**
+```
+HammingDistance(x, y) = popcount(x XOR y)
+```
+
+### 13.2 Hamming Operations
+
+```c
+/**
+ * HAMMING DISTANCE OPERATIONS
+ */
+
+// Hamming distance between two integers
+int hammingDistance(int x, int y) {
+    return __builtin_popcount(x ^ y);
+}
+
+// Total Hamming distance of all pairs
+int totalHammingDistance(int* nums, int numsSize) {
+    int total = 0;
+    
+    // For each bit position
+    for (int bit = 0; bit < 32; bit++) {
+        int countOnes = 0;
+        
+        // Count numbers with this bit set
+        for (int i = 0; i < numsSize; i++) {
+            if (nums[i] & (1 << bit)) {
+                countOnes++;
+            }
+        }
+        
+        // Each 1 pairs with each 0
+        int countZeros = numsSize - countOnes;
+        total += countOnes * countZeros;
+    }
+    
+    return total;
+}
+
+// Hamming weight (number of 1s)
+int hammingWeight(unsigned int n) {
+    return __builtin_popcount(n);
+}
+
+// Find number with minimum Hamming distance to target
+int minHammingDistance(int* nums, int numsSize, int target) {
+    int minDist = 32;
+    int result = -1;
+    
+    for (int i = 0; i < numsSize; i++) {
+        int dist = hammingDistance(nums[i], target);
+        if (dist < minDist) {
+            minDist = dist;
+            result = nums[i];
+        }
+    }
+    
+    return result;
+}
+
+// Check if Hamming distance is exactly k
+bool isHammingDistanceK(int x, int y, int k) {
+    return hammingDistance(x, y) == k;
+}
+
+// Test Hamming distance
+void testHammingDistance() {
+    printf("Hamming distance between 1 and 4: %d\n", hammingDistance(1, 4));
+    // 1 = 001, 4 = 100, distance = 2
+    
+    int nums[] = {4, 14, 2};
+    printf("Total Hamming distance: %d\n", totalHammingDistance(nums, 3));
+    
+    printf("Hamming weight of 7: %d\n", hammingWeight(7));  // 111 = 3 ones
+}
+```
+
+---
+
+## Section 14: Problem-Solving Framework
+
+### 14.1 Decision Tree
+
+```
+BITWISE PROBLEM? Ask these questions:
+
+Q1: Does problem mention bits explicitly?
+└─ YES → Use bitwise approach
+└─ NO → Check if bitwise optimization possible
+
+Q2: What operation is needed?
+├─ Set/Clear/Toggle bits → Use |, &~, ^
+├─ Check bits → Use & with mask
+├─ Count bits → Use popcount
+├─ Find patterns → Use XOR properties
+├─ Generate subsets → Use bitmasks
+└─ Optimize arithmetic → Use shifts
+
+Q3: What's the key property?
+├─ Power of 2 → Use n & (n-1)
+├─ Pairs cancel → Use XOR
+├─ Position matters → Use shifts
+└─ Range operations → Use masks
+
+Q4: What's the constraint?
+├─ No extra space → In-place bit manipulation
+├─ Fast execution → Bit tricks over loops
+└─ Small values → Bitmask DP possible
+```
+
+### 14.2 Common Problem Patterns
+
+```c
+/**
+ * PROBLEM PATTERN RECOGNITION
+ */
+
+// Pattern 1: Find unique element (others appear even times)
+// Solution: XOR all elements
+int findUnique(int* nums, int size) {
+    int result = 0;
+    for (int i = 0; i < size; i++) {
+        result ^= nums[i];
+    }
+    return result;
+}
+
+// Pattern 2: Check property of number
+// Solution: Use specific bit patterns
+bool checkProperty(int n) {
+    // Is power of 2?
+    if ((n > 0) && (n & (n - 1)) == 0) return true;
+    
+    // Is power of 4?
+    if ((n > 0) && (n & (n - 1)) == 0 && (n & 0x55555555)) return true;
+    
+    return false;
+}
+
+// Pattern 3: Optimize arithmetic
+// Solution: Replace with bit operations
+int optimizeArithmetic(int n) {
+    // Multiply by 8
+    int result = n << 3;
+    
+    // Divide by 4
+    result = result >> 2;
+    
+    // Modulo 16
+    result = result & 15;
+    
+    return result;
+}
+
+// Pattern 4: Generate all possibilities
+// Solution: Use bitmask iteration
+void generateAll(int n) {
+    int total = 1 << n;
+    
+    for (int mask = 0; mask < total; mask++) {
+        // Process this combination
+        for (int i = 0; i < n; i++) {
+            if (mask & (1 << i)) {
+                // Element i is included
+            }
+        }
+    }
+}
+
+// Pattern 5: Bit manipulation DP
+// Solution: Use bitmask for state
+int bitmaskDP(int n) {
+    int dp[1 << n];
+    
+    dp[0] = 0;  // Base case
+    
+    for (int mask = 0; mask < (1 << n); mask++) {
+        // Transition to new states
+        for (int i = 0; i < n; i++) {
+            if (!(mask & (1 << i))) {
+                int newMask = mask | (1 << i);
+                // Update dp[newMask]
+            }
+        }
+    }
+    
+    return dp[(1 << n) - 1];
+}
+```
+
+---
+
+## Section 15: Common Bitwise Problems
+
+### 15.1 Problem Categories
+
+**Category 1: Single/Missing Number**
+- Single Number (all others twice)
+- Missing Number  
+- Find Duplicate
+- Two Single Numbers
+
+**Category 2: Bit Counting**
+- Number of 1 Bits
+- Counting Bits (0 to n)
+- Hamming Distance
+- Binary Watch
+
+**Category 3: Power of N**
+- Power of Two
+- Power of Four
+- Next Power of 2
+
+**Category 4: Bit Manipulation**
+- Reverse Bits
+- Add Binary
+- Sum of Two Integers (no + operator)
+- Divide Two Integers (no / operator)
+
+**Category 5: Subsets**
+- Subsets
+- Subset Sum
+- Partition Equal Subset Sum
+- Maximum XOR
+
+---
+
+## Section 16: Practice Roadmap
+
+### 16.1 Week-by-Week Plan
+
+**Week 1: Foundations**
+- Day 1-2: Binary basics, operators
+- Day 3-4: Set/clear/toggle bits
+- Day 5-6: Checking and extracting
+- Day 7: Review and practice
+
+**Week 2: Core Patterns**
+- Day 1-2: Counting bits
+- Day 3-4: Power of two
+- Day 5-6: XOR magic
+- Day 7: Review
+
+**Week 3: Advanced**
+- Day 1-2: Bit masking
+- Day 3-4: Subset generation
+- Day 5-6: Tricks and optimizations
+- Day 7: Review
+
+**Week 4: Applications**
+- Day 1-2: Gray code, Hamming
+- Day 3-4: Complex problems
+- Day 5-6: Contest problems
+- Day 7: Final review
+
+### 16.2 Problem List (60 Essential Problems)
+
+#### Easy (20 problems)
+1. Single Number
+2. Number of 1 Bits
+3. Reverse Bits
+4. Power of Two
+5. Missing Number
+6. Hamming Distance
+7. Binary Watch
+8. Prime Number of Set Bits
+9. Binary Number with Alternating Bits
+10. Number Complement
+11. Convert to Base -2
+12. Minimum Bit Flips
+13. Sort Integers by The Number of 1 Bits
+14. XOR Operation in Array
+15. Decode XORed Array
+16. Count Triplets XOR Equal to Zero
+17. Find XOR Sum of All Pairs
+18. Maximum XOR for Each Query
+19. Minimum One Bit Operations
+20. Count Subsets Sum Equal to Target
+
+#### Medium (25 problems)
+21. Single Number II (3 times)
+22. Single Number III (two singles)
+23. Counting Bits
+24. Maximum XOR of Two Numbers
+25. Total Hamming Distance
+26. Binary Number to String
+27. UTF-8 Validation
+28. Power of Four
+29. Bitwise AND of Range
+30. Majority Element II
+31. Find Missing and Duplicate
+32. Subsets
+33. Gray Code
+34. Hamming Distance
+35. Maximum Product of Word Lengths
+36. Partition Equal Subset Sum
+37. Beautiful Arrangement
+38. Can I Win
+39. Shortest Path Visiting All Nodes
+40. Number of Ways to Wear Hats
+41. Minimum Cost to Connect Cities
+42. Maximum Students Taking Exam
+43. Number of Squareful Arrays
+44. Smallest Sufficient Team
+45. Fair Distribution of Cookies
+
+#### Hard (15 problems)
+46. Maximum XOR With Element From Array
+47. Maximum Genetic Difference Query
+48. Minimum XOR Sum of Two Arrays
+49. Count Subtrees With Max Distance
+50. Number of Valid Move Combinations
+51. Maximum Compatibility Score Sum
+52. Minimize Hamming Distance After Swap
+53. Minimum Number of Work Sessions
+54. Maximum Value at a Given Index
+55. Count All Valid Pickup and Delivery
+56. Number of Ways to Reconstruct a Tree
+57. Minimum Total Space Wasted With K Rooms
+58. Minimum Incompatibility
+59. Maximum Number of Achievable Tasks
+60. Find Minimum Time to Finish All Jobs
+
+---
+
+## CONCLUSION
+
+### Key Takeaways
+
+1. **Master the Fundamentals**
+   - Understand binary representation
+   - Know all six bitwise operators
+   - Practice basic operations daily
+
+2. **Recognize Patterns**
+   - XOR for finding unique elements
+   - Power of 2 checks with n & (n-1)
+   - Bitmasks for subset generation
+   - Bit manipulation for optimization
+
+3. **Think in Bits**
+   - Visualize binary representations
+   - Consider bit-level operations
+   - Look for bit manipulation optimizations
+
+4. **Common Applications**
+   - Flags and status registers
+   - Permissions and access control
+   - Memory-efficient data structures
+   - Performance optimizations
+   - Combinatorial problems
+
+5. **Practice Strategy**
+   - Start with easy problems
+   - Master one pattern at a time
+   - Solve 5-10 problems per pattern
+   - Review and optimize solutions
+
+### Quick Reference Card
+
+```
+OPERATION          CODE               RESULT
+────────────────────────────────────────────────
+Set bit            n | (1 << i)      Sets bit i
+Clear bit          n & ~(1 << i)     Clears bit i
+Toggle bit         n ^ (1 << i)      Toggles bit i
+Check bit          n & (1 << i)      Checks bit i
+Power of 2         n & (n-1) == 0    Checks power of 2
+Count bits         __builtin_popcount Counts 1s
+XOR swap           a^=b; b^=a; a^=b  Swaps a and b
+Isolate rightmost  n & -n            Gets rightmost 1
+Clear rightmost    n & (n-1)         Removes rightmost 1
+Next power 2       See algorithm     Finds next power
+Absolute value     (n^(n>>31))-(n>>31) Gets |n|
+```
+
+### Final Tips
+
+- **Debugging**: Print binary representations
+- **Testing**: Try edge cases (0, 1, -1, MAX, MIN)
+- **Optimization**: Bit operations are fast
+- **Clarity**: Comment bit manipulation code
+- **Practice**: Solve problems daily
+
+**Remember**: Bitwise operations are powerful tools. With practice, they become intuitive and can significantly optimize your code!
+
+---
+
+**END OF GUIDE**
