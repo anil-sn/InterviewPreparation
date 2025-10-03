@@ -8,28 +8,28 @@
 ## TABLE OF CONTENTS
 
 ### PART 1: FUNDAMENTALS
-1. [Binary Number System Basics](#section-1-binary-number-system)
-2. [Bitwise Operators Deep Dive](#section-2-bitwise-operators)
-3. [Bit Manipulation Fundamentals](#section-3-bit-manipulation-fundamentals)
+1. Binary Number System Basics
+2. Bitwise Operators Deep Dive
+3. Bit Manipulation Fundamentals
 
 ### PART 2: ESSENTIAL PATTERNS
-4. [Setting, Clearing, and Toggling Bits](#section-4-setting-clearing-toggling)
-5. [Checking and Extracting Bits](#section-5-checking-extracting)
-6. [Counting Bits Pattern](#section-6-counting-bits)
-7. [Power of Two Pattern](#section-7-power-of-two)
-8. [XOR Magic Pattern](#section-8-xor-magic)
-9. [Bit Masking Pattern](#section-9-bit-masking)
+4. Setting, Clearing, and Toggling Bits
+5. Checking and Extracting Bits
+6. Counting Bits Pattern
+7. Power of Two Pattern
+8. XOR Magic Pattern
+9. Bit Masking Pattern
 
 ### PART 3: ADVANCED PATTERNS
-10. [Subset Generation Pattern](#section-10-subset-generation)
-11. [Bit Manipulation Tricks](#section-11-bit-tricks)
-12. [Gray Code Pattern](#section-12-gray-code)
-13. [Hamming Distance Pattern](#section-13-hamming-distance)
+10. Subset Generation Pattern
+11. Bit Manipulation Tricks
+12. Gray Code Pattern
+13. Hamming Distance Pattern
 
 ### PART 4: PRACTICAL APPLICATIONS
-14. [Problem-Solving Framework](#section-14-problem-solving)
-15. [Common Bitwise Problems](#section-15-common-problems)
-16. [Practice Roadmap](#section-16-practice-roadmap)
+14. Problem-Solving Framework
+15. Common Bitwise Problems
+16. Practice Roadmap
 
 ---
 
