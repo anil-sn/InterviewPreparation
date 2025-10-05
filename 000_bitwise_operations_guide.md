@@ -234,48 +234,119 @@ A   B   A & B
 
 **Common Uses:**
 ```c
+#include <stdio.h>
+#include <stdbool.h> // Include for using bool, true, and false
+
 /**
  * AND OPERATOR PATTERNS
+ * This program demonstrates various bit manipulation techniques using the bitwise AND (&) operator.
  */
 
-// 1. Check if bit is set
+// 1. Check if a specific bit is set (i.e., if it's a 1)
 bool isBitSet(int num, int pos) {
+    // (1 << pos) creates a "mask" with a single '1' at the desired position 'pos'.
+    // For example, if pos is 5, (1 << 5) results in the binary number ...00100000.
+    //
+    // The bitwise AND (&) compares 'num' with this mask. The result will be non-zero
+    // *only if* the bit at 'pos' in 'num' is also a '1'.
+    //
+    // For example, to check bit 5 in 214 (11010110):
+    //   11010110 (num)
+    // & 00100000 (mask: 1 << 5)
+    // ----------
+    //   00100000 (result is 32, which is not 0)
+    //
+    // The expression '!= 0' converts this numeric result into a boolean (true/false) value.
     return (num & (1 << pos)) != 0;
 }
 
-// 2. Clear specific bits (use with ~)
+// 2. Clear specific bits (set them to 0) using a mask
 int clearBits(int num, int mask) {
+    // The bitwise NOT (~) operator inverts every bit in the mask.
+    // If a bit in 'mask' is 1, it becomes 0. If it's 0, it becomes 1.
+    // This creates an "inverted mask" where the bits we want to clear are 0,
+    // and the bits we want to keep are 1.
+    //
+    // By ANDing the original number 'num' with this inverted mask (~mask), we achieve the following:
+    // - Any bit in 'num' corresponding to a '1' in the original 'mask' gets ANDed with '0', clearing it.
+    // - Any bit in 'num' corresponding to a '0' in the original 'mask' gets ANDed with '1', leaving it unchanged.
     return num & ~mask;
 }
 
-// 3. Extract lower bits
+// 3. Extract the 'n' least significant (lower) bits from a number
 int getLowerNBits(int num, int n) {
+    // To get the lower 'n' bits, we need a mask with 'n' ones at the end.
+    // A clever way to create this is by calculating (2^n - 1).
+    // (1 << n) calculates 2^n. For example, if n=4, (1 << 4) is 16 (binary 10000).
+    // Subtracting 1 from this gives 15 (binary 01111), which is the mask we need.
     int mask = (1 << n) - 1;
+
+    // ANDing the number with this mask will set all higher bits to 0,
+    // effectively isolating and returning only the lower 'n' bits.
     return num & mask;
 }
 
-// 4. Check if number is even
+// 4. Check if a number is even
 bool isEven(int num) {
-    return (num & 1) == 0;  // Check if last bit is 0
+    // An even number's binary representation always ends with a 0.
+    // An odd number's binary representation always ends with a 1.
+    //
+    // The expression (num & 1) isolates the least significant bit (LSB).
+    // - If the LSB is 0, (num & 1) results in 0.
+    // - If the LSB is 1, (num & 1) results in 1.
+    //
+    // We check if the result is 0 to determine if the number is even.
+    return (num & 1) == 0;
 }
 
-// 5. Check if power of 2
+// 5. Check if a number is a power of 2 (e.g., 2, 4, 8, 16, ...)
 bool isPowerOfTwo(int num) {
+    // A number is a power of two if it's positive and has exactly one '1' bit in its binary representation.
+    // Example: 16 is 00010000
+    //
+    // If we subtract 1 from a power of two, the leading '1' becomes a '0',
+    // and all the trailing '0's become '1's.
+    // Example: 15 is 00001111
+    //
+    // When we perform a bitwise AND between a power of two and (itself - 1),
+    // the result will always be 0, because there are no positions where both numbers have a '1'.
+    //   00010000 (16)
+    // & 00001111 (15)
+    // ----------
+    //   00000000 (0)
+    //
+    // 'num > 0' is an essential check because 0 would otherwise pass the (num & (num - 1)) == 0 test.
     return num > 0 && (num & (num - 1)) == 0;
 }
 
-// Examples
+// Examples to test the functions
 void testAND() {
-    int num = 0b11010110;  // 214
+    // Initialize num with the binary value 11010110 (which is 214 in decimal).
+    int num = 0b11010110;
     
-    printf("Is bit 5 set? %d\n", isBitSet(num, 5));  // 1 (yes)
-    printf("Is bit 0 set? %d\n", isBitSet(num, 0));  // 0 (no)
+    // Test isBitSet:
+    // Bit 5 is the 6th bit from the right (positions are 0-indexed). In 11010110, it's 1.
+    printf("Is bit 5 set? %d\n", isBitSet(num, 5));  // Expected: 1 (true)
+    // Bit 0 is the last bit. In 11010110, it's 0.
+    printf("Is bit 0 set? %d\n", isBitSet(num, 0));  // Expected: 0 (false)
     
-    printf("Is 42 even? %d\n", isEven(42));          // 1 (yes)
-    printf("Is 43 even? %d\n", isEven(43));          // 0 (no)
+    // Test isEven:
+    // 42 is even, so its last bit is 0. (42 & 1) == 0.
+    printf("Is 42 even? %d\n", isEven(42));          // Expected: 1 (true)
+    // 43 is odd, so its last bit is 1. (43 & 1) != 0.
+    printf("Is 43 even? %d\n", isEven(43));          // Expected: 0 (false)
     
-    printf("Is 16 power of 2? %d\n", isPowerOfTwo(16));  // 1 (yes)
-    printf("Is 18 power of 2? %d\n", isPowerOfTwo(18));  // 0 (no)
+    // Test isPowerOfTwo:
+    // 16 (00010000) & 15 (00001111) is 0.
+    printf("Is 16 power of 2? %d\n", isPowerOfTwo(16));  // Expected: 1 (true)
+    // 18 (00010010) & 17 (00010001) is 16 (00010000), which is not 0.
+    printf("Is 18 power of 2? %d\n", isPowerOfTwo(18));  // Expected: 0 (false)
+}
+
+// Main function to run the tests
+int main() {
+    testAND();
+    return 0;
 }
 ```
 
@@ -292,55 +363,130 @@ A   B   A | B
 
 **Common Uses:**
 ```c
+#include <stdio.h>
+#include <limits.h> // Required for CHAR_BIT to calculate the number of bits in an integer
+
 /**
  * OR OPERATOR PATTERNS
+ * This program demonstrates common bit manipulation patterns using the bitwise OR (|) operator.
  */
 
-// 1. Set specific bit
+// Helper function to print the binary representation of an integer.
+// This is not part of the OR patterns but helps visualize the results in the examples.
+void printBinary(int n) {
+    // We iterate from the most significant bit to the least significant.
+    // sizeof(int) * CHAR_BIT gives the total number of bits in an integer (e.g., 32).
+    // We start from the bit before that (e.g., bit 31).
+    for (int i = sizeof(int) * CHAR_BIT - 1; i >= 0; i--) {
+        // Use the right shift (>>) operator to move the bit at position 'i' to the very end.
+        // Then, use a bitwise AND (&) with 1 to check if that bit is a 1 or a 0.
+        int bit = (n >> i) & 1;
+        printf("%d", bit);
+        // Add a space after every 4 bits for readability.
+        if (i % 4 == 0) printf(" ");
+    }
+    printf("\n");
+}
+
+
+// 1. Set a specific bit to 1
 int setBit(int num, int pos) {
+    // (1 << pos) creates a "mask" with a single '1' at the desired position 'pos'.
+    // For example, if pos is 2, the mask is ...00000100.
+    //
+    // The bitwise OR (|) operation compares the bits of 'num' and the mask.
+    // The result for each bit is 1 if *either* of the operand bits is 1.
+    // - ORing a bit with 0 leaves it unchanged (0|0=0, 1|0=1).
+    // - ORing a bit with 1 sets it to 1 (0|1=1, 1|1=1).
+    //
+    // This reliably "turns on" the bit at 'pos' without affecting any other bits.
     return num | (1 << pos);
 }
 
-// 2. Set multiple bits using mask
+// 2. Set multiple bits to 1 using a mask
 int setMultipleBits(int num, int mask) {
+    // The 'mask' is an integer where the bits we want to set are already 1s.
+    // For example, a mask of 0b111 (or 7) indicates we want to set bits 0, 1, and 2.
+    //
+    // The OR operation will set any bit in 'num' to 1 if the corresponding bit in 'mask' is 1.
+    // Bits in 'num' where the mask's bit is 0 will be left untouched.
     return num | mask;
 }
 
-// 3. Combine flags
+// 3. Combine multiple flags into a single value
 int combineFlags(int flag1, int flag2, int flag3) {
+    // This is a very common use case for the OR operator.
+    // Flags are typically defined as unique powers of two (e.g., 1, 2, 4, 8),
+    // which means each flag corresponds to a single bit position.
+    //
+    // By ORing them together, we create a single integer where multiple bits are set,
+    // each representing an active flag. This is an efficient way to store a set of boolean options.
     return flag1 | flag2 | flag3;
 }
 
-// 4. Round up to next power of 2 (using OR in sequence)
+// 4. Round up to the next power of 2 (a classic bit-twiddling algorithm)
 unsigned int nextPowerOf2(unsigned int n) {
+    // This algorithm works by smearing the most significant '1' bit across all the bits to its right.
+    
+    // First, decrement n. This is crucial for cases where n is already a power of two.
+    // If n=16, we want the result to be 16. Without this step, we would get 32.
+    // By starting with 15 (0...01111), the algorithm will correctly produce 16.
     n--;
-    n |= n >> 1;
-    n |= n >> 2;
-    n |= n >> 4;
-    n |= n >> 8;
-    n |= n >> 16;
+
+    // The following sequence of operations "smears" the highest set bit to the right.
+    // Let's trace n = 12 (after n--, it becomes 11, which is 0000 1011)
+    n |= n >> 1; // 0000 1011 | 0000 0101 = 0000 1111
+    n |= n >> 2; // 0000 1111 | 0000 0011 = 0000 1111
+    n |= n >> 4; // 0000 1111 | 0000 0000 = 0000 1111
+    n |= n >> 8; // (and so on...)
+    n |= n >> 16;// This ensures the smearing works for all bits in a 32-bit integer.
+    
+    // After the smearing, n is now a sequence of all 1s from the original highest bit down.
+    // For our example, it's 15 (0000 1111).
+    
+    // Incrementing this value gives the next power of two. (15 + 1 = 16).
     n++;
     return n;
 }
 
-// Examples
+// Examples to test the functions
 void testOR() {
-    int num = 0b10000000;  // 128
+    // Initialize num with the binary value 10000000 (128 decimal).
+    int num = 0b10000000;
     
-    printf("Set bit 2: ");
-    printBinary(setBit(num, 2));  // 10000100 (132)
+    printf("Original number: ");
+    printBinary(num); // 1000 0000
+
+    printf("Set bit 2:       ");
+    // Should turn on the 3rd bit from the right.
+    printBinary(setBit(num, 2));  // Expected: 1000 0100 (132)
     
-    printf("Set bits 0,1,2: ");
+    printf("Set bits 0,1,2:  ");
+    // The mask 0b111 has the first three bits set to 1.
     int mask = 0b111;
-    printBinary(setMultipleBits(num, mask));  // 10000111 (135)
+    // The result should have the original bit 7 and the new bits 0, 1, 2 set.
+    printBinary(setMultipleBits(num, mask));  // Expected: 1000 0111 (135)
     
-    // Flag examples
-    #define READ  0x01   // 0001
-    #define WRITE 0x02   // 0010
-    #define EXEC  0x04   // 0100
+    // Flag examples using preprocessor definitions for readability.
+    #define READ  0x01   // Binary 0001
+    #define WRITE 0x02   // Binary 0010
+    #define EXEC  0x04   // Binary 0100
     
-    int permissions = READ | WRITE;  // 0011 (3)
-    printf("Permissions: 0x%X\n", permissions);
+    // Combine READ and WRITE permissions.
+    // 0001 | 0010 = 0011 (which is 3 in decimal).
+    int permissions = READ | WRITE;
+    // 0x%X prints the number in hexadecimal format. 3 in hex is 3.
+    printf("\nCombined Permissions (READ|WRITE): 0x%X\n", permissions);
+
+    printf("Next power of 2 for 12 is: %u\n", nextPowerOf2(12)); // Expected: 16
+    printf("Next power of 2 for 16 is: %u\n", nextPowerOf2(16)); // Expected: 16
+    printf("Next power of 2 for 17 is: %u\n", nextPowerOf2(17)); // Expected: 32
+}
+
+// Main function to run the tests
+int main() {
+    testOR();
+    return 0;
 }
 ```
 
@@ -357,97 +503,271 @@ A   B   A ^ B
 
 **XOR Properties (CRITICAL):**
 ```c
-/**
- * XOR PROPERTIES - MEMORIZE THESE!
- */
+#include <stdio.h>
+#include <stdlib.h> // For malloc and free
+#include <string.h> // For strlen
 
+// Helper function to print the binary representation of an integer for visualization.
+void printBinary(int n) {
+    for (int i = 7; i >= 0; i--) { // Print 8 bits for simplicity
+        printf("%d", (n >> i) & 1);
+    }
+}
+
+/**
+ * XOR PROPERTIES - These are the foundation for all XOR patterns.
+ * The XOR (^) operator, or "exclusive OR", returns 1 if the two bits are different, and 0 if they are the same.
+ * 0 ^ 0 = 0
+ * 0 ^ 1 = 1
+ * 1 ^ 0 = 1
+ * 1 ^ 1 = 0
+ */
 void xorProperties() {
-    int a = 42;
-    
-    // 1. XOR with 0 = identity (no change)
-    printf("%d ^ 0 = %d\n", a, a ^ 0);  // 42
-    
-    // 2. XOR with itself = 0
-    printf("%d ^ %d = %d\n", a, a, a ^ a);  // 0
-    
-    // 3. XOR is commutative: a ^ b = b ^ a
-    int b = 17;
-    printf("%d ^ %d = %d\n", a, b, a ^ b);  // 59
-    printf("%d ^ %d = %d\n", b, a, b ^ a);  // 59
-    
-    // 4. XOR is associative: (a ^ b) ^ c = a ^ (b ^ c)
-    int c = 99;
-    printf("(%d ^ %d) ^ %d = %d\n", a, b, c, (a ^ b) ^ c);
-    printf("%d ^ (%d ^ %d) = %d\n", a, b, c, a ^ (b ^ c));
-    
-    // 5. Double XOR cancels out: a ^ b ^ b = a
-    printf("%d ^ %d ^ %d = %d\n", a, b, b, a ^ b ^ b);  // 42
-    
-    // 6. XOR for swapping (no temp variable!)
+    printf("--- 1. Fundamental XOR Properties ---\n");
+    int a = 42; // Binary: 00101010
+    int b = 17; // Binary: 00010001
+    int c = 99; // Binary: 01100011
+
+    // Property 1: XOR with 0 is the identity operation. It doesn't change the number.
+    // (a ^ 0) = a
+    printf("1. Identity:      %d ^ 0 = %d\n", a, a ^ 0);
+
+    // Property 2: XOR with itself results in 0.
+    // (a ^ a) = 0
+    printf("2. Self-Inverse:  %d ^ %d = %d\n", a, a, a ^ a);
+
+    // Property 3: Commutativity. The order of operands doesn't matter.
+    // (a ^ b) = (b ^ a)
+    printf("3. Commutative:   %d ^ %d = %d  and  %d ^ %d = %d\n", a, b, a ^ b, b, a, b ^ a);
+
+    // Property 4: Associativity. Grouping of operands doesn't matter.
+    // (a ^ b) ^ c = a ^ (b ^ c)
+    printf("4. Associative:   (%d ^ %d) ^ %d = %d\n", a, b, c, (a ^ b) ^ c);
+
+    // Property 5: The "Cancellation" property. XORing with a number twice cancels it out, returning the original value.
+    // This is the basis for XOR swapping and simple encryption.
+    // (a ^ b ^ b) = a ^ (b ^ b) = a ^ 0 = a
+    printf("5. Cancellation:  (%d ^ %d) ^ %d = %d\n", a, b, b, a ^ b ^ b);
+}
+
+/**
+ * XOR USE CASES AND CREATIVE SOLUTIONS
+ */
+void xorUseCases() {
+    printf("\n--- 2. Classic Use Case: Swapping Variables ---\n");
+    // This is a classic "trick" to swap two variables without needing a temporary variable.
+    // It relies entirely on the self-inverse and cancellation properties of XOR.
     int x = 5, y = 10;
-    printf("Before: x=%d, y=%d\n", x, y);
-    x = x ^ y;
-    y = x ^ y;  // y = (x ^ y) ^ y = x
-    x = x ^ y;  // x = (x ^ y) ^ x = y
-    printf("After:  x=%d, y=%d\n", x, y);  // x=10, y=5
+    printf("Before swap: x = %d, y = %d\n", x, y);
+    x = x ^ y; // x now holds the combined, unique bits of the original x and y.
+    y = x ^ y; // y = (original_x ^ original_y) ^ original_y  -->  y becomes original_x
+    x = x ^ y; // x = (original_x ^ original_y) ^ new_y (which is original_x) --> x becomes original_y
+    printf("After swap:  x = %d, y = %d\n", x, y);
+
+    printf("\n--- 3. Toggling a Specific Bit ---\n");
+    // XORing with a mask toggles the bits. If a bit in the number is 1, it becomes 0; if it's 0, it becomes 1.
+    // This is because (1 ^ 1 = 0) and (0 ^ 1 = 1). Other bits are XORed with 0 and remain unchanged.
+    int num = 0b11010110; // 214
+    int mask = 1 << 4;    // Mask to toggle the 4th bit: 00010000
+    printf("Original number: "); printBinary(num); printf(" (214)\n");
+    num = num ^ mask;
+    printf("Toggled bit 4:   "); printBinary(num); printf(" (230)\n");
+    num = num ^ mask; // Toggle it again
+    printf("Toggled back:    "); printBinary(num); printf(" (214)\n");
+
+    printf("\n--- 4. Finding the Single Unique Number in an Array ---\n");
+    // If you XOR all elements in an array where every number appears twice except for one,
+    // the pairs will cancel each other out (a ^ a = 0), leaving only the unique number.
+    // Example: (5 ^ 8 ^ 2 ^ 5 ^ 8) = (5 ^ 5) ^ (8 ^ 8) ^ 2 = 0 ^ 0 ^ 2 = 2
+    int arr[] = {5, 8, 2, 11, 8, 5, 11};
+    int unique = 0;
+    for (size_t i = 0; i < 7; i++) {
+        unique = unique ^ arr[i];
+    }
+    printf("In {5, 8, 2, 11, 8, 5, 11}, the unique number is: %d\n", unique);
+
+    printf("\n--- 5. Simple XOR Encryption/Decryption ---\n");
+    // This simple cipher encrypts a message by XORing each character with a repeating key.
+    // The exact same function decrypts it because of the cancellation property: (message ^ key) ^ key = message.
+    // NOTE: This is NOT cryptographically secure, but demonstrates the principle.
+    char message[] = "Hello World";
+    char key[] = "SECRET";
+    printf("Original message:  %s\n", message);
+    
+    // "Encrypt"
+    for (size_t i = 0; i < strlen(message); i++) {
+        message[i] = message[i] ^ key[i % strlen(key)];
+    }
+    printf("Encrypted message: %s\n", message);
+    
+    // "Decrypt"
+    for (size_t i = 0; i < strlen(message); i++) {
+        message[i] = message[i] ^ key[i % strlen(key)];
+    }
+    printf("Decrypted message: %s\n", message);
+    
+    printf("\n--- 6. Finding the Missing Number in a Sequence ---\n");
+    // Given an array of n-1 unique integers in the range [0, n-1], find the missing one.
+    // We can XOR all numbers from 0 to n, and then XOR that result with all numbers in the array.
+    // The numbers present in both will cancel out, leaving only the missing number.
+    // Example: n=4, array={0, 1, 3}.
+    // XOR of all nums: (0^1^2^3). XOR of array: (0^1^3).
+    // Combined: (0^1^2^3) ^ (0^1^3) = (0^0)^(1^1)^2^(3^3) = 0^0^2^0 = 2. The missing number is 2.
+    int sequence[] = {0, 1, 3, 4, 2, 6}; // Missing 5, n=7
+    int n = 7;
+    int missing = 0;
+    // XOR all numbers from 0 to n (inclusive of 0, exclusive of n)
+    for (int i = 0; i < n; i++) {
+        missing ^= i;
+    }
+    // XOR with all numbers in the actual sequence
+    for (size_t i = 0; i < sizeof(sequence)/sizeof(int); i++) {
+        missing ^= sequence[i];
+    }
+    printf("In the sequence {0,1,3,4,2,6}, the missing number is: %d\n", missing);
+}
+
+// Main function to run the demonstrations
+int main() {
+    xorProperties();
+    xorUseCases();
+    return 0;
 }
 ```
 
 **Common XOR Uses:**
 ```c
+#include <stdio.h>
+#include <stdbool.h> // For using the bool type and true/false values
+
+// Helper function to print the binary representation of an integer for visualization.
+void printBinary(int n) {
+    // We iterate from left to right (most significant bit to least significant).
+    // This example prints 8 bits, which is suitable for char-sized integers or small test values.
+    for (int i = 7; i >= 0; i--) {
+        // (n >> i) shifts the bit at position 'i' to the very end (position 0).
+        // (& 1) isolates this bit. The result is either 1 or 0.
+        printf("%d", (n >> i) & 1);
+    }
+}
+
 /**
  * XOR OPERATOR PATTERNS
+ * Demonstrates several powerful algorithms and tricks using the bitwise XOR (^) operator.
  */
 
-// 1. Toggle specific bit
+// 1. Toggle a specific bit (change 0 to 1, or 1 to 0)
 int toggleBit(int num, int pos) {
+    // (1 << pos) creates a mask with only the bit at 'pos' set to 1.
+    // The XOR operator flips a bit if the corresponding mask bit is 1, and leaves it unchanged if the mask bit is 0.
+    // - If the bit in 'num' is 1: 1 ^ 1 = 0 (toggles off)
+    // - If the bit in 'num' is 0: 0 ^ 1 = 1 (toggles on)
+    // - All other bits in 'num' are XORed with 0, which leaves them unchanged (x ^ 0 = x).
     return num ^ (1 << pos);
 }
 
-// 2. Find single number (all others appear twice)
+// 2. Find the single number in an array where all other numbers appear exactly twice
 int singleNumber(int* nums, int numsSize) {
+    // This algorithm relies on two key properties of XOR:
+    // 1. XORing a number with itself results in 0 (a ^ a = 0).
+    // 2. XORing a number with 0 results in the number itself (a ^ 0 = a).
     int result = 0;
     for (int i = 0; i < numsSize; i++) {
-        result ^= nums[i];  // Pairs cancel out
+        // As we XOR all elements together, every pair of identical numbers will cancel each other out.
+        // For example: (4 ^ 1 ^ 2 ^ 1 ^ 2) can be rearranged (due to associativity) as:
+        // 4 ^ (1 ^ 1) ^ (2 ^ 2) = 4 ^ 0 ^ 0 = 4.
+        result ^= nums[i];
     }
+    // The final result will be the only number that did not have a pair.
     return result;
 }
 
-// 3. Swap without temp variable
+// 3. Swap the values of two integer pointers without using a temporary variable
 void swapXOR(int* a, int* b) {
-    if (a != b) {  // Important: check not same address
+    // This check is crucial. If 'a' and 'b' point to the same memory location,
+    // the first step (*a = *a ^ *a) would set the value to 0, and the original value would be lost.
+    if (a != b) {
+        // Step 1: *a now holds the result of (*a ^ *b).
         *a = *a ^ *b;
+        // Step 2: *b becomes (*a ^ *b) ^ *b = *a (the original value of *a).
+        // This is because the new *a contains the original *a and *b, and XORing with the original *b cancels it out.
         *b = *a ^ *b;
+        // Step 3: *a becomes (*a ^ *b) ^ *a = *b (the original value of *b).
+        // The new *a contains (original *a ^ original *b), and the new *b is (original *a).
+        // So this step is (original *a ^ original *b) ^ (original *a), which cancels out original *a, leaving original *b.
         *a = *a ^ *b;
     }
 }
 
-// 4. Check if two numbers have different signs
+// 4. Check if two integers have different signs
 bool differentSigns(int a, int b) {
-    return (a ^ b) < 0;  // XOR of signs
+    // The sign of an integer is stored in its most significant bit (MSB).
+    // - For positive numbers (and zero), the MSB is 0.
+    // - For negative numbers, the MSB is 1.
+    //
+    // When we XOR 'a' and 'b':
+    // - If signs are the same (0^0 or 1^1), the resulting MSB will be 0. The number will be positive.
+    // - If signs are different (0^1 or 1^0), the resulting MSB will be 1. The number will be negative.
+    //
+    // Therefore, checking if (a ^ b) is less than 0 is a highly efficient way to check if they had different signs.
+    return (a ^ b) < 0;
 }
 
-// 5. Find missing number (0 to n with one missing)
+// 5. Find the missing number in an array containing numbers from 0 to n, with one number missing
 int missingNumber(int* nums, int numsSize) {
-    int result = numsSize;  // Start with n
+    // 'numsSize' is effectively 'n' in this context (the value that should be at the end of the full sequence).
+    // This clever algorithm finds the missing number by canceling out pairs of numbers.
+    // The complete set of numbers should be {0, 1, ..., n} and the indices of the array are {0, 1, ..., n-1}.
+    
+    // We initialize the result with n because 'n' is the one number in the complete set that doesn't have a corresponding index.
+    int result = numsSize;
+    
     for (int i = 0; i < numsSize; i++) {
-        result ^= i ^ nums[i];  // XOR with both index and value
+        // In each step, we XOR the result with an index 'i' and a value from the array 'nums[i]'.
+        // If the array were complete and sorted, nums[i] would be equal to i, and (i ^ nums[i]) would be 0.
+        // Because one number is missing, one index 'i' will never match its value.
+        // All other pairs of (index, value) will eventually cancel each other out.
+        // The final result will be the XOR of 'n' (our initial value) and the missing number.
+        // Example: nums = {0, 1, 3}, n=3.
+        // result starts at 3.
+        // i=0: result = 3 ^ 0 ^ nums[0](0) = 3 ^ 0 ^ 0 = 3
+        // i=1: result = 3 ^ 1 ^ nums[1](1) = 3 ^ 1 ^ 1 = 3
+        // i=2: result = 3 ^ 2 ^ nums[2](3) = 3 ^ 2 ^ 3 = (3^3)^2 = 0^2 = 2
+        // The missing number is 2.
+        result ^= i ^ nums[i];
     }
     return result;
 }
 
-// Examples
+// Examples to test the functions
 void testXOR() {
-    int num = 0b10101100;  // 172
+    // Start with 172 (binary 10101100)
+    int num = 0b10101100;
+    printf("Original num: "); printBinary(num); printf("\n");
     
+    // toggleBit should flip the bit at position 2 (the 3rd from the right) from 1 to 0.
+    // 10101100 -> 10101000
     printf("Toggle bit 2: ");
-    printBinary(toggleBit(num, 2));  // Changes bit 2
+    printBinary(toggleBit(num, 2));
+    printf("\n\n");
     
+    // In this array, 1 and 2 appear twice, while 4 appears once.
     int arr[] = {4, 1, 2, 1, 2};
-    printf("Single number: %d\n", singleNumber(arr, 5));  // 4
+    printf("Array is {4, 1, 2, 1, 2}\n");
+    printf("Single number: %d\n\n", singleNumber(arr, 5)); // Expected: 4
     
+    // The array contains numbers from 0 to 5, but is missing the number 2. (n=5)
     int missing[] = {0, 1, 3, 4, 5};
-    printf("Missing number: %d\n", missingNumber(missing, 5));  // 2
+    printf("Array is {0, 1, 3, 4, 5}\n");
+    printf("Missing number: %d\n\n", missingNumber(missing, 5)); // Expected: 2
+
+    printf("Signs of 10 and -5 are different: %s\n", differentSigns(10, -5) ? "true" : "false");
+    printf("Signs of 10 and 5 are different: %s\n", differentSigns(10, 5) ? "true" : "false");
+}
+
+int main() {
+    testXOR();
+    return 0;
 }
 ```
 
@@ -461,43 +781,116 @@ void testXOR() {
 
 **Important Note:**
 ```c
-/**
- * NOT OPERATOR PATTERNS
- */
+#include <stdio.h>
 
-void notOperator() {
-    unsigned char a = 5;  // 0000 0101
-    
-    printf("~5 (8-bit) = %u\n", (unsigned char)~a);  // 250 (1111 1010)
-    
-    // Two's complement: -n = ~n + 1
-    int b = 5;
-    printf("~5 + 1 = %d\n", ~b + 1);  // -5
-    
-    // Create mask of all 1s
-    unsigned int allOnes = ~0;
-    printf("All ones: 0x%X\n", allOnes);  // 0xFFFFFFFF
-    
-    // Create mask for lower n bits
-    int n = 4;
-    unsigned int lowerMask = ~(~0 << n);  // 0000 1111
-    printf("Lower %d bits mask: 0x%X\n", n, lowerMask);
+// Helper function to print the binary representation of an integer for visualization.
+void printBinary(int n) {
+    // We iterate from left to right (most significant bit to least significant).
+    // This example prints 8 bits for simplicity and clarity.
+    for (int i = 7; i >= 0; i--) {
+        printf("%d", (n >> i) & 1);
+    }
 }
 
-// Common NOT uses
-// 1. Clear specific bit
+/**
+ * NOT OPERATOR FUNDAMENTALS
+ * The bitwise NOT (~) operator, also known as the complement operator, inverts every single bit of its operand.
+ * Every 0 becomes a 1, and every 1 becomes a 0.
+ */
+void notOperatorFundamentals() {
+    printf("--- NOT Operator Fundamentals ---\n");
+    // Using an unsigned char (an 8-bit integer) for a clear, small example.
+    unsigned char a = 5; // Binary: 0000 0101
+    
+    printf("Original 'a' (5):         "); printBinary(a); printf("\n");
+    
+    // Applying the NOT operator flips all bits.
+    // 0000 0101 becomes 1111 1010
+    // As an unsigned 8-bit integer, 1111 1010 is 250 in decimal.
+    printf("~a (~5) as unsigned char: "); printBinary(~a); printf(" (Decimal: %u)\n", (unsigned char)~a);
+
+    // --- Two's Complement ---
+    // This is the standard way signed integers are represented in most computers.
+    // The formula to get the negative of a number is: -n = ~n + 1
+    int b = 5; // In a 32-bit system: 0...0000 0101
+               // ~b is then:             1...1111 1010
+               // ~b + 1 is:              1...1111 1011 (which is -5 in two's complement)
+    printf("\nTwo's complement for -5: ~5 + 1 = %d\n", ~b + 1);
+
+    // --- Creating Masks ---
+    // The NOT operator is extremely useful for creating bitmasks.
+    
+    // A mask of all 1s can be created by NOTing 0.
+    // 0 is all zero bits, so ~0 is all one bits.
+    unsigned int allOnes = ~0;
+    // On a 32-bit system, this will be 32 ones, which is 0xFFFFFFFF in hexadecimal.
+    printf("Mask of all 1s (~0): 0x%X\n", allOnes);
+    
+    // Create a mask to isolate the lower 'n' bits.
+    int n = 4;
+    // Step 1: ~0 gives all 1s (e.g., 1111 1111)
+    // Step 2: ~0 << n shifts the ones 'n' positions to the left, filling the right with zeros (e.g., 1111 0000 for n=4)
+    // Step 3: ~(...) inverts this result, giving a mask with only the lower 'n' bits set to 1 (e.g., 0000 1111)
+    unsigned int lowerNMask = ~(~0 << n);
+    printf("Mask for lower %d bits:  0x%X (Binary: ", n, lowerNMask); printBinary(lowerNMask); printf(")\n");
+}
+
+
+/**
+ * COMMON USES OF THE NOT OPERATOR
+ * The NOT operator is rarely used alone; it's most powerful when combined with other bitwise operators like AND (&).
+ */
+
+// 1. Clear a specific bit (set it to 0)
 int clearBit(int num, int pos) {
+    // This is a fundamental bit manipulation technique.
+    // Step 1: (1 << pos) creates a mask with a '1' only at the target position (e.g., 0001 0000 for pos=4).
+    // Step 2: ~(1 << pos) inverts this mask, creating a new mask with a '0' only at the target position and '1's everywhere else (e.g., 1110 1111).
+    // Step 3: num & ... performs a bitwise AND.
+    //   - The '0' in the mask guarantees the bit at 'pos' in the result is 0.
+    //   - The '1's in the mask ensure that all other bits from 'num' are preserved.
     return num & ~(1 << pos);
 }
 
-// 2. Clear lower n bits
+// 2. Clear all lower 'n' bits (set them to 0)
 int clearLowerNBits(int num, int n) {
+    // This function sets the 'n' least significant bits to zero.
+    // Step 1: ~0 creates a mask of all ones (e.g., 1111 1111).
+    // Step 2: (~0 << n) shifts the ones 'n' positions to the left, creating a mask where the lower 'n' bits are zero
+    //         and all higher bits are one (e.g., for n=4, the mask is 1111 0000).
+    // Step 3: num & ... performs a bitwise AND. The 0s in the mask's lower bits will clear the corresponding bits in 'num',
+    //         while the 1s in the mask's upper bits will preserve the corresponding bits in 'num'.
     return num & (~0 << n);
 }
 
-// 3. Invert all bits
+// 3. Invert all bits of a number
 int invertBits(int num) {
+    // This is the most direct use of the NOT operator. It simply returns the bitwise complement of the number.
     return ~num;
+}
+
+// Main function to run the examples
+int main() {
+    notOperatorFundamentals();
+    
+    printf("\n--- Common NOT Use Cases ---\n");
+    int num = 0b11010110; // 214
+    int position = 5;
+    int n_bits = 4;
+
+    printf("Original number:      "); printBinary(num); printf(" (214)\n");
+    
+    int cleared = clearBit(num, position);
+    printf("After clearing bit %d: ", position); printBinary(cleared); printf(" (%d)\n", cleared);
+    
+    int lower_cleared = clearLowerNBits(num, n_bits);
+    printf("After clearing lower %d: ", n_bits); printBinary(lower_cleared); printf(" (%d)\n", lower_cleared);
+    
+    int inverted = invertBits(num);
+    // The decimal value depends on whether it's interpreted as signed (-215) or unsigned.
+    printf("After inverting all:  "); printBinary(inverted); printf(" (%d)\n", inverted);
+
+    return 0;
 }
 ```
 
@@ -510,51 +903,122 @@ n << k = n * 2^k
 
 **Detailed Explanation:**
 ```c
-/**
- * LEFT SHIFT OPERATOR
- */
+#include <stdio.h>
 
-void leftShift() {
-    int num = 5;  // 0101
-    
-    printf("5 << 0 = %d\n", num << 0);  // 5  (0101)
-    printf("5 << 1 = %d\n", num << 1);  // 10 (1010)
-    printf("5 << 2 = %d\n", num << 2);  // 20 (10100)
-    printf("5 << 3 = %d\n", num << 3);  // 40 (101000)
-    
-    // Fast multiplication by powers of 2
-    printf("5 * 2 = %d\n", num << 1);
-    printf("5 * 4 = %d\n", num << 2);
-    printf("5 * 8 = %d\n", num << 3);
-    
-    // Create bit mask at position
-    int pos = 3;
-    int mask = 1 << pos;  // 0000 1000 (8)
-    printf("Mask at position %d: %d\n", pos, mask);
-    
-    // WARNING: Undefined behavior for shift >= width
-    // Don't do: int x = 1 << 32; (on 32-bit int)
+// Helper function to print the binary representation of an integer for visualization.
+void printBinary(int n) {
+    // This example prints 8 bits for simplicity and clarity.
+    for (int i = 7; i >= 0; i--) {
+        printf("%d", (n >> i) & 1);
+    }
 }
 
-// Common left shift patterns
-// 1. Create single bit at position
+/**
+ * LEFT SHIFT (<<) OPERATOR FUNDAMENTALS
+ * The left shift operator `<<` shifts the bits of its left operand to the left
+ * by the number of positions specified by its right operand.
+ * The vacant bit positions on the right are filled with zeros.
+ */
+void leftShiftFundamentals() {
+    printf("--- Left Shift Fundamentals ---\n");
+    int num = 5; // Binary (8-bit): 0000 0101
+    
+    printf("Original number %d: ", num); printBinary(num); printf("\n");
+
+    // Shifting by 0 positions results in no change.
+    printf("%d << 0 = %2d  | Binary: ", num, num << 0); printBinary(num << 0); printf("\n");
+    
+    // Shifting left by 1 position. The MSB is discarded, and a 0 is added as the LSB.
+    // 0000 0101 -> 0000 1010
+    printf("%d << 1 = %2d  | Binary: ", num, num << 1); printBinary(num << 1); printf("\n");
+    
+    // 0000 0101 -> 0001 0100
+    printf("%d << 2 = %2d  | Binary: ", num, num << 2); printBinary(num << 2); printf("\n");
+    
+    // 0000 0101 -> 0010 1000
+    printf("%d << 3 = %2d  | Binary: ", num, num << 3); printBinary(num << 3); printf("\n");
+    
+    printf("\n--- Mathematical Equivalence ---\n");
+    // Each left shift by one position effectively multiplies the number by 2.
+    // This is often much faster than using the standard multiplication operator.
+    printf("%d * 2  (same as %d << 1) = %d\n", num, num, num << 1);
+    printf("%d * 4  (same as %d << 2) = %d\n", num, num, num << 2);
+    printf("%d * 8  (same as %d << 3) = %d\n", num, num, num << 3);
+    
+    printf("\n--- Creating a Bitmask ---\n");
+    // A very common use is to create a mask with a single '1' at a specific position.
+    // Start with 1 (0000 0001) and shift it left.
+    int pos = 3;
+    int mask = 1 << pos;  // 0000 0001 << 3  ->  0000 1000 (which is 8)
+    printf("Mask for bit %d (1 << %d): %d (Binary: ", pos, pos, mask); printBinary(mask); printf(")\n");
+    
+    // --- WARNING ---
+    // Shifting by a number of bits greater than or equal to the width of the type is UNDEFINED BEHAVIOR.
+    // For a 32-bit int, `1 << 31` is valid, but `1 << 32` or `1 << 33` is not.
+    // The result can be unpredictable and is a common source of bugs.
+}
+
+/**
+ * COMMON LEFT SHIFT PATTERNS
+ */
+
+// 1. Create a value with a single bit set at a specific position.
+// This is the primary way to generate masks for other bitwise operations (AND, OR, XOR).
 int createBit(int pos) {
+    // Starts with the integer 1 (binary ...0001) and shifts this single '1' bit
+    // 'pos' places to the left.
     return 1 << pos;
 }
 
-// 2. Create mask with n bits set
-unsigned int createMask(int n) {
-    return (1 << n) - 1;  // Example: n=4 → 1111
+// 2. Create a mask with the 'n' least significant bits set to 1.
+// Useful for extracting the lower 'n' bits of a number when used with the AND operator.
+unsigned int createMaskForLowerNBits(int n) {
+    // This is a two-step process:
+    // 1. (1 << n): Creates a '1' at position 'n'. For n=4, this is 16 (binary 0001 0000).
+    // 2. (... - 1): Subtracting 1 from a power of two flips the leading '1' to a '0'
+    //    and all trailing '0's to '1's. For 16, this becomes 15 (binary 0000 1111).
+    return (1 << n) - 1;
 }
 
-// 3. Fast power of 2
+// 3. Calculate a power of 2 quickly.
+// 2^n is equivalent to shifting 1 by n bits.
 int powerOf2(int n) {
+    // 2^0 = 1 << 0 = 1
+    // 2^1 = 1 << 1 = 2
+    // 2^5 = 1 << 5 = 32
     return 1 << n;
 }
 
-// 4. Multiply by power of 2
+// 4. Multiply a number by a power of 2.
+// Multiplying by 2^power is equivalent to left-shifting by 'power'.
 int multiplyByPowerOf2(int num, int power) {
+    // Example: num * 8 is the same as num * (2^3), which is num << 3.
     return num << power;
+}
+
+// Main function to test the patterns
+void testLeftShiftPatterns() {
+    printf("\n--- Testing Common Left Shift Patterns ---\n");
+    
+    int position = 5;
+    printf("1. createBit(%d):          %d (Binary: ", position, createBit(position)); printBinary(createBit(position)); printf(")\n");
+    
+    int num_bits = 4;
+    printf("2. createMaskForLowerNBits(%d): %d (Binary: ", num_bits, createMaskForLowerNBits(num_bits)); printBinary(createMaskForLowerNBits(num_bits)); printf(")\n");
+    
+    int exponent = 6;
+    printf("3. powerOf2(%d) [2^%d]:     %d\n", exponent, exponent, powerOf2(exponent));
+    
+    int base_num = 7;
+    int power = 3; // Multiply by 2^3 = 8
+    printf("4. multiplyByPowerOf2(%d, %d): %d\n", base_num, power, multiplyByPowerOf2(base_num, power));
+}
+
+
+int main() {
+    leftShiftFundamentals();
+    testLeftShiftPatterns();
+    return 0;
 }
 ```
 
@@ -567,47 +1031,127 @@ n >> k = n / 2^k (for positive numbers)
 
 **Logical vs Arithmetic Shift:**
 ```c
-/**
- * RIGHT SHIFT OPERATOR
- */
+#include <stdio.h>
+#include <limits.h> // For CHAR_BIT
 
-void rightShift() {
-    // UNSIGNED: Always logical shift (fill with 0)
-    unsigned int positive = 20;  // 10100
-    printf("20 >> 1 = %u\n", positive >> 1);  // 10 (01010)
-    printf("20 >> 2 = %u\n", positive >> 2);  // 5  (00101)
-    
-    // SIGNED: Arithmetic shift (sign extension)
-    int negative = -20;
-    printf("-20 >> 1 = %d\n", negative >> 1);  // -10 (preserves sign)
-    printf("-20 >> 2 = %d\n", negative >> 2);  // -5
-    
-    // Fast division by powers of 2 (for positive)
-    int num = 100;
-    printf("100 / 2 = %d\n", num >> 1);  // 50
-    printf("100 / 4 = %d\n", num >> 2);  // 25
-    printf("100 / 8 = %d\n", num >> 3);  // 12 (integer division)
+// Helper function to print the binary representation of an integer for visualization.
+void printBinary(int n) {
+    // We iterate from the most significant bit to the least significant.
+    // sizeof(int) * CHAR_BIT gives the total number of bits in an int (usually 32).
+    // This loop prints all bits of the integer.
+    for (int i = (sizeof(int) * CHAR_BIT - 1); i >= 0; i--) {
+        printf("%d", (n >> i) & 1);
+        if (i > 0 && i % 8 == 0) printf(" "); // Add space for readability
+    }
 }
 
-// Common right shift patterns
-// 1. Extract specific bits
+/**
+ * RIGHT SHIFT (>>) OPERATOR FUNDAMENTALS
+ * The right shift operator `>>` shifts the bits of its left operand to the right
+ * by the number of positions specified by its right operand.
+ * How the vacant bits on the left are filled depends on the type of the variable.
+ */
+void rightShiftFundamentals() {
+    printf("--- Right Shift Fundamentals ---\n");
+
+    // --- 1. UNSIGNED types use a LOGICAL SHIFT ---
+    // A logical shift always fills the vacant bits on the left with zeros.
+    printf("Unsigned (Logical Shift):\n");
+    unsigned int positive = 20; // Binary (32-bit): 0000...0001 0100
+    printf("Original 20: "); printBinary(positive); printf("\n");
+    
+    unsigned int p_shifted1 = positive >> 1; // 10 (0...0000 1010)
+    printf("      20 >> 1: "); printBinary(p_shifted1); printf(" (%u)\n", p_shifted1);
+    
+    unsigned int p_shifted2 = positive >> 2; // 5 (0...0000 0101)
+    printf("      20 >> 2: "); printBinary(p_shifted2); printf(" (%u)\n", p_shifted2);
+
+    // --- 2. SIGNED types typically use an ARITHMETIC SHIFT ---
+    // An arithmetic shift fills the vacant bits by copying the sign bit (the most significant bit).
+    // This process is called "sign extension" and it preserves the number's sign.
+    // Note: This behavior is technically "implementation-defined" by the C standard, but is nearly universal on modern systems.
+    printf("\nSigned (Arithmetic Shift):\n");
+    int negative = -20; // Binary (32-bit two's complement): 1111...1110 1100
+    printf("Original -20: "); printBinary(negative); printf("\n");
+    
+    int n_shifted1 = negative >> 1; // -10 (1111...1111 0110) - the '1' is copied
+    printf("     -20 >> 1: "); printBinary(n_shifted1); printf(" (%d)\n", n_shifted1);
+    
+    int n_shifted2 = negative >> 2; // -5 (1111...1111 1011) - the '1' is copied again
+    printf("     -20 >> 2: "); printBinary(n_shifted2); printf(" (%d)\n", n_shifted2);
+
+    // --- 3. Mathematical Equivalence: Fast Division ---
+    // For positive integers, right shifting is a fast way to perform integer division by a power of 2.
+    printf("\nFast Division by Powers of 2:\n");
+    int num = 100;
+    printf("100 / 2 (100 >> 1) = %d\n", num >> 1);  // 50
+    printf("100 / 4 (100 >> 2) = %d\n", num >> 2);  // 25
+    // For integer division, 100 / 8 = 12. The remainder is discarded.
+    printf("100 / 8 (100 >> 3) = %d\n", num >> 3);  // 12
+}
+
+/**
+ * COMMON RIGHT SHIFT PATTERNS
+ */
+
+// 1. Extract a specific range of bits from a number.
+// For example, extract 'count' bits starting from bit 'start'.
 int extractBits(int num, int start, int count) {
+    // Step 1: (num >> start)
+    // Shift the number to the right so the desired bits are at the very end (the least significant positions).
+    //
+    // Step 2: ((1 << count) - 1)
+    // This creates a mask with 'count' number of 1s. For example, if count=3, the mask is 0...0111.
+    //
+    // Step 3: (...) & (...)
+    // The bitwise AND with the mask isolates only the bits we are interested in, clearing all higher bits.
     return (num >> start) & ((1 << count) - 1);
 }
 
-// 2. Divide by power of 2
+// 2. Divide a number by a power of 2.
+// num / (2^power) is equivalent to num >> power.
 int divideByPowerOf2(int num, int power) {
+    // This is generally faster than using the division operator.
+    // For negative numbers, the result rounds towards negative infinity (e.g., -5 >> 1 = -3),
+    // which can be different from the '/' operator's rounding (which rounds towards zero, e.g., -5 / 2 = -2).
     return num >> power;
 }
 
-// 3. Get bit at position
+// 3. Get the value of a single bit at a specific position.
 int getBit(int num, int pos) {
+    // Step 1: (num >> pos)
+    // Shift the bit at 'pos' all the way to the rightmost position (position 0).
+    //
+    // Step 2: (...) & 1
+    // ANDing with 1 (binary ...0001) isolates this bit. The result will be either 1 or 0.
     return (num >> pos) & 1;
 }
 
-// 4. Remove lower n bits
+// 4. Remove the lower 'n' bits of a number.
+// This is effectively the same as dividing by 2^n.
 int removeLowerBits(int num, int n) {
+    // Shifting right by 'n' positions discards the 'n' least significant bits.
     return num >> n;
+}
+
+// Main function to test the patterns
+void testRightShiftPatterns() {
+    printf("\n--- Testing Common Right Shift Patterns ---\n");
+    int num = 0b11010110; // 214
+
+    printf("Original number: 214 (Binary 11010110)\n");
+    printf("1. Get bit at position 5: %d\n", getBit(num, 5)); // Should be 1
+    printf("2. Divide 214 by 4 (2^2): %d\n", divideByPowerOf2(num, 2)); // 214 / 4 = 53
+    printf("3. Remove lower 4 bits:   %d (Binary ", removeLowerBits(num, 4)); printBinary(removeLowerBits(num, 4) & 0xFF); printf(")\n"); // 1101 -> 13
+    
+    // Extract 3 bits starting from position 2 (the bits are '101')
+    printf("4. Extract 3 bits from pos 2: %d (Binary ", extractBits(num, 2, 3)); printBinary(extractBits(num, 2, 3)); printf(")\n"); // Should be 5
+}
+
+int main() {
+    rightShiftFundamentals();
+    testRightShiftPatterns();
+    return 0;
 }
 ```
 
