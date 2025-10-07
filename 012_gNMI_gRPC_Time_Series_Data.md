@@ -1453,11 +1453,17 @@ Retention policies automatically delete old data based on time. You might keep r
 
 Let's build a minimal time series database to understand the core concepts. This implementation will handle ingestion, storage, and basic queries, demonstrating the fundamental patterns without the complexity of production systems.
 
+```shell
+# compile the code
+gcc test.c -o test -lm && ./test
+```
+
 ```c
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
+#include <math.h>
 #include <stdint.h>
 
 #define MAX_SERIES 10000
